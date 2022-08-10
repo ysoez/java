@@ -10,7 +10,7 @@ import static leetcode._1_TwoSum.find;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-class _1_TwoSumTest {
+class LeetCode1TwoSumTest {
 
     @ParameterizedTest
     @MethodSource("dataset")
