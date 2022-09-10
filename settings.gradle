@@ -4,4 +4,4 @@ include 'data:ds-alg'
 
 include 'library'
 
-include 'spring:core:events'
+include 'spring:core'
