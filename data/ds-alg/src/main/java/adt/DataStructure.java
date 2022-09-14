@@ -16,7 +16,4 @@ public interface DataStructure<E> {
 
     void clear();
 
-    @Override
-    String toString();
-
 }

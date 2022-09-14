@@ -21,4 +21,7 @@ public interface List<E> extends DataStructure<E> {
 
     void removeAt(int index);
 
+    @Override
+    String toString();
+
 }
