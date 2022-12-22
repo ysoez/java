@@ -49,7 +49,7 @@ abstract class AbstractHibernateTest extends AbstractJpaTest {
         return properties;
     }
 
-    public abstract SessionFactory sessionFactory();
+    abstract SessionFactory sessionFactory();
 
     SessionFactory newSessionFactory() {
         final var bsrb = new BootstrapServiceRegistryBuilder().enableAutoClose();

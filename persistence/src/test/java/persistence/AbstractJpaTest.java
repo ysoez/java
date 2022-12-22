@@ -56,7 +56,7 @@ abstract class AbstractJpaTest extends TestContainers {
         return null;
     }
 
-    public abstract EntityManagerFactory entityManagerFactory();
+    abstract EntityManagerFactory entityManagerFactory();
 
     protected EntityManagerFactory newEntityManagerFactory() {
         PersistenceUnitInfo persistenceUnitInfo = persistenceUnitInfo(getClass().getSimpleName());

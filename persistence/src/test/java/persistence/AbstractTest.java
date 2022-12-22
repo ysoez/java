@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public abstract class AbstractTest extends AbstractHibernateTest {
+abstract class AbstractTest extends AbstractHibernateTest {
 
     private EntityManagerFactory emf;
     private SessionFactory sf;
@@ -111,17 +111,17 @@ public abstract class AbstractTest extends AbstractHibernateTest {
     }
 
     @Override
-    public EntityManagerFactory entityManagerFactory() {
+    EntityManagerFactory entityManagerFactory() {
         return nativeHibernateSessionFactoryBootstrap() ? sf : emf;
     }
 
     @Override
-    public SessionFactory sessionFactory() {
-        if(nativeHibernateSessionFactoryBootstrap()) {
+    SessionFactory sessionFactory() {
+        if (nativeHibernateSessionFactoryBootstrap()) {
             return sf;
         }
         EntityManagerFactory entityManagerFactory = entityManagerFactory();
-        if(entityManagerFactory == null) {
+        if (entityManagerFactory == null) {
             return null;
         }
         return entityManagerFactory.unwrap(SessionFactory.class);
