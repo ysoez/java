@@ -6,3 +6,5 @@ include 'library'
 
 include 'spring:core'
 include 'spring:retry'
+
+include 'persistence'

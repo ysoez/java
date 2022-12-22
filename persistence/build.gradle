@@ -1,0 +1,18 @@
+dependencies {
+    implementation "org.hibernate:hibernate-core:${hibernateVersion}"
+    implementation "com.zaxxer:HikariCP:${hikariVersion}"
+    implementation "net.ttddyy:datasource-proxy:${datasourceProxyVersion}"
+    implementation "p6spy:p6spy:${p6spyVersion}"
+//    implementation 'io.dropwizard.metrics:metrics-core:${dropwizard.metrics.version}'
+//    implementation 'com.vladmihalcea.flexy-pool:flexy-hikaricp:${flexy-pool.version}'
+
+    testImplementation "org.hsqldb:hsqldb:${hsqldbVersion}"
+    testImplementation "org.postgresql:postgresql:${postgresqlVersion}"
+    testImplementation "mysql:mysql-connector-java:${mysqlVersion}"
+    testImplementation "org.mariadb.jdbc:mariadb-java-client:${mariadbVersion}"
+    testImplementation "com.microsoft.sqlserver:mssql-jdbc:${mssqlVersion}"
+    testImplementation "com.oracle.database.jdbc:ojdbc8:${oracleVersion}"
+
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
+}
