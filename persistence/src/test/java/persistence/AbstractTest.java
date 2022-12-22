@@ -22,7 +22,7 @@ abstract class AbstractTest extends AbstractHibernateTest {
     private SessionFactory sf;
     private DataSource dataSource;
 
-    private List<Closeable> closeables = new ArrayList<>();
+    private final List<Closeable> closeables = new ArrayList<>();
 
     @BeforeEach
     public void init() {
