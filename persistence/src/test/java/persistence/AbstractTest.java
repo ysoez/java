@@ -59,8 +59,6 @@ abstract class AbstractTest extends AbstractHibernateTest {
         closeables.clear();
     }
 
-    abstract DataSource providerDataSource();
-
     @Override
     protected DataSource dataSource() {
         if (dataSource == null) {

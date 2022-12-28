@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Slf4j
-abstract class AbstractJpaTest extends TestContainers {
+abstract class AbstractJpaTest extends AbstractDatabaseTest {
 
     protected String[] packages() {
         return null;
