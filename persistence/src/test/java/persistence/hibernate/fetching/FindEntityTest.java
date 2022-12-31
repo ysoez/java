@@ -1,4 +1,4 @@
-package persistence.fetching;
+package persistence.hibernate.fetching;
 
 import jakarta.persistence.*;
 import lombok.Getter;
