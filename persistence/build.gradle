@@ -1,11 +1,15 @@
 dependencies {
     implementation "org.hibernate:hibernate-core:${hibernateVersion}"
-    implementation "com.zaxxer:HikariCP:${hikariVersion}"
+    implementation "javax.annotation:javax.annotation-api:1.3.1"
+
     implementation "net.ttddyy:datasource-proxy:${datasourceProxyVersion}"
     implementation "p6spy:p6spy:${p6spyVersion}"
-//    implementation 'io.dropwizard.metrics:metrics-core:${dropwizard.metrics.version}'
-//    implementation 'com.vladmihalcea.flexy-pool:flexy-hikaricp:${flexy-pool.version}'
 
+    // connection pool
+    implementation "com.vladmihalcea.flexy-pool:flexy-hikaricp:${flexyPoolVersion}"
+    implementation "com.zaxxer:HikariCP:${hikariVersion}"
+
+    // jdbc drivers
     testImplementation "org.hsqldb:hsqldb:${hsqldbVersion}"
     testImplementation "org.postgresql:postgresql:${postgresqlVersion}"
     testImplementation "mysql:mysql-connector-java:${mysqlVersion}"
@@ -13,7 +17,15 @@ dependencies {
     testImplementation "com.microsoft.sqlserver:mssql-jdbc:${mssqlVersion}"
     testImplementation "com.oracle.database.jdbc:ojdbc8:${oracleVersion}"
 
+    // testing databases
     testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
     testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
     testImplementation "org.testcontainers:mysql:${testContainersVersion}"
+
+    // spring
+    implementation "org.springframework:spring-beans:${springVersion}"
+    implementation "org.springframework:spring-context:${springVersion}"
+    implementation "org.springframework:spring-tx:${springVersion}"
+    implementation "org.springframework:spring-orm:${springVersion}"
+    testImplementation "org.springframework:spring-test:${springVersion}"
 }
