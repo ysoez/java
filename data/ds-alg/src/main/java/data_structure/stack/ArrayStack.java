@@ -7,7 +7,7 @@ import java.util.EmptyStackException;
 
 import static java.lang.System.arraycopy;
 
-public class ArrayStack<E> implements Stack<E> {
+class ArrayStack<E> implements Stack<E> {
 
     private Object[] elements;
     private int top;
