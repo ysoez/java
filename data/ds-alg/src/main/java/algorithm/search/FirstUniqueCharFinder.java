@@ -1,10 +1,13 @@
 package algorithm.search;
 
+import util.Complexity;
+
 import java.util.HashMap;
 
 class FirstUniqueCharFinder implements Finder<String, Character> {
 
     @Override
+    @Complexity(runtime = "O(n)", space = "O(n)")
     public Character search(String input) {
         var charCount = new HashMap<Character, Integer>();
         char[] charArray = input.toCharArray();
