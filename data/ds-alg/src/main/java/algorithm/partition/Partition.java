@@ -1,4 +1,4 @@
-package algo;
+package algorithm.partition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import java.util.List;
  * Partitioning is useful for batching.
  * Check out Lists.partition(java.util.List, int) from Google Guava.
  */
-class Partitioning {
+class Partition {
 
-    public static <T> List<List<T>> getBatches(List<T> list, int batchSize) {
+    public static <T> List<List<T>> apply(List<T> list, int batchSize) {
         List<List<T>> batches = new ArrayList<>();
         int i = 0;
         while (i < list.size()) {
