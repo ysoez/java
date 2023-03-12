@@ -1,13 +1,19 @@
-package algorithm.intersaction;
+package algorithm;
 
-import util.Complexity;
+import util.Algorithm;
 
 import java.util.HashSet;
 
-class ArrayIntersection {
+import static util.Algorithm.Complexity.Value.LINEAR;
+import static util.Algorithm.Target.OUT_OF_PLACE;
 
-    @Complexity(runtime = "O(n)", space = "O(n)")
-    static int[] sortedIntersection(int[] nums1, int[] nums2) {
+class Intersection {
+
+    @Algorithm(
+        complexity = @Algorithm.Complexity(runtime = LINEAR, space = LINEAR),
+        target = OUT_OF_PLACE
+    )
+    static int[] forSortedArray(int[] nums1, int[] nums2) {
         if (nums1 == null || nums2 == null)
             throw new IllegalArgumentException();
         var resultSet = new HashSet<Integer>();
@@ -25,7 +31,7 @@ class ArrayIntersection {
         return resultSet.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    static int[] unsortedIntersection(int[] nums1, int[] nums2) {
+    static int[] forUnsortedIntersection(int[] nums1, int[] nums2) {
         return null;
     }
 
