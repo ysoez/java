@@ -1,4 +1,4 @@
-package algorithm.partition;
+package algorithm;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,7 +15,7 @@ class PartitionTest {
     @ParameterizedTest
     @MethodSource("dataset")
     void partitioning(List<Integer> source, int batchSize, List<List<Integer>> expectedResult) {
-        assertEquals(expectedResult, Partition.apply(source, batchSize));
+        assertEquals(expectedResult, Partition.forList(source, batchSize));
     }
 
     static Stream<Arguments> dataset() {

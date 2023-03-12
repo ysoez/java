@@ -1,4 +1,4 @@
-package algorithm.partition;
+package algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  */
 class Partition {
 
-    public static <T> List<List<T>> apply(List<T> list, int batchSize) {
+    public static <T> List<List<T>> forList(List<T> list, int batchSize) {
         List<List<T>> batches = new ArrayList<>();
         int i = 0;
         while (i < list.size()) {
