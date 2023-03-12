@@ -1,5 +1,6 @@
-package algorithm.reverse;
+package algorithm;
 
+import algorithm.Reverse;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;

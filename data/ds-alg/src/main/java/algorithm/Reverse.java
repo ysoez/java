@@ -1,4 +1,4 @@
-package algorithm.reverse;
+package algorithm;
 
 import data_structure.linked_list.UnaryNode;
 import util.Algorithm;
