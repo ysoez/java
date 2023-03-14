@@ -1,5 +1,6 @@
 package util;
 
+@Deprecated
 public @interface Complexity {
 
     String runtime() default "";

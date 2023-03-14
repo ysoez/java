@@ -6,7 +6,7 @@ public @interface Algorithm {
 
     Implementation[] implementation() default Implementation.SEQUENTIAL;
 
-    Target target();
+    Target target() default Target.IN_PLACE;
 
     @interface Complexity {
         Value runtime();

@@ -1,6 +1,6 @@
 package data_structure.linked_list;
 
-import algorithm.reverse.Reverse;
+import algorithm.Reverse;
 import util.Complexity;
 
 import java.util.NoSuchElementException;
