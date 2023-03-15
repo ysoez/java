@@ -5,6 +5,7 @@ import util.Algorithm.Complexity;
 
 import java.util.PriorityQueue;
 
+import static data_structure.array.Arrays.swap;
 import static java.util.Comparator.reverseOrder;
 import static util.Algorithm.Complexity.Value.*;
 import static util.Algorithm.Target.IN_PLACE;
@@ -36,12 +37,6 @@ class Heaps {
         for (int i = 0; i < kLargest - 1; i++)
             maxHeap.remove();
         return maxHeap.peek();
-    }
-
-    private static void swap(int[] array, int first, int second) {
-        var temp = array[first];
-        array[first] = array[second];
-        array[second] = temp;
     }
 
     /**

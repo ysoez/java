@@ -14,4 +14,10 @@ public class Arrays {
         }
     }
 
+    public static void swap(int[] array, int first, int second) {
+        var temp = array[first];
+        array[first] = array[second];
+        array[second] = temp;
+    }
+
 }
