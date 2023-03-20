@@ -13,7 +13,7 @@ class InsertionSort {
         complexity = @Complexity(runtime = POLYNOMIAL, space = CONSTANT),
         target = IN_PLACE
     )
-    static int[] base(int[] arr) {
+    static int[] sort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
             var current = arr[i];
             var j = i - 1;

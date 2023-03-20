@@ -14,7 +14,7 @@ class SelectionSort {
         complexity = @Complexity(runtime = POLYNOMIAL, space = CONSTANT),
         target = IN_PLACE
     )
-    static int[] base(int[] arr) {
+    static int[] sort(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             int minIndex = i;
             for (int j = i; j < arr.length; j++)

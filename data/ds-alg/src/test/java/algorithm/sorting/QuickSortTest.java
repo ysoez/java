@@ -2,11 +2,11 @@ package algorithm.sorting;
 
 import java.util.function.UnaryOperator;
 
-class InsertionSortTest implements IntArraySort {
+class QuickSortTest implements IntArraySort{
 
     @Override
     public UnaryOperator<int[]> sortAlgorithm() {
-        return InsertionSort::sort;
+        return arr -> QuickSort.sort(arr, 0, arr.length - 1);
     }
 
 }
