@@ -28,7 +28,7 @@ class BinarySearch {
         return searchRecursive(arr, value, 0, arr.length - 1);
     }
 
-    private static int searchRecursive(int[] arr, int value, int left, int right) {
+    static int searchRecursive(int[] arr, int value, int left, int right) {
         if (right < left)
             return -1;
         int middle = (left + right) / 2;
