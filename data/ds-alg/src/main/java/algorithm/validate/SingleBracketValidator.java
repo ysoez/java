@@ -1,20 +1,15 @@
-package algorithm.expression;
-
-import lombok.RequiredArgsConstructor;
+package algorithm.validate;
 
 import java.util.ArrayDeque;
 
-@RequiredArgsConstructor
-public class SingleBracketExpression implements Expression {
-
-    private final String value;
+class SingleBracketValidator implements ExpressionValidator {
 
     @Override
-    public boolean isValid() {
-        if (value == null || value.equals(""))
+    public boolean isValid(String expression) {
+        if (expression == null || expression.equals(""))
             return true;
         var openCharStack = new ArrayDeque<Character>();
-        for (char ch : value.toCharArray()) {
+        for (char ch : expression.toCharArray()) {
             if (ch == '(') {
                 openCharStack.push(ch);
             }

@@ -1,5 +1,5 @@
 package util;
 
-public enum SortOrder {
+public enum Order {
     ASC, DESC
 }

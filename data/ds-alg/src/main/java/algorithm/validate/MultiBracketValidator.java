@@ -1,24 +1,19 @@
-package algorithm.expression;
-
-import lombok.RequiredArgsConstructor;
+package algorithm.validate;
 
 import java.util.ArrayDeque;
 import java.util.List;
 
-@RequiredArgsConstructor
-public class CleanMultiBracketExpression implements Expression {
+class MultiBracketValidator implements ExpressionValidator {
 
     private static final List<Character> OPEN = List.of('(', '<', '[');
     private static final List<Character> CLOSE = List.of(')', '>', ']');
 
-    private final String value;
-
     @Override
-    public boolean isValid() {
-        if (value == null || value.equals(""))
+    public boolean isValid(String expression) {
+        if (expression == null || expression.isBlank())
             return true;
         var openCharStack = new ArrayDeque<Character>();
-        for (char ch : value.toCharArray()) {
+        for (char ch : expression.toCharArray()) {
             if (isLeftBracket(ch))
                 openCharStack.push(ch);
             if (isRightBracket(ch)) {
