@@ -1,7 +1,7 @@
-package spring.transactional.events.repository;
+package spring.transaction.event.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import spring.transactional.events.model.Customer;
+import spring.transaction.event.model.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 }

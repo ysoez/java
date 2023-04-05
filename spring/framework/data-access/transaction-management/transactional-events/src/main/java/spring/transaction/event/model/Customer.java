@@ -1,4 +1,4 @@
-package spring.transactional.events.model;
+package spring.transaction.event.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

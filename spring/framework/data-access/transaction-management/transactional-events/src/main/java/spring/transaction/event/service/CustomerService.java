@@ -1,12 +1,12 @@
-package spring.transactional.events.service;
+package spring.transaction.event.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.transactional.events.model.Customer;
-import spring.transactional.events.model.CustomerCreatedEvent;
-import spring.transactional.events.repository.CustomerRepository;
+import spring.transaction.event.model.Customer;
+import spring.transaction.event.model.CustomerCreatedEvent;
+import spring.transaction.event.repository.CustomerRepository;
 
 @Service
 @RequiredArgsConstructor

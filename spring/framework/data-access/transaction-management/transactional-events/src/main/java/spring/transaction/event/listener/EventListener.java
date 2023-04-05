@@ -1,23 +1,21 @@
-package spring.transactional.events.listener;
+package spring.transaction.event.listener;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
-import spring.transactional.events.model.CustomerCreatedEvent;
-import spring.transactional.events.service.TokenGenerator;
+import spring.transaction.event.model.CustomerCreatedEvent;
+import spring.transaction.event.service.TokenGenerator;
 
 @Slf4j
 @Component
-@Profile("async")
+@Profile("!async")
 @RequiredArgsConstructor
-public class AsyncEventListener {
+public class EventListener {
 
     private final TokenGenerator tokenGenerator;
 
-    @Async
     @TransactionalEventListener
     public void processCustomerCreatedEvent(CustomerCreatedEvent event) {
         log.info("Received event: {}", event);

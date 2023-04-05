@@ -1,22 +1,24 @@
-package spring.transactional.events.service;
+package spring.transaction.event.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import spring.transactional.events.model.Customer;
-import spring.transactional.events.repository.CustomerRepository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import spring.transaction.event.model.Customer;
+import spring.transaction.event.repository.CustomerRepository;
 
 @Service
-@Profile("async")
+@Profile("!async")
 @RequiredArgsConstructor
-public class AsyncTokenGenerator implements TokenGenerator {
+public class DefaultTokenGenerator implements TokenGenerator {
 
     private final CustomerRepository customerRepository;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void generateToken(Customer customer) {
         final String token = String.valueOf(customer.hashCode());
         customer.activatedWith(token);
         customerRepository.save(customer);
     }
-
 }

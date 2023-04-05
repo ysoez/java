@@ -1,4 +1,4 @@
-package spring.transactional.events;
+package spring.transaction.event;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
