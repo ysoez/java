@@ -1,0 +1,12 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'java'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly "com.h2database:h2:2.1.214"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.jayway.awaitility:awaitility:1.7.0'
+}

@@ -4,6 +4,7 @@ include 'data:ds-alg'
 
 include 'library'
 
+include 'spring:framework:data-access:transaction-management:transactional-events'
 include 'spring:core'
 include 'spring:retry'
 
