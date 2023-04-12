@@ -4,6 +4,8 @@ include 'data:ds-alg'
 
 include 'library'
 
+include 'design:gof-patterns'
+
 include 'spring:framework:data-access:transaction-management:transactional-events'
 include 'spring:core'
 include 'spring:retry'
