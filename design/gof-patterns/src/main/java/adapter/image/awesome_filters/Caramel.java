@@ -1,6 +1,6 @@
-package adapter.awesome_filters;
+package adapter.image.awesome_filters;
 
-import adapter.Image;
+import adapter.image.Image;
 
 public class Caramel {
 

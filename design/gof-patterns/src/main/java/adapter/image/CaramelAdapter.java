@@ -1,10 +1,10 @@
-package adapter;
+package adapter.image;
 
-import adapter.awesome_filters.Caramel;
+import adapter.image.awesome_filters.Caramel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class CaramelAdapter extends Caramel implements Filter {
+public class CaramelAdapter extends Caramel implements Filter {
 
     @Override
     public void apply(Image image) {

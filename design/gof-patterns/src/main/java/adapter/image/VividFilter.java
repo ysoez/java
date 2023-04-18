@@ -1,6 +1,6 @@
-package adapter;
+package adapter.image;
 
-class VividFilter implements Filter {
+public class VividFilter implements Filter {
 
     @Override
     public void apply(Image image) {

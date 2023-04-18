@@ -1,13 +1,13 @@
-package adapter;
+package adapter.image;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class ImageView {
+public class ImageView {
 
     private final Image image;
 
-    void apply(Filter filter) {
+    public void apply(Filter filter) {
         filter.apply(image);
     }
 

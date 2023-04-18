@@ -1,10 +1,10 @@
-package adapter;
+package adapter.image;
 
-import adapter.awesome_filters.Caramel;
+import adapter.image.awesome_filters.Caramel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class CaramelFilter implements Filter {
+public class CaramelFilter implements Filter {
 
     private final Caramel caramel;
 

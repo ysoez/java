@@ -1,9 +1,10 @@
 package adapter;
 
-import adapter.awesome_filters.Caramel;
+import adapter.image.awesome_filters.Caramel;
+import adapter.image.*;
+import adapter.mail.EmailClient;
+import adapter.mail.GmailAdapter;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AdapterPatternTest {
 
@@ -13,6 +14,13 @@ class AdapterPatternTest {
         imageView.apply(new VividFilter());
         imageView.apply(new CaramelFilter(new Caramel()));
         imageView.apply(new CaramelAdapter());
+    }
+
+    @Test
+    void mailTest() {
+        var client = new EmailClient();
+        client.addProvider(new GmailAdapter());
+        client.downloadEmails();
     }
 
 }
