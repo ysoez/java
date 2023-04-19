@@ -1,5 +1,6 @@
 package facade;
 
+import facade.social.TwitterAPI;
 import org.junit.jupiter.api.Test;
 
 import javax.print.DocFlavor;
@@ -13,5 +14,12 @@ class FacadePatternTest {
         var service = new NotificationService();
         service.send("hello", "targetDevice");
     }
+
+    @Test
+    void twitterTest() {
+        var twitterAPI = new TwitterAPI("appKey", "secret");
+        var tweets = twitterAPI.getRecentTweets();
+    }
+
 
 }
