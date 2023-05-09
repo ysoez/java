@@ -1,16 +1,19 @@
 package data_structure.stack;
 
 import lombok.RequiredArgsConstructor;
-import util.Complexity;
+import util.Algorithm;
+import util.Algorithm.Complexity;
 
 import java.util.EmptyStackException;
+
+import static util.Algorithm.Complexity.Value.CONSTANT;
 
 class MinStack<E extends Comparable<E>> implements Stack<E> {
 
     private StackNode<E> top;
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public void push(E value) {
         if (isEmpty()) {
             top = new StackNode<>(value, value);
@@ -26,7 +29,7 @@ class MinStack<E extends Comparable<E>> implements Stack<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E peek() {
         if (isEmpty())
             throw new EmptyStackException();
@@ -34,7 +37,7 @@ class MinStack<E extends Comparable<E>> implements Stack<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E pop() {
         if (isEmpty())
             throw new EmptyStackException();
@@ -44,12 +47,12 @@ class MinStack<E extends Comparable<E>> implements Stack<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return top == null;
     }
 
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E min() {
         if (isEmpty())
             throw new EmptyStackException();
