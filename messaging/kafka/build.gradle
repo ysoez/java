@@ -1,0 +1,5 @@
+dependencies {
+    implementation "org.apache.kafka:kafka-clients:3.4.0"
+    implementation "org.testcontainers:kafka:${testContainersVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+}
