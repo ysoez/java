@@ -6,12 +6,14 @@ import org.apache.kafka.clients.admin.CreateTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import static java.util.Collections.singletonList;
@@ -27,6 +29,11 @@ public abstract class KafkaTest {
     @BeforeAll
     static void beforeAll() {
         ADMIN = AdminClient.create(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA.getBootstrapServers()));
+    }
+
+    @BeforeEach
+    void cleanup() {
+        ADMIN.deleteTopics(Set.of(TEST_TOPIC));
     }
 
     public static void createTopic(String topic, int partitions) {
