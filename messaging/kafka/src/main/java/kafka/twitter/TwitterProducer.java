@@ -1,4 +1,4 @@
-package kafka.twitter_elastic_search;
+package kafka.twitter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -23,22 +23,22 @@ class TwitterProducer {
     }
 
     AtomicInteger sendTweets() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            kafkaProducer.close();
-            log.info("Successfully closed kafka producer in shutdown hook");
-        }));
         AtomicInteger tweetsCount = new AtomicInteger(0);
-        twitterClient.tweetStream().forEach(tweet -> kafkaProducer.send(new ProducerRecord<>(TWITTER_TWEETS_TOPIC, tweet),
-                (metadata, exception) -> {
-                    if (exception != null) {
-                        log.error("Failed to send a message to a broker", exception);
-                    } else {
-                        log.debug("Sent a tweet Kafka: {}", metadata);
-                        tweetsCount.getAndIncrement();
+        try {
+            twitterClient.tweetStream().forEach(tweet -> kafkaProducer.send(new ProducerRecord<>(TWITTER_TWEETS_TOPIC, tweet),
+                    (metadata, exception) -> {
+                        if (exception != null) {
+                            log.error("Failed to send a message to a broker", exception);
+                        } else {
+                            log.debug("Sent a tweet Kafka: {}", metadata);
+                            tweetsCount.getAndIncrement();
+                        }
                     }
-                }
-        ));
-        return tweetsCount;
+            ));
+            return tweetsCount;
+        } finally {
+            kafkaProducer.close();
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package kafka.twitter_elastic_search;
+package kafka.twitter;
 
 import java.util.stream.Stream;
 
