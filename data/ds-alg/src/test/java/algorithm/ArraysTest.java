@@ -17,6 +17,12 @@ class ArraysTest {
         assertEquals(expectedResult, Arrays.mostFrequent(input));
     }
 
+    @ParameterizedTest
+    @MethodSource("isRotationDataset")
+    void isRotation(int[] first, int[] second, boolean expectedResult) {
+        assertEquals(expectedResult, Arrays.isRotation(first, second));
+    }
+
     static Stream<Arguments> mostFrequentDataset() {
         return Stream.of(
                 arguments(new int[]{1, 3, 1, 3, 2, 1}, 1),
@@ -24,6 +30,21 @@ class ArraysTest {
                 arguments(new int[]{}, null),
                 arguments(new int[]{0}, 0),
                 arguments(new int[]{0, -1, 10, 10, -1, 10, -1, -1, -1, 1}, -1)
+        );
+    }
+
+    static Stream<Arguments> isRotationDataset() {
+        return Stream.of(
+                arguments(null, null, false),
+                arguments(new int[0], null, false),
+                arguments(null, new int[0], false),
+                arguments(new int[0], new int[1], false),
+                arguments(new int[]{1, 2, 3, 4, 5, 6, 7}, new int[]{4, 5, 6, 7, 8, 1, 2, 3}, false),
+                arguments(new int[]{1, 2, 3, 4, 5, 6, 7}, new int[]{4, 5, 6, 7, 1, 2, 3}, true),
+                arguments(new int[]{1, 2, 3, 4, 5, 6, 7}, new int[]{4, 5, 6, 9, 1, 2, 3}, false),
+                arguments(new int[]{1, 2, 3, 4, 5, 6, 7}, new int[]{4, 6, 5, 7, 1, 2, 3}, false),
+                arguments(new int[]{1, 2, 3, 4, 5, 6, 7}, new int[]{4, 5, 6, 7, 0, 2, 3}, false),
+                arguments(new int[]{1, 2, 3, 4, 5, 6, 7}, new int[]{1, 2, 3, 4, 5, 6, 7}, true)
         );
     }
 
