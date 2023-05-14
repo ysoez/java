@@ -4,6 +4,8 @@ import util.Algorithm;
 
 import java.util.LinkedHashMap;
 
+import static java.lang.Math.abs;
+import static util.Algorithm.Complexity.Value.CONSTANT;
 import static util.Algorithm.Complexity.Value.LINEAR;
 
 public class Strings {
@@ -22,6 +24,38 @@ public class Strings {
             if (entry.getValue() == 1)
                 return entry.getKey();
         return null;
+    }
+
+    @Algorithm(complexity = @Algorithm.Complexity(runtime = LINEAR, space = CONSTANT))
+    static boolean isOneAway(String first, String second) {
+        if (first == null || second == null)
+            return false;
+        if (abs(first.length() - second.length()) > 1)
+            return false;
+        if (first.length() == second.length()) {
+            int diffCount = 0;
+            for (int i = 0; i < first.length(); i++)
+                if (first.charAt(i) != second.charAt(i)) {
+                    diffCount++;
+                    if (diffCount > 1)
+                        return false;
+                }
+            return true;
+        }
+        int i = 0;
+        int diffCount = 0;
+        String longerStr = first.length() > second.length() ? first : second;
+        String shorterStr = first.length() < second.length() ? first : second;
+        while (i < shorterStr.length()) {
+            if (longerStr.charAt(i + diffCount) == shorterStr.charAt(i)) {
+                i++;
+            } else {
+                diffCount++;
+            }
+            if (diffCount > 1)
+                return false;
+        }
+        return true;
     }
 
 

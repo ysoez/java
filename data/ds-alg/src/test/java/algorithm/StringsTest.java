@@ -2,8 +2,7 @@ package algorithm;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class StringsTest {
 
@@ -15,6 +14,21 @@ class StringsTest {
         assertEquals('c', Strings.firstUniqueChar("abcab"));
         assertEquals('c', Strings.firstUniqueChar("aabbbc"));
         assertEquals('d', Strings.firstUniqueChar("aabbdbc"));
+    }
+
+    @Test
+    void isOneWay() {
+        assertTrue(Strings.isOneAway("abcde", "abcd"));
+        assertTrue(Strings.isOneAway("abde", "abcde"));
+        assertTrue(Strings.isOneAway("a", "a"));
+        assertTrue(Strings.isOneAway("abcdef", "abqdef"));
+        assertTrue(Strings.isOneAway("abcdef", "abccef"));
+        assertTrue(Strings.isOneAway("abcdef", "abcde"));
+
+        assertFalse(Strings.isOneAway("aaa", "abc"));
+        assertFalse(Strings.isOneAway("abcde", "abc"));
+        assertFalse(Strings.isOneAway("abc", "abcde"));
+        assertFalse(Strings.isOneAway("abc", "bcc"));
     }
 
 //    @Test
