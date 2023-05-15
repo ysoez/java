@@ -8,6 +8,7 @@ import java.util.HashSet;
 
 import static util.Algorithm.Complexity.Value.CONSTANT;
 import static util.Algorithm.Complexity.Value.LINEAR;
+import static util.Algorithm.Complexity.Value.POLYNOMIAL;
 import static util.Algorithm.Target.OUT_OF_PLACE;
 
 class Arrays {
@@ -76,6 +77,17 @@ class Arrays {
             }
         }
         return mostFrequent;
+    }
+
+    // MDA
+
+    @Algorithm(complexity = @Complexity(runtime = POLYNOMIAL, space = POLYNOMIAL), target = OUT_OF_PLACE)
+    static int[][] rotate2D(int[][] a, int n) {
+        var rotated = new int[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                rotated[j][n - 1 - i] = a[i][j];
+        return rotated;
     }
 
     static int[][] mineSweeper(int[][] bombs, int numRows, int numCols) {
