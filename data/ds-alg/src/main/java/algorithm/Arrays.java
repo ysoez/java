@@ -9,6 +9,7 @@ import java.util.HashSet;
 import static util.Algorithm.Complexity.Value.CONSTANT;
 import static util.Algorithm.Complexity.Value.LINEAR;
 import static util.Algorithm.Complexity.Value.POLYNOMIAL;
+import static util.Algorithm.Target.IN_PLACE;
 import static util.Algorithm.Target.OUT_OF_PLACE;
 
 class Arrays {
@@ -88,6 +89,38 @@ class Arrays {
             for (int j = 0; j < n; j++)
                 rotated[j][n - 1 - i] = a[i][j];
         return rotated;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = POLYNOMIAL, space = CONSTANT), target = IN_PLACE)
+    static int[][] rotate2DInPlace(int[][] arr, int n) {
+        // n/2 gives us floor(n/2) and n/2 + n%2 gives us ceiling(n/2)
+        for (int i = 0; i < n / 2 + n % 2; i++) {
+            for (int j = 0; j < n / 2; j++) {
+                int[] tmp = new int[4];
+                int currentI = i;
+                int currentJ = j;
+                for (int k = 0; k < 4; k++) {
+                    tmp[k] = arr[currentI][currentJ];
+                    int[] newCoordinates = rotateSub(currentI, currentJ, n);
+                    currentI = newCoordinates[0];
+                    currentJ = newCoordinates[1];
+                }
+                for (int k = 0; k < 4; k++) {
+                    arr[currentI][currentJ] = tmp[(k + 3) % 4];
+                    int[] newCoordinates = rotateSub(currentI, currentJ, n);
+                    currentI = newCoordinates[0];
+                    currentJ = newCoordinates[1];
+                }
+            }
+        }
+        return arr;
+    }
+
+    private static int[] rotateSub(int i, int j, int n) {
+        int[] newCoordinates = new int[2];
+        newCoordinates[0] = j;
+        newCoordinates[1] = n - 1 - i;
+        return newCoordinates;
     }
 
     static int[][] mineSweeper(int[][] bombs, int numRows, int numCols) {
