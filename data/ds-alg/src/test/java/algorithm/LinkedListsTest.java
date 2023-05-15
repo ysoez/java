@@ -18,8 +18,12 @@ class LinkedListsTest {
         }
         var head1 = current;
 
+        assertNull(LinkedLists.nthFromLast(head1, -1));
+        assertNull(LinkedLists.nthFromLast(head1, 0));
         assertEquals(1, LinkedLists.nthFromLast(head1, 1).value);
         assertEquals(5, LinkedLists.nthFromLast(head1, 5).value);
+        assertEquals(7, LinkedLists.nthFromLast(head1, 7).value);
+        assertNull(LinkedLists.nthFromLast(head1, 8));
 
         // head2 = 1 -> 2 -> 3 -> 4 -> (null)
         var current2 = new UnaryNode<>(4, null);
@@ -32,6 +36,5 @@ class LinkedListsTest {
         assertEquals(1, LinkedLists.nthFromLast(head2, 4).value);
         assertNull(LinkedLists.nthFromLast(head2, 5));
     }
-
 
 }
