@@ -14,6 +14,12 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class ArraysTest {
 
     @ParameterizedTest
+    @MethodSource("twoSumDataset")
+    void twoSum(int[] nums, int target, int[] result) {
+        assertArrayEquals(result, Arrays.twoSum(nums, target));
+    }
+
+    @ParameterizedTest
     @MethodSource("mostFrequentDataset")
     void mostFrequent(int[] input, Integer expectedResult) {
         assertEquals(expectedResult, Arrays.mostFrequent(input));
@@ -64,6 +70,14 @@ class ArraysTest {
         assertArrayEquals(
                 new int[][]{{1, 2, 2, 1, 0}, {1, -1, -1, 2, 0}, {1, 3, -1, 2, 0}, {0, 1, 2, 2, 1}, {0, 0, 1, -1, 1}},
                 Arrays.mineSweeper(new int[][]{{1, 1}, {1, 2}, {2, 2}, {4, 3}}, 5, 5)
+        );
+    }
+
+    static Stream<Arguments> twoSumDataset() {
+        return Stream.of(
+                arguments(new int[]{2, 7, 11, 15}, 9, new int[]{0, 1}),
+                arguments(new int[]{3, 2, 4}, 6, new int[]{1, 2}),
+                arguments(new int[]{3, 3}, 6, new int[]{0, 1})
         );
     }
 

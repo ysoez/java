@@ -14,6 +14,19 @@ import static util.Algorithm.Target.OUT_OF_PLACE;
 
 class Arrays {
 
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    static int[] twoSum(int[] nums, int target) {
+        var map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < nums.length; i++) {
+            int other = target - nums[i];
+            if (map.containsKey(other)) {
+                return new int[]{map.get(other), i};
+            }
+            map.put(nums[i], i);
+        }
+        return nums;
+    }
+
     static int[] find2ThatMultiplyFor(int[] arr, int target) {
         return null;
     }
