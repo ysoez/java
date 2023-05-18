@@ -17,6 +17,7 @@ public @interface Algorithm {
             CONSTANT,
             LOGARITHMIC,
             LINEAR,
+            N_LOG_N,
             POLYNOMIAL,
             EXPONENTIAL
         }

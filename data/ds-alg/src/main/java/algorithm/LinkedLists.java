@@ -2,12 +2,24 @@ package algorithm;
 
 import util.Algorithm;
 import util.Algorithm.Complexity;
+import util.Pair;
 import util.UnaryNode;
 
 import static util.Algorithm.Complexity.Value.CONSTANT;
 import static util.Algorithm.Complexity.Value.LINEAR;
 
 class LinkedLists {
+
+    static boolean hasCycle(UnaryNode<Integer> head) {
+        return false;
+    }
+
+    static Pair<Integer, Integer> middle(UnaryNode<Integer> node) {
+        if (node == null)
+            throw new IllegalArgumentException("Nullable list head");
+        // 10 20
+        return new Pair<>(null, null);
+    }
 
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     static UnaryNode<Integer> nthFromLast(UnaryNode<Integer> head, int n) {
