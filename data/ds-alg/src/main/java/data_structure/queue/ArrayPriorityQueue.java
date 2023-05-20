@@ -1,7 +1,5 @@
 package data_structure.queue;
 
-import util.Complexity;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
@@ -12,7 +10,6 @@ class ArrayPriorityQueue<E extends Comparable<E>> implements Queue<E> {
     private Object[] elements;
     private int size;
 
-    @Complexity(runtime = "O(1)", space = "O(n)")
     ArrayPriorityQueue(int capacity) {
         checkCapacity(capacity);
         elements = new Object[capacity];

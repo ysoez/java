@@ -1,10 +1,13 @@
 package data_structure.array;
 
-import util.Complexity;
+import util.Algorithm;
+import util.Algorithm.Complexity;
 
 import java.util.Objects;
 
 import static data_structure.array.Arrays.checkIndex;
+import static util.Algorithm.Complexity.Value.CONSTANT;
+import static util.Algorithm.Complexity.Value.LINEAR;
 
 class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
@@ -12,25 +15,25 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
     private int size;
 
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     DynamicArray() {
         elements = new Object[DEFAULT_CAPACITY];
     }
 
-    @Complexity(runtime = "O(1)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = LINEAR))
     DynamicArray(int capacity) {
         super(capacity);
     }
 
     @SafeVarargs
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     DynamicArray(E... values) {
         super(values);
         this.size = values.length;
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public void insertFirst(E value) {
         resizeIfFull();
         if (!isEmpty())
@@ -41,7 +44,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public void insertAt(int index, E value) {
         checkIndex(index, size);
         resizeIfFull();
@@ -52,26 +55,26 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public void insertLast(E value) {
         resizeIfFull();
         elements[size++] = value;
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public int size() {
         return size;
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return size() == 0;
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public int indexOf(E value) {
         for (int i = 0; i < size; i++)
             if (Objects.equals(elements[i], value))
@@ -80,7 +83,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public void trimToSize() {
         var newArr = new Object[size];
         System.arraycopy(elements, 0, newArr, 0, size);
@@ -89,7 +92,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
     @Override
     @SuppressWarnings("unchecked")
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E deleteFirst() {
         throwIfEmpty();
         Object elementToRemove = elements[0];
@@ -101,7 +104,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
     @Override
     @SuppressWarnings("unchecked")
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E deleteAt(int index) {
         throwIfEmpty();
         checkIndex(index, size);
@@ -114,14 +117,14 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
     @Override
     @SuppressWarnings("unchecked")
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E deleteLast() {
         throwIfEmpty();
         return (E) elements[--size];
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public String toString() {
         var builder = new StringBuilder("[");
         for (int i = 0; i < size; i++) {
@@ -132,19 +135,19 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
         return builder.append("]").toString();
     }
 
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private boolean isFull() {
         return elements.length == size;
     }
 
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     private void resizeIfFull() {
         if (isFull())
             grow();
     }
 
     @SuppressWarnings("ManualArrayCopy")
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     private void grow() {
         var newArr = size < 2 ? new Object[DEFAULT_CAPACITY]: new Object[size + size / 2];
         for (int i = 0; i < size; i++)
@@ -152,7 +155,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
         this.elements = newArr;
     }
 
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private void throwIfEmpty() {
         if (isEmpty())
             throw new IllegalStateException("Array is empty");

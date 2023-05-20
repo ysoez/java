@@ -1,9 +1,13 @@
 package data_structure.queue;
 
-import util.Complexity;
+import util.Algorithm;
+import util.Algorithm.Complexity;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+
+import static util.Algorithm.Complexity.Value.CONSTANT;
+import static util.Algorithm.Complexity.Value.LINEAR;
 
 class StackQueue<E> implements Queue<E> {
 
@@ -11,13 +15,13 @@ class StackQueue<E> implements Queue<E> {
     private final Deque<E> dequeueStack = new ArrayDeque<>();
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public void enqueue(E value) {
         enqueueStack.push(value);
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E dequeue() {
         if (isEmpty())
             throw new IllegalStateException("Queue is empty");
@@ -26,7 +30,7 @@ class StackQueue<E> implements Queue<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E peek() {
         if (isEmpty())
             throw new IllegalStateException("Queue is empty");
@@ -35,18 +39,18 @@ class StackQueue<E> implements Queue<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return enqueueStack.isEmpty() && dequeueStack.isEmpty();
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isFull() {
         return false;
     }
 
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     private void moveElementsBetweenStacks() {
         if (dequeueStack.isEmpty())
             while (!enqueueStack.isEmpty())

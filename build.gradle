@@ -5,8 +5,8 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     java {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     repositories {
         mavenCentral()
@@ -30,5 +30,8 @@ subprojects {
         implementation "org.slf4j:slf4j-api:${slf4jVersion}"
         implementation "ch.qos.logback:logback-core:${logbackVersion}"
         runtimeOnly "ch.qos.logback:logback-classic:${logbackVersion}"
+
+        // utils
+        testImplementation "org.awaitility:awaitility:${awaitilityVersion}"
     }
 }

@@ -1,10 +1,13 @@
 package data_structure.queue;
 
-import util.Complexity;
+import util.Algorithm;
+import util.Algorithm.Complexity;
 
 import java.util.NoSuchElementException;
 
 import static data_structure.array.Arrays.checkCapacity;
+import static util.Algorithm.Complexity.Value.CONSTANT;
+import static util.Algorithm.Complexity.Value.LINEAR;
 
 class ArrayQueue<E> implements Queue<E> {
 
@@ -13,14 +16,14 @@ class ArrayQueue<E> implements Queue<E> {
     private int rear;
     private int size;
 
-    @Complexity(runtime = "O(1)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = LINEAR))
     ArrayQueue(int capacity) {
         checkCapacity(capacity);
         elements = new Object[capacity];
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public void enqueue(E value) {
         if (isFull())
             throw new IllegalStateException("Queue is full");
@@ -31,7 +34,7 @@ class ArrayQueue<E> implements Queue<E> {
 
     @Override
     @SuppressWarnings("unchecked")
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E dequeue() {
         if (isFull())
             throw new NoSuchElementException();
@@ -43,7 +46,7 @@ class ArrayQueue<E> implements Queue<E> {
 
     @Override
     @SuppressWarnings("unchecked")
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E peek() {
         if (isFull())
             throw new NoSuchElementException();
@@ -51,18 +54,18 @@ class ArrayQueue<E> implements Queue<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return size == 0;
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isFull() {
         return elements.length == size;
     }
 
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private int nextCircularIndex(int index) {
         return index + 1 % elements.length;
     }

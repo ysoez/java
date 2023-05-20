@@ -1,10 +1,14 @@
 package data_structure.linked_list;
 
 import algorithm.Reverse;
-import util.Complexity;
+import util.Algorithm;
+import util.Algorithm.Complexity;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
+import static util.Algorithm.Complexity.Value.CONSTANT;
+import static util.Algorithm.Complexity.Value.LINEAR;
 
 class SinglyLinkedList<E> implements LinkedList<E> {
 
@@ -12,14 +16,14 @@ class SinglyLinkedList<E> implements LinkedList<E> {
     private UnaryNode<E> last;
     private int size;
 
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     SinglyLinkedList(E... values) {
         for (E value : values)
             addLast(value);
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public void addFirst(E value) {
         var node = new UnaryNode<>(value);
         if (isEmpty()) {
@@ -32,7 +36,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public void addLast(E value) {
         var node = new UnaryNode<>(value);
         if (isEmpty()) {
@@ -45,37 +49,37 @@ class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E getFirst() {
         return first != null ? first.value : null;
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E getLast() {
         return last != null ? last.value : null;
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return first == null;
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public int size() {
         return size;
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public boolean contains(E value) {
         return indexOf(value) != -1;
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public int indexOf(E value) {
         var current = first;
         int index = 0;
@@ -89,7 +93,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E removeFirst() {
         throwIfEmpty();
         UnaryNode<E> firstNode = first;
@@ -103,7 +107,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E removeLast() {
         throwIfEmpty();
         UnaryNode<E> lastNode = last;
@@ -118,7 +122,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
         return lastNode.value;
     }
 
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public void reverse() {
         if (isEmpty())
             return;
@@ -129,7 +133,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     @Override
-    @Complexity(runtime = "O(n)", space = "O(n)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public Object[] toArray() {
         var array = new Object[size];
         var current = first;
@@ -141,7 +145,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
         return array;
     }
 
-    @Complexity(runtime = "O(n)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     private UnaryNode<E> getPrevious(UnaryNode<E> node) {
         if (isEmpty() || first == last)
             throw new IllegalStateException("Linked list must contain at least 2 elements");
@@ -154,7 +158,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
         return current;
     }
 
-    @Complexity(runtime = "O(1)", space = "O(1)")
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private void throwIfEmpty() {
         if (isEmpty())
             throw new NoSuchElementException("Linked list is empty");
