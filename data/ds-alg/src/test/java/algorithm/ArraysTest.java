@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -27,11 +28,23 @@ class ArraysTest {
         assertEquals(78, Arrays.max(new int[]{10, 21, 16, 78, 62, 5}));
         assertEquals(30, Arrays.max(new int[]{10, 20, 30}));
     }
-    
+
     @ParameterizedTest
     @MethodSource("twoSumDataset")
     void twoSum(int[] nums, int target, int[] result) {
         assertArrayEquals(result, Arrays.twoSum(nums, target));
+    }
+
+    @Test
+    void find2ThatMultiplyFor() {
+        assertArrayEquals(new int[]{4, 5}, Arrays.find2ThatMultiplyFor(new int[]{2, 4, 1, 6, 5, 40, -1}, 20));
+        assertNull(Arrays.find2ThatMultiplyFor(new int[]{1, 2, 3, 3, 2, 1}, 40));
+    }
+
+    @Test
+    void find3ThatMultiplyFor() {
+        assertArrayEquals(new int[]{2, 5, 6}, Arrays.find3ThatMultiplyFor(new int[]{1, 2, 3, 4, 5, 6}, 60));
+        assertArrayEquals(new int[]{2, 2, 5}, Arrays.find3ThatMultiplyFor(new int[]{-1, 2, 30, 5, 5, 2}, 20));
     }
 
     @ParameterizedTest

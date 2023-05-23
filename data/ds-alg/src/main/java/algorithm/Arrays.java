@@ -38,12 +38,39 @@ class Arrays {
         return nums;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     static int[] find2ThatMultiplyFor(int[] arr, int target) {
+        var visited = new HashSet<Integer>();
+        for (int num : arr) {
+            if (visited.contains(target / num))
+                return new int[]{target / num, num};
+            visited.add(num);
+        }
         return null;
     }
 
-    static int[] find3ThatMultiplyFor(int[] arr, int target) {
-        return null;
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = POLYNOMIAL))
+    static int[] find3ThatMultiplyFor(int[] nums, int target) {
+        int[] result = new int[3];
+        java.util.Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                int currentProduct = nums[i] * nums[left] * nums[right];
+                if (currentProduct == target) {
+                    result[0] = nums[i];
+                    result[1] = nums[left];
+                    result[2] = nums[right];
+                    return result;
+                } else if (currentProduct < target) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return result;
     }
 
     @Algorithm(
