@@ -3,6 +3,7 @@ package algorithm;
 import util.Algorithm;
 import util.Algorithm.Complexity;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -221,24 +222,23 @@ class Strings {
 //    }
 
 
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     static int longestSubstringLength(String str) {
-        // aab
-        var longestSubstrLength = 0;
-        var uniqueChars = new HashSet<Character>();
-        for (int i = 0; i < str.length(); i++) {
-            String subStr = "";
-            boolean hasUniqueChars = false;
-            for (int j = i; j < str.length(); j++) {
-                char ch = str.charAt(j);
-                subStr += ch;
-                hasUniqueChars = uniqueChars.add(ch);
+        if (str.isEmpty())
+            return 0;
+        if (str.length() == 1)
+            return 1;
+        String substr = EMPTY;
+        int maxLength = -1;
+        for (char c : str.toCharArray()) {
+            String current = String.valueOf(c);
+            if (substr.contains(current)) {
+                substr = substr.substring(substr.indexOf(current) + 1);
             }
-            if (hasUniqueChars && subStr.length() > longestSubstrLength) {
-                longestSubstrLength = subStr.length();
-            }
-            uniqueChars.clear();
+            substr = substr + c;
+            maxLength = Math.max(substr.length(), maxLength);
         }
-        return longestSubstrLength;
+        return maxLength;
     }
 
 }
