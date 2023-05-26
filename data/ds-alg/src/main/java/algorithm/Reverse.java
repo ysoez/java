@@ -1,13 +1,11 @@
 package algorithm;
 
-import data_structure.linked_list.UnaryNode;
 import util.Algorithm;
 import util.Algorithm.Complexity;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-import static util.Algorithm.Complexity.Value.CONSTANT;
 import static util.Algorithm.Complexity.Value.LINEAR;
 import static util.Algorithm.Target.IN_PLACE;
 import static util.Algorithm.Target.OUT_OF_PLACE;
@@ -39,26 +37,6 @@ public class Reverse {
         while (!stack.isEmpty())
             queue.add(stack.pop());
         return queue;
-    }
-
-    @Algorithm(
-        complexity = @Complexity(runtime = LINEAR, space = CONSTANT),
-        target = IN_PLACE
-    )
-    public static <E> UnaryNode<E> linkedList(UnaryNode<E> node) {
-        if (node == null)
-            throw new IllegalArgumentException("Head is null");
-        if (node.next() == null)
-            return node;
-        var prev = node;
-        var current = node.next();
-        while (current != null) {
-            var next = current.next();
-            current.next(prev);
-            prev = current;
-            current = next;
-        }
-        return prev;
     }
 
     @Algorithm(

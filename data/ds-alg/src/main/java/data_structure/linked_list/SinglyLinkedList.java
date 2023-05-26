@@ -1,8 +1,9 @@
 package data_structure.linked_list;
 
-import algorithm.Reverse;
+import algorithm.LinkedLists;
 import util.Algorithm;
 import util.Algorithm.Complexity;
+import util.UnaryNode;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -126,7 +127,7 @@ class SinglyLinkedList<E> implements LinkedList<E> {
     public void reverse() {
         if (isEmpty())
             return;
-        UnaryNode<E> firstNode = Reverse.linkedList(first);
+        UnaryNode<E> firstNode = LinkedLists.reverse(first);
         last = first;
         last.next = null;
         first = firstNode;

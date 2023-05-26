@@ -7,8 +7,29 @@ import util.UnaryNode;
 
 import static util.Algorithm.Complexity.Value.CONSTANT;
 import static util.Algorithm.Complexity.Value.LINEAR;
+import static util.Algorithm.Target.IN_PLACE;
 
-class LinkedLists {
+public class LinkedLists {
+
+    @Algorithm(
+            complexity = @Complexity(runtime = LINEAR, space = CONSTANT),
+            target = IN_PLACE
+    )
+    public static <T> UnaryNode<T> reverse(UnaryNode<T> node) {
+        if (node == null)
+            throw new IllegalArgumentException("Head is null");
+        if (node.next == null)
+            return node;
+        var prev = node;
+        var cur = node.next;
+        while (cur != null) {
+            var next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+        return prev;
+    }
 
     static boolean hasCycle(UnaryNode<Integer> head) {
         return false;
