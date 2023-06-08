@@ -9,11 +9,20 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class ArraysTest {
+
+    @Test
+    void hasDuplicates() {
+        assertTrue(Arrays.hasDuplicates(new int[]{1, 2, 3, 1}));
+        assertFalse(Arrays.hasDuplicates(new int[]{1, 2, 3, 4}));
+        assertTrue(Arrays.hasDuplicates(new int[]{1, 1, 1, 3, 3, 4, 3, 2, 4, 2}));
+    }
 
     @Test
     void max() {

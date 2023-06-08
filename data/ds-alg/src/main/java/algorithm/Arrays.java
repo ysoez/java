@@ -14,6 +14,15 @@ import static util.Algorithm.Target.OUT_OF_PLACE;
 
 class Arrays {
 
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    static boolean hasDuplicates(int[] array) {
+        var visited = new HashSet<Integer>();
+        for (int num : array)
+            if (!visited.add(num))
+                return true;
+        return false;
+    }
+
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     static Integer max(int[] array) {
         if (array == null || array.length == 0)
