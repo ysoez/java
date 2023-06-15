@@ -3,8 +3,8 @@ package algorithm;
 import util.Algorithm;
 import util.Algorithm.Complexity;
 
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 
@@ -239,6 +239,24 @@ class Strings {
             maxLength = Math.max(substr.length(), maxLength);
         }
         return maxLength;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    static int arrowRotateCount(String str) {
+        var frequencyMap = new HashMap<Character, Integer>();
+        int max = 0;
+        for (char ch : str.toCharArray()) {
+            int frequency = frequencyMap.getOrDefault(ch, 0) + 1;
+            frequencyMap.put(ch, frequency);
+            if (frequency > max)
+                max = frequency;
+        }
+        return str.length() - max;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    static boolean aOccursBeforeB(String str) {
+        return !str.contains("ba");
     }
 
 }

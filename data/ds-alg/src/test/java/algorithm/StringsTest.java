@@ -164,5 +164,20 @@ class StringsTest {
         assertEquals(3, Strings.longestSubstringLength("pwwkew"));
     }
 
-
+    @Test
+    void arrowRotateCount() {
+        assertEquals(2, Strings.arrowRotateCount("^vv<v"));
+        assertEquals(3, Strings.arrowRotateCount("v>>>vv"));
+        assertEquals(0, Strings.arrowRotateCount("<<<"));
     }
+
+    @Test
+    void aOccursBeforeB() {
+        assertTrue(Strings.aOccursBeforeB("aabbb"));
+        assertFalse(Strings.aOccursBeforeB("ba"));
+        assertTrue(Strings.aOccursBeforeB("aaa"));
+        assertTrue(Strings.aOccursBeforeB("b"));
+        assertFalse(Strings.aOccursBeforeB("abba"));
+    }
+
+}
