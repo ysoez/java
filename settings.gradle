@@ -16,4 +16,4 @@ include 'persistence'
 
 include 'messaging:kafka'
 
-include 'sandbox:velocity-limits'
+include 'sandbox:crypto-transfers'
