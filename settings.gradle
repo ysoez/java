@@ -3,8 +3,8 @@ rootProject.name = 'java'
 include 'data:ds-alg'
 
 include 'concurrency'
-
 include 'library'
+include 'reflection'
 
 include 'design:gof-patterns'
 
