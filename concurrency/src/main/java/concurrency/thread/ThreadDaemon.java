@@ -1,4 +1,4 @@
-package concurrency.thread.interrupt;
+package concurrency.thread;
 
 class ThreadDaemon {
 
