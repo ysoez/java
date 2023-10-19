@@ -4,8 +4,9 @@ class ThreadDaemon {
 
     public static void main(String[] args) throws InterruptedException {
         var thread = new Thread(() -> {
-            for (int i = 0; i < Long.MAX_VALUE; i++) {
-                i *= 2;
+            //noinspection StatementWithEmptyBody
+            while (true) {
+                // no op
             }
         });
         thread.setDaemon(true);
