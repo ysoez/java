@@ -1,4 +1,4 @@
-package concurrency.thread;
+package concurrency.thread.run;
 
 import java.util.List;
 import java.util.Random;
@@ -12,31 +12,46 @@ class ThreadInheritance {
         var threads = List.of(
                 new AscendingHackerThread(vault),
                 new DescendingHackerThread(vault),
-                new PoliceThread()
+                new PoliceThread("PoliceThread")
         );
         threads.forEach(Thread::start);
     }
 
-    private static class Vault {
-        private int password;
-
-        public Vault(int password) {
-            this.password = password;
-        }
-
-        public boolean isCorrectPassword(int guess) {
+    private record Vault(int password) {
+        boolean isCorrectPassword(int guess) {
             try {
                 Thread.sleep(5);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
             return this.password == guess;
         }
     }
 
+    private static class PoliceThread extends Thread {
+
+        PoliceThread(String name) {
+            super(name);
+        }
+
+        @Override
+        public void run() {
+            for (int i = 10; i > 0; i--) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {
+                }
+                System.out.println(getName() + ": " + i);
+            }
+            System.out.println("Game over for you hackers");
+            System.exit(0);
+        }
+
+    }
+
     private static abstract class HackerThread extends Thread {
         protected Vault vault;
 
-        public HackerThread(Vault vault) {
+        HackerThread(Vault vault) {
             this.vault = vault;
             this.setName(this.getClass().getSimpleName());
             this.setPriority(Thread.MAX_PRIORITY);
@@ -51,7 +66,7 @@ class ThreadInheritance {
 
     private static class AscendingHackerThread extends HackerThread {
 
-        public AscendingHackerThread(Vault vault) {
+        AscendingHackerThread(Vault vault) {
             super(vault);
         }
 
@@ -68,7 +83,7 @@ class ThreadInheritance {
 
     private static class DescendingHackerThread extends HackerThread {
 
-        public DescendingHackerThread(Vault vault) {
+        DescendingHackerThread(Vault vault) {
             super(vault);
         }
 
@@ -80,21 +95,6 @@ class ThreadInheritance {
                     System.exit(0);
                 }
             }
-        }
-    }
-
-    private static class PoliceThread extends Thread {
-        @Override
-        public void run() {
-            for (int i = 10; i > 0; i--) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ignored) {
-                }
-                System.out.println(i);
-            }
-            System.out.println("Game over for you hackers");
-            System.exit(0);
         }
     }
 }
