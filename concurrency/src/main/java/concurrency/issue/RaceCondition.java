@@ -2,7 +2,7 @@ package concurrency.issue;
 
 import lombok.RequiredArgsConstructor;
 
-class CounterProblem {
+class RaceCondition {
 
     public static void main(String[] args) throws InterruptedException {
         var inventoryCounter = new InventoryCounter();
