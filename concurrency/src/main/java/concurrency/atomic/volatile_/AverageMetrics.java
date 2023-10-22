@@ -1,10 +1,10 @@
-package concurrency.atomic;
+package concurrency.atomic.volatile_;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.Random;
 
-class VolatileAtomicity {
+class AverageMetrics {
 
     public static void main(String[] args) {
         var metrics = new Metrics();
