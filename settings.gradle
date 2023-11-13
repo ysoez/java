@@ -2,6 +2,11 @@ rootProject.name = 'java'
 
 include 'data:ds-alg'
 
+include 'distributed-systems:zookeeper'
+include 'distributed-systems:leader-election'
+
+include 'testing:test-containers'
+
 include 'concurrency'
 include 'library'
 include 'reflection'
