@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+dependencies {
+    implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.9.1'
+}
+
+application {
+    mainClass = 'autohealer.worker.WorkerRunner'
+}
+
+jar {
+    archiveBaseName = 'worker-server'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
