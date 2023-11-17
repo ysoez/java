@@ -4,8 +4,13 @@ include 'data:ds-alg'
 
 include 'distributed-systems:zookeeper'
 include 'distributed-systems:leader-election'
+include 'distributed-systems:autohealer:worker'
+include 'distributed-systems:autohealer:watchdog'
 
 include 'testing:test-containers'
+include 'testing:junit'
+include 'testing:mockito'
+include 'testing:assertj'
 
 include 'concurrency'
 include 'library'
