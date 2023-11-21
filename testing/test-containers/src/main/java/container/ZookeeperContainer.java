@@ -1,7 +1,5 @@
 package container;
 
-import lombok.SneakyThrows;
-import org.apache.commons.compress.harmony.pack200.NewAttributeBands;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.testcontainers.containers.ContainerLaunchException;
@@ -10,7 +8,6 @@ import org.testcontainers.containers.GenericContainer;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
 
 public class ZookeeperContainer extends GenericContainer<ZookeeperContainer> {
 

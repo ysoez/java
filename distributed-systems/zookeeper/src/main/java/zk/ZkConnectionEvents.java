@@ -18,7 +18,7 @@ class ZkConnectionEvents implements Watcher {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         var app = new ZkConnectionEvents();
-        try (ZookeeperContainer zookeeper = new ZookeeperContainer()) {
+        try (var zookeeper = new ZookeeperContainer()) {
             zookeeper.start();
             app.waitForDisconnect(zookeeper);
         } finally {
