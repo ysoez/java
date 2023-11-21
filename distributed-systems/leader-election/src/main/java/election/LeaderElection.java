@@ -53,9 +53,8 @@ public class LeaderElection implements Watcher {
                 log.info("I am the leader");
                 return;
             }
-            // ~ worker
+            // ~ worker (at least one node joined before)
             log.info("I am not the leader");
-            // ~ at least one joined before
             int predecessorIndex = Collections.binarySearch(children, currentZkNodeName) - 1;
             predecessorZnodeName = children.get(predecessorIndex);
             predecessorStat = zooKeeper.exists(ELECTION_NAMESPACE + "/" + predecessorZnodeName, this);
