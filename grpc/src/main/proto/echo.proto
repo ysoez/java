@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.echo";
+option java_outer_classname = "HelloWorldProto";
+option objc_class_prefix = "HLW";
+
+package grpc.echo;
+
+service EchoService {
+  rpc Echo (EchoRequest) returns (EchoReply) {}
+}
+
+message EchoRequest {
+  string message = 1;
+}
+
+message EchoReply {
+  string message = 1;
+}
