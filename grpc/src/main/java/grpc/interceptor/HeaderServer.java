@@ -1,13 +1,10 @@
 package grpc.interceptor;
 
-import grpc.echo.EchoReply;
-import grpc.echo.EchoRequest;
-import grpc.echo.EchoServiceGrpc;
+import grpc.shared.EchoService;
 import io.grpc.Grpc;
 import io.grpc.InsecureServerCredentials;
 import io.grpc.Server;
 import io.grpc.ServerInterceptors;
-import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -57,13 +54,4 @@ public class HeaderServer {
         }
     }
 
-
-    private static class EchoService extends EchoServiceGrpc.EchoServiceImplBase {
-        @Override
-        public void echo(EchoRequest req, StreamObserver<EchoReply> responseObserver) {
-            var reply = EchoReply.newBuilder().setMessage("server: " + req.getMessage()).build();
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-        }
-    }
 }
