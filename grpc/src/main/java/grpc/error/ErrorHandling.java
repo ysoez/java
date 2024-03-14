@@ -23,7 +23,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static grpc.Utils.INSECURE_CHANNEL_CREDENTIALS;
 import static grpc.Utils.RANDOM_PORT;
 
-public class ErrorHandlingClient {
+public class ErrorHandling {
 
     public static void main(String[] args) throws Exception {
         Server server = Grpc.newServerBuilderForPort(RANDOM_PORT, InsecureServerCredentials.create())
