@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-class PlainIoServer {
+class OldIoServer {
 
     public void serve(int port) {
         try (final var socket = new ServerSocket(port)) {
