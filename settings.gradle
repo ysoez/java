@@ -31,3 +31,4 @@ include 'messaging:kafka'
 include 'sandbox:crypto-transfers'
 
 include 'grpc'
+include 'netty'
