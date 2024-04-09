@@ -1,5 +1,8 @@
 rootProject.name = 'java'
 
+// ~ core
+include 'multithreading'
+
 include 'data:ds-alg'
 include 'data:collections'
 
