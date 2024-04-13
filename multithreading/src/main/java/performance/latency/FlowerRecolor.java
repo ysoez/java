@@ -1,4 +1,4 @@
-package concurrency.performance.latency;
+package performance.latency;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static concurrency.performance.latency.Colors.*;
+import static performance.latency.Colors.*;
 
 class FlowerRecolor {
-    static final String SOURCE_FILE = "concurrency/src/main/java/concurrency/performance/latency/before.jpg";
-    static final String DESTINATION_FILE = "concurrency/src/main/java/concurrency/performance/latency/after.jpg";
+    static final String SOURCE_FILE = "multithreading/src/main/java/performance/latency/before.jpg";
+    static final String DESTINATION_FILE = "multithreading/src/main/java/performance/latency/after.jpg";
 
     public static void main(String[] args) throws IOException {
         BufferedImage originalImage = ImageIO.read(new File(SOURCE_FILE));
