@@ -1,8 +1,8 @@
-package concurrency.thread.interrupt;
+package thread;
 
 import java.math.BigInteger;
 
-class ThreadIsInterrupted {
+class ThreadInterruptExplicit {
 
     public static void main(String[] args) {
         var thread = new Thread(new LongComputationTask(new BigInteger("200000"), new BigInteger("100000000")));
@@ -20,7 +20,7 @@ class ThreadIsInterrupted {
             BigInteger result = BigInteger.ONE;
             for (BigInteger i = BigInteger.ZERO; i.compareTo(power) != 0; i = i.add(BigInteger.ONE)) {
                 if (Thread.currentThread().isInterrupted()) {
-                    System.out.println("Prematurely interrupted computation");
+                    System.out.println("prematurely interrupted computation");
                     return BigInteger.ZERO;
                 }
                 result = result.multiply(base);

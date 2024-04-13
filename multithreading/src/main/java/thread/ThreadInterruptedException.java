@@ -1,4 +1,4 @@
-package concurrency.thread.interrupt;
+package thread;
 
 class ThreadInterruptedException {
 
@@ -14,7 +14,7 @@ class ThreadInterruptedException {
             try {
                 Thread.sleep(500_000);
             } catch (InterruptedException e) {
-                System.out.println("Exiting blocking thread");
+                System.out.println("Exiting blocking thread due to interruption");
             }
         }
     }
