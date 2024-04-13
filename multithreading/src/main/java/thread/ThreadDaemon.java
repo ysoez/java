@@ -1,12 +1,12 @@
-package concurrency.thread;
+package thread;
 
 class ThreadDaemon {
 
+    @SuppressWarnings("StatementWithEmptyBody")
     public static void main(String[] args) throws InterruptedException {
         var thread = new Thread(() -> {
-            //noinspection StatementWithEmptyBody
             while (true) {
-                // no op
+                // ~ no op
             }
         });
         thread.setDaemon(true);

@@ -1,4 +1,4 @@
-package concurrency.thread.run;
+package thread;
 
 class ThreadRunnable {
 
