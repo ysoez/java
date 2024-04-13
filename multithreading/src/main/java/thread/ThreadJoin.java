@@ -1,4 +1,4 @@
-package concurrency.thread.join;
+package thread;
 
 import lombok.Getter;
 
@@ -16,13 +16,11 @@ class ThreadJoin {
             threads.add(new FactorialThread(inputNumber));
         }
         for (Thread thread : threads) {
-            thread.setDaemon(true); // interrupt long-running thread
+            thread.setDaemon(true); // ~ ignore if too long
             thread.start();
         }
         for (Thread thread : threads) {
-            // wait for computation results to avoid race conditions
-            // tolerate 2 secs per computation
-            thread.join(2000);
+            thread.join(2000); // ~ tolerate 2 secs per computation
         }
         for (int i = 0; i < inputNumbers.size(); i++) {
             FactorialThread factorialThread = threads.get(i);
