@@ -1,4 +1,4 @@
-package concurrency.thread.metadata;
+package thread;
 
 class ThreadExceptionHandler {
 

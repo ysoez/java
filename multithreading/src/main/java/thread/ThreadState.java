@@ -1,4 +1,4 @@
-package concurrency.thread.metadata;
+package thread;
 
 import java.util.concurrent.TimeUnit;
 
