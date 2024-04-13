@@ -1,13 +1,13 @@
-package concurrency.thread;
+package thread;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class TaskExecutor {
+class ThreadTaskExecutor {
 
     private final List<Runnable> tasks;
 
-    TaskExecutor(List<Runnable> tasks) {
+    ThreadTaskExecutor(List<Runnable> tasks) {
         this.tasks = tasks;
     }
 
