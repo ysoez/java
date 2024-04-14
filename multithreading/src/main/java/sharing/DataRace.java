@@ -1,4 +1,4 @@
-package concurrency.issue;
+package sharing;
 
 class DataRace {
 
@@ -20,9 +20,7 @@ class DataRace {
     }
 
     private static class SharedResource {
-//        private volatile int x = 0;
         private int x = 0;
-//        private volatile int y = 0;
         private int y = 0;
 
         void increment() {
