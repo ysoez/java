@@ -1,4 +1,4 @@
-package concurrency.issue;
+package sharing;
 
 import lombok.RequiredArgsConstructor;
 
