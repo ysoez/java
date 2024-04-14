@@ -1,4 +1,4 @@
-package concurrency.lock.read_write;
+package sharing.lock.rw;
 
 import java.util.*;
 import java.util.concurrent.locks.Lock;

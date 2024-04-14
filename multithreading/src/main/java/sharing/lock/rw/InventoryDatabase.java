@@ -1,36 +1,35 @@
-package concurrency.lock.read_write;
+package sharing.lock.rw;
 
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import static concurrency.ConcurrencyUtils.sleep;
-
-class InventoryDatabaseApp {
+class InventoryDatabase {
 
     private static final int HIGHEST_PRICE = 1000;
     private final static Random RANDOM = new Random();
 
     public static void main(String[] args) throws InterruptedException {
-        var database = new InventoryDatabase();
-        for (int i = 0; i < 100000; i++) {
-            database.addItem(RANDOM.nextInt(HIGHEST_PRICE));
-        }
-
+        var database = new Database(100_000);
         var writer = new Thread(() -> {
             while (true) {
                 database.addItem(RANDOM.nextInt(HIGHEST_PRICE));
                 database.removeItem(RANDOM.nextInt(HIGHEST_PRICE));
-                sleep(10);
+                try {
+                    // ~ emulate not frequent writes
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    // no op
+                }
             }
         });
         writer.setDaemon(true);
         writer.start();
 
-        int numberOfReaderThreads = 7;
+        int readersCount = 7;
         List<Thread> readers = new ArrayList<>();
-        for (int readerIndex = 0; readerIndex < numberOfReaderThreads; readerIndex++) {
+        for (int readerIndex = 0; readerIndex < readersCount; readerIndex++) {
             var reader = new Thread(() -> {
                 for (int i = 0; i < 100_000; i++) {
                     int upperBoundPrice = RANDOM.nextInt(HIGHEST_PRICE);
@@ -53,12 +52,18 @@ class InventoryDatabaseApp {
         System.out.printf("Reading took: %d ms%n", endReadingTime - startReadingTime);
     }
 
-    private static class InventoryDatabase {
+    private static class Database {
         private final TreeMap<Integer, Integer> priceToCountMap = new TreeMap<>();
         private final ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
         private final Lock readLock = reentrantReadWriteLock.readLock();
         private final Lock writeLock = reentrantReadWriteLock.writeLock();
         private final Lock lock = new ReentrantLock();
+
+        Database(int itemsCount) {
+            for (int i = 0; i < itemsCount; i++) {
+                addItem(RANDOM.nextInt(HIGHEST_PRICE));
+            }
+        }
 
         public int getNumberOfItemsInPriceRange(int lowerBound, int upperBound) {
 //            lock.lock();
