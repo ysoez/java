@@ -1,8 +1,8 @@
-package concurrency.lock.deadlock;
+package sharing.deadlock;
 
 import java.util.Random;
 
-class Deadlock {
+class RailroadTrafficControl {
     public static void main(String[] args) {
         var intersection = new Intersection();
         var trainAThread = new Thread(new TrainA(intersection));
@@ -60,7 +60,7 @@ class Deadlock {
 
         void takeRoadA() {
             synchronized (roadA) {
-                System.out.println("Road A is locked by thread " + Thread.currentThread().getName());
+                System.out.println("Road A is locked by " + Thread.currentThread().getName());
 
                 synchronized (roadB) {
                     System.out.println("Train is passing through road A");
@@ -74,7 +74,7 @@ class Deadlock {
 
         void takeRoadB() {
             synchronized (roadB) {
-                System.out.println("Road B is locked by thread " + Thread.currentThread().getName());
+                System.out.println("Road B is locked by " + Thread.currentThread().getName());
 
                 synchronized (roadA) {
                     System.out.println("Train is passing through road B");
