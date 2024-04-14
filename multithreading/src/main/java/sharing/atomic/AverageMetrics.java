@@ -1,4 +1,4 @@
-package concurrency.atomic.volatile_;
+package sharing.atomic;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ class AverageMetrics {
                     Thread.sleep(1);
                 } catch (InterruptedException ignored) {
                 }
-                double currentAverage = metrics.average; // lock-free
+                double currentAverage = metrics.average; // ~ lock-free
                 System.out.println("Current Average is " + currentAverage);
             }
         }

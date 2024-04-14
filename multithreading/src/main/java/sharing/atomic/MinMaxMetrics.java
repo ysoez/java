@@ -1,4 +1,4 @@
-package concurrency.atomic.volatile_;
+package sharing.atomic;
 
 class MinMaxMetrics {
 
