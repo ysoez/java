@@ -1,4 +1,4 @@
-package concurrency.condition_variable;
+package sharing.condition;
 
 class SimpleCountDownLatch {
 
