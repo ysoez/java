@@ -1,4 +1,4 @@
-package sharing;
+package multithreading.phenomena;
 
 class DataRace {
 
