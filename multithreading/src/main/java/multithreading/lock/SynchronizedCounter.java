@@ -1,4 +1,4 @@
-package sharing;
+package multithreading.lock;
 
 import lombok.RequiredArgsConstructor;
 
