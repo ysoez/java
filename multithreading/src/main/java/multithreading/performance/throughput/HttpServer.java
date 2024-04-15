@@ -1,4 +1,4 @@
-package concurrency.performance.throughput;
+package multithreading.performance.throughput;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

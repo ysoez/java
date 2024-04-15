@@ -1,4 +1,4 @@
-package performance.latency;
+package multithreading.performance.latency;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static performance.latency.Colors.*;
 
 class FlowerRecolor {
     static final String SOURCE_FILE = "multithreading/src/main/java/performance/latency/before.jpg";
@@ -76,15 +74,15 @@ class FlowerRecolor {
     static void recolorPixel(BufferedImage originalImage, BufferedImage resultImage, int x, int y) {
         int rgb = originalImage.getRGB(x, y);
 
-        int red = getRed(rgb);
-        int green = getGreen(rgb);
-        int blue = getBlue(rgb);
+        int red = Colors.getRed(rgb);
+        int green = Colors.getGreen(rgb);
+        int blue = Colors.getBlue(rgb);
 
         int newRed;
         int newGreen;
         int newBlue;
 
-        if (isShadeOfGray(red, green, blue)) {
+        if (Colors.isShadeOfGray(red, green, blue)) {
             newRed = Math.min(255, red + 10);
             newGreen = Math.max(0, green - 80);
             newBlue = Math.max(0, blue - 20);
@@ -94,7 +92,7 @@ class FlowerRecolor {
             newBlue = blue;
         }
 
-        int newRGB = createRGB(newRed, newGreen, newBlue);
-        setRGB(resultImage, x, y, newRGB);
+        int newRGB = Colors.createRGB(newRed, newGreen, newBlue);
+        Colors.setRGB(resultImage, x, y, newRGB);
     }
 }

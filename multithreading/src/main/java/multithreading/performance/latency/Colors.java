@@ -1,4 +1,4 @@
-package performance.latency;
+package multithreading.performance.latency;
 
 import java.awt.image.BufferedImage;
 

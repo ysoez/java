@@ -1,10 +1,13 @@
 rootProject.name = 'java'
 
 // ~ core
+include 'language'
+include 'library'
 include 'multithreading'
 
 include 'data:ds-alg'
 include 'data:collections'
+include 'data:stream-api'
 
 include 'distributed-systems:zookeeper'
 include 'distributed-systems:leader-election'
@@ -18,7 +21,6 @@ include 'testing:mockito'
 include 'testing:assertj'
 
 include 'concurrency'
-include 'library'
 include 'reflection'
 
 include 'design:gof-patterns'
