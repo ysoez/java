@@ -1,4 +1,4 @@
-package sharing.atomic;
+package multithreading.atomic;
 
 import lombok.RequiredArgsConstructor;
 
