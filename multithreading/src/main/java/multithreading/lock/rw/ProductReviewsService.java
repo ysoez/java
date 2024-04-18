@@ -1,4 +1,4 @@
-package sharing.lock.rw;
+package multithreading.lock.rw;
 
 import java.util.*;
 import java.util.concurrent.locks.Lock;
