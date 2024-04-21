@@ -20,7 +20,6 @@ include 'testing:junit'
 include 'testing:mockito'
 include 'testing:assertj'
 
-include 'concurrency'
 include 'reflection'
 
 include 'design:gof-patterns'
@@ -31,7 +30,9 @@ include 'spring:retry'
 
 include 'persistence'
 
+// ~ messaging
 include 'messaging:kafka'
+include 'messaging:gcp-pubsub'
 
 include 'sandbox:crypto-transfers'
 
