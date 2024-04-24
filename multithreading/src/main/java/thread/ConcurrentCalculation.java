@@ -1,4 +1,4 @@
-package concurrency.thread.join;
+package thread;
 
 import lombok.RequiredArgsConstructor;
 
