@@ -1,4 +1,4 @@
-package sharing.condition;
+package multithreading.monitor;
 
 class SimpleCountDownLatch {
 

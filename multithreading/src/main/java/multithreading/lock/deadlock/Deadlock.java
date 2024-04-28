@@ -1,4 +1,4 @@
-package sharing.deadlock;
+package multithreading.lock.deadlock;
 
 import lombok.RequiredArgsConstructor;
 
