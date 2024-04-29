@@ -7,7 +7,7 @@
     <logger name="org.apache.zookeeper" level="WARN" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="election" level="INFO" additivity="false">
+    <logger name="distributed" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 </configuration>

@@ -6,7 +6,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'election.LeaderElection'
+    mainClass = 'distributed.LeaderElection'
 }
 
 jar {
