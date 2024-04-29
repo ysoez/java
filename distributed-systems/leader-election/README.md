@@ -15,11 +15,16 @@ brew services start zookeeper
 ### Build Executable Fat Jar
 
 ```
-./gradlew distributed-systems:leader-distributed:build
+./gradlew distributed-systems:leader-election:build
 ```
 
 ### Run Application
 
 ```
-java -jar distributed-systems/leader-distributed/build/libs/leader-distributed-app-1.0.jar
+java -jar distributed-systems/leader-election/build/libs/leader-election-app-1.0.jar
 ```
+
+### How To Test
+
+* run 4 instances
+* expect 4 nodes: 1 leader & 3 workers

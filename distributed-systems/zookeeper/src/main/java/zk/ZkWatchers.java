@@ -41,6 +41,7 @@ class ZkWatchers implements Watcher {
         container.executeAfter(wrap(() -> zkClient.setData(PARENT_NODE, "p2".getBytes(), 0)), 3100);
         // ~ trigger NodeDeleted
         container.executeAfter(wrap(() -> zkClient.delete(PARENT_NODE, 1)), 3300);
+        // ~ trigger Disconnected & stop container
         container.stopAfter(3500);
     }
 
@@ -86,7 +87,9 @@ class ZkWatchers implements Watcher {
             case NodeChildrenChanged -> log.info("NodeChildrenChanged => [{}]", event);
         }
         try {
-            // ~ receive up-to-date data & re-register one-time triggers
+            //
+            // ~ receive and process up-to-date data & re-register one-time triggers
+            //
             if (event.getPath() != null) {
                 watchNode(event.getPath());
             }
