@@ -1,0 +1,7 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.9.1'
+}

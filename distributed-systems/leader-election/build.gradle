@@ -3,10 +3,12 @@ apply plugin: 'application'
 
 dependencies {
     implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.9.1'
+    implementation project(':distributed-systems:distributed-algorithms')
+    implementation files(":distributed-systems:distributed-algorithms:jar")
 }
 
 application {
-    mainClass = 'distributed.LeaderElection'
+    mainClass = 'distributed.LeaderElectionRunner'
 }
 
 jar {
