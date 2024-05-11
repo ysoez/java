@@ -39,5 +39,8 @@ include 'messaging:gcp-pubsub'
 
 include 'sandbox:crypto-transfers'
 
-include 'grpc'
-include 'netty'
+// ~ api
+include 'api:grpc'
+
+// ~ io
+include 'io:netty'
