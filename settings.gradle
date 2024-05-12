@@ -9,7 +9,9 @@ include 'data:ds-alg'
 include 'data:collections'
 include 'data:stream-api'
 
+// ~ distributed systems
 include 'distributed-systems:distributed-algorithms'
+include 'distributed-systems:distributed-search'
 include 'distributed-systems:zookeeper'
 include 'distributed-systems:leader-election'
 include 'distributed-systems:autohealer:worker'
