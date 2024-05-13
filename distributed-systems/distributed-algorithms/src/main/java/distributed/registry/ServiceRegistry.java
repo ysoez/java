@@ -14,13 +14,14 @@ import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
 @Slf4j
 public class ServiceRegistry implements Watcher {
 
-    private static final String REGISTRY_NAMESPACE = "/service_registry";
     private final ZooKeeper zooKeeper;
+    private final String registryNamespace;
     private String currentNode;
     private List<String> allServiceAddresses;
 
-    public ServiceRegistry(ZooKeeper zooKeeper) {
+    public ServiceRegistry(ZooKeeper zooKeeper, String registryNamespace) {
         this.zooKeeper = zooKeeper;
+        this.registryNamespace = registryNamespace;
         createServiceRegistry();
     }
 
@@ -29,7 +30,7 @@ public class ServiceRegistry implements Watcher {
             log.debug("Already registered to service registry");
             return;
         }
-        this.currentNode = zooKeeper.create(REGISTRY_NAMESPACE + "/n_", serverAddress.getBytes(), OPEN_ACL_UNSAFE, EPHEMERAL_SEQUENTIAL);
+        this.currentNode = zooKeeper.create(registryNamespace + "/n_", serverAddress.getBytes(), OPEN_ACL_UNSAFE, EPHEMERAL_SEQUENTIAL);
         log.debug("Registered to service registry: {}", currentNode);
     }
 
@@ -59,10 +60,10 @@ public class ServiceRegistry implements Watcher {
     }
 
     private synchronized void updateAddresses() throws KeeperException, InterruptedException {
-        List<String> workerNodes = zooKeeper.getChildren(REGISTRY_NAMESPACE, this);
+        List<String> workerNodes = zooKeeper.getChildren(registryNamespace, this);
         List<String> addresses = new ArrayList<>(workerNodes.size());
         for (String workerNode : workerNodes) {
-            String workerFullPath = REGISTRY_NAMESPACE + "/" + workerNode;
+            String workerFullPath = registryNamespace + "/" + workerNode;
             Stat stat = zooKeeper.exists(workerFullPath, false);
             if (stat == null) {
                 continue;
@@ -86,8 +87,8 @@ public class ServiceRegistry implements Watcher {
 
     private void createServiceRegistry() {
         try {
-            if (zooKeeper.exists(REGISTRY_NAMESPACE, false) == null) {
-                zooKeeper.create(REGISTRY_NAMESPACE, new byte[]{}, OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+            if (zooKeeper.exists(registryNamespace, false) == null) {
+                zooKeeper.create(registryNamespace, new byte[]{}, OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
         } catch (KeeperException | InterruptedException e) {
             log.error("Failed to create registry", e);
