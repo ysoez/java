@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+dependencies {
+    implementation "org.apache.kafka:kafka-clients:${kafkaVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+}
+
+application {
+    mainClass = 'bank.account.BankAccountApplicationRunner'
+}
+
+jar {
+    archiveBaseName = 'account-manager-service'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
