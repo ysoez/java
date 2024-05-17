@@ -11,16 +11,16 @@ include 'data:stream-api'
 
 // ~ distributed systems
 include 'distributed-systems:distributed-algorithms:cluster-core'
+include 'distributed-systems:distributed-algorithms:cluster-leader-election'
+include 'distributed-systems:distributed-algorithms:cluster-service-registry'
 include 'distributed-systems:distributed-search'
 include 'distributed-systems:distributed-bank:bank-account'
 include 'distributed-systems:distributed-bank:bank-api'
 include 'distributed-systems:distributed-bank:bank-reporting'
 include 'distributed-systems:distributed-bank:bank-notification'
 include 'distributed-systems:zookeeper'
-include 'distributed-systems:leader-election'
 include 'distributed-systems:autohealer:worker'
 include 'distributed-systems:autohealer:watchdog'
-include 'distributed-systems:service-registry'
 include 'distributed-systems:network:http-server'
 include 'distributed-systems:network:http-client'
 
