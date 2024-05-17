@@ -10,7 +10,7 @@ include 'data:collections'
 include 'data:stream-api'
 
 // ~ distributed systems
-include 'distributed-systems:distributed-algorithms'
+include 'distributed-systems:distributed-algorithms:cluster-core'
 include 'distributed-systems:distributed-search'
 include 'distributed-systems:distributed-bank:bank-account'
 include 'distributed-systems:distributed-bank:bank-api'
