@@ -50,3 +50,4 @@ include 'api:grpc'
 
 // ~ io
 include 'io:netty'
+include 'io:vertx'
