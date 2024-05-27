@@ -50,4 +50,8 @@ include 'api:grpc'
 
 // ~ io
 include 'io:netty'
-include 'io:vertx'
+include 'io:vertx:vertx-core'
+include 'io:vertx:vertx-web'
+
+// ~ reactive
+include 'reactive:mutiny'
