@@ -46,7 +46,7 @@ rootProject.name = 'java'
 //include 'sandbox:crypto-transfers'
 
 // ~ api
-include 'api:grpc'
+//include 'api:grpc'
 
 // ~ io
 //include 'io:netty'
