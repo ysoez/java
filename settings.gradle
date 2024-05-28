@@ -1,57 +1,57 @@
 rootProject.name = 'java'
 
 // ~ core
-include 'language'
-include 'library'
-include 'multithreading'
+//include 'language'
+//include 'library'
+//include 'multithreading'
 
-include 'data:ds-alg'
-include 'data:collections'
-include 'data:stream-api'
+//include 'data:ds-alg'
+//include 'data:collections'
+//include 'data:stream-api'
 
 // ~ distributed systems
-include 'distributed-systems:distributed-algorithms:cluster-core'
-include 'distributed-systems:distributed-algorithms:cluster-leader-election'
-include 'distributed-systems:distributed-algorithms:cluster-service-registry'
-include 'distributed-systems:distributed-search'
-include 'distributed-systems:distributed-bank:bank-account'
-include 'distributed-systems:distributed-bank:bank-api'
-include 'distributed-systems:distributed-bank:bank-reporting'
-include 'distributed-systems:distributed-bank:bank-notification'
-include 'distributed-systems:zookeeper'
-include 'distributed-systems:autohealer:worker'
-include 'distributed-systems:autohealer:watchdog'
-include 'distributed-systems:network:http-server'
-include 'distributed-systems:network:http-client'
+//include 'distributed-systems:distributed-algorithms:cluster-core'
+//include 'distributed-systems:distributed-algorithms:cluster-leader-election'
+//include 'distributed-systems:distributed-algorithms:cluster-service-registry'
+//include 'distributed-systems:distributed-search'
+//include 'distributed-systems:distributed-bank:bank-account'
+//include 'distributed-systems:distributed-bank:bank-api'
+//include 'distributed-systems:distributed-bank:bank-reporting'
+//include 'distributed-systems:distributed-bank:bank-notification'
+//include 'distributed-systems:zookeeper'
+//include 'distributed-systems:autohealer:worker'
+//include 'distributed-systems:autohealer:watchdog'
+//include 'distributed-systems:network:http-server'
+//include 'distributed-systems:network:http-client'
 
-include 'testing:test-containers'
-include 'testing:junit'
-include 'testing:mockito'
-include 'testing:assertj'
+//include 'testing:test-containers'
+//include 'testing:junit'
+//include 'testing:mockito'
+//include 'testing:assertj'
 
-include 'reflection'
+//include 'reflection'
 
-include 'design:gof-patterns'
+//include 'design:gof-patterns'
 
-include 'spring:framework:data-access:transaction-management:transactional-events'
-include 'spring:core'
-include 'spring:retry'
+//include 'spring:framework:data-access:transaction-management:transactional-events'
+//include 'spring:core'
+//include 'spring:retry'
 
-include 'persistence'
+//include 'persistence'
 
 // ~ messaging
-include 'messaging:kafka'
-include 'messaging:gcp-pubsub'
+//include 'messaging:kafka'
+//include 'messaging:gcp-pubsub'
 
-include 'sandbox:crypto-transfers'
+//include 'sandbox:crypto-transfers'
 
 // ~ api
 include 'api:grpc'
 
 // ~ io
-include 'io:netty'
+//include 'io:netty'
 include 'io:vertx:vertx-core'
-include 'io:vertx:vertx-web'
+//include 'io:vertx:vertx-web'
 
 // ~ reactive
 include 'reactive:mutiny'
