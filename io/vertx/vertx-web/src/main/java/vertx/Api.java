@@ -34,12 +34,7 @@ public class Api extends AbstractVerticle {
 
     private void createServer(Config config, Promise<Void> startPromise) {
         Pool pool = createPool(config);
-        Router router = Router.router(vertx);
-        router.route()
-            .handler(BodyHandler.create())
-            .failureHandler(handleFailure());
-        initApis().forEach(api -> api.bind(router, pool));
-
+        Router router = setupRouter(pool);
         vertx.createHttpServer()
             .requestHandler(router)
             .exceptionHandler(error -> log.error("HTTP Server error: ", error))
@@ -55,6 +50,15 @@ public class Api extends AbstractVerticle {
 
     private Pool createPool(Config config) {
         return DatabasePools.createPgPool(config, vertx);
+    }
+
+    private Router setupRouter(Pool pool) {
+        Router router = Router.router(vertx);
+        router.route()
+            .handler(BodyHandler.create())
+            .failureHandler(handleFailure());
+        initApis().forEach(api -> api.bind(router, pool));
+        return router;
     }
 
     private Iterable<RestApi> initApis() {
