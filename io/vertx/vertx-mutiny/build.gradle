@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2' // for the shadow plugin
+}
+
+ext {
+    junitJupiterVersion = '5.9.3'
+    logbackClassicVersion = '1.4.7'
+    mainVerticle = 'vertx.mutiny.Application'
+    launcherClass = 'io.vertx.core.Launcher'
+}
+
+dependencies {
+    implementation platform('io.smallrye.reactive:vertx-mutiny-clients-bom:2.24.1')
+
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-core'
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web'
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-pg-client'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    implementation "org.testcontainers:postgresql:1.18.1"
+    runtimeOnly "org.postgresql:postgresql:42.6.0"
+
+    implementation "ch.qos.logback:logback-classic:${logbackClassicVersion}"
+}
+
+application {
+    mainClassName = project.ext.launcherClass
+}
+
+shadowJar {
+    archiveFileName = "${project.name}-${project.version}-fat.jar"
+    mergeServiceFiles()
+    manifest {
+        attributes(
+                'Main-Class': project.ext.launcherClass,
+                'Main-Verticle': project.ext.mainVerticle
+        )
+    }
+}
+
+tasks.named('run', JavaExec) {
+    mainClass.set(project.ext.launcherClass)
+    args = ['run', project.ext.mainVerticle]
+    classpath = sourceSets.main.runtimeClasspath
+}

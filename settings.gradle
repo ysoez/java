@@ -53,6 +53,7 @@ rootProject.name = 'java'
 include 'io:vertx:vertx-core'
 include 'io:vertx:vertx-web'
 include 'io:vertx:vertx-websockets'
+include 'io:vertx:vertx-mutiny'
 
 // ~ reactive
 include 'reactive:mutiny'
