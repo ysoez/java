@@ -54,6 +54,7 @@ include 'io:vertx:vertx-core'
 include 'io:vertx:vertx-web'
 include 'io:vertx:vertx-websockets'
 include 'io:vertx:vertx-mutiny'
+include 'io:vertx:vertx-quarkus'
 
 // ~ reactive
 include 'reactive:mutiny'

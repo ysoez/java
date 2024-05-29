@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'io.quarkus' version '3.10.2'
+}
+
+ext {
+    quarkusPlatformGroupId = 'io.quarkus.platform'
+    quarkusPlatformArtifactId = 'quarkus-bom'
+    quarkusPlatformVersion = '3.10.2'
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
+    implementation 'io.quarkus:quarkus-hibernate-reactive-panache'
+    implementation 'io.quarkus:quarkus-reactive-pg-client'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web-client'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = '20'
+    targetCompatibility = '20'
+    options.compilerArgs << '-parameters'
+}
+
+test {
+    systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
+}
+
+tasks.register('nativeBuild') {
+    doLast {
+        exec {
+            commandLine 'mvn', 'verify', '-Dnative'
+        }
+    }
+}
+
+tasks.register('generateCode') {
+    doLast {
+        exec {
+            commandLine 'mvn', 'quarkus:generate-code'
+        }
+    }
+}
+
+tasks.register('generateCodeTests') {
+    doLast {
+        exec {
+            commandLine 'mvn', 'quarkus:generate-code-tests'
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
