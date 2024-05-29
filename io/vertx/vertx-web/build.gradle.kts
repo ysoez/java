@@ -37,17 +37,13 @@ dependencies {
     implementation("io.vertx:vertx-sql-client-templates")
     runtimeOnly("org.postgresql:postgresql:42.6.0")
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
-
-
     implementation("org.flywaydb:flyway-core:9.19.0")
 
-    //
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 
     // ~ testing
     testImplementation("io.vertx:vertx-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
-    testImplementation ("com.h2database:h2")
 }
 
 java {
