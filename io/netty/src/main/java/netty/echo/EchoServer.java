@@ -42,7 +42,7 @@ final class EchoServer {
                     });
             // ~ wait for bind completion (start the server)
             ChannelFuture f = bootstrap.bind(PORT).sync();
-            // ~ wait until the server socket is closed
+            // ~ wait until the server socket is closed (the server’s Channel closes)
             f.channel().closeFuture().sync();
         } finally {
             // ~ shut down all event loops to terminate all threads
