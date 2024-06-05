@@ -9,7 +9,7 @@ import io.netty.channel.socket.oio.OioSocketChannel;
 
 import java.net.InetSocketAddress;
 
-class InvalidBootstrapClient {
+class BootstrapIncompatibleTransport {
 
     public static void main(String[] args) {
         new Bootstrap()
@@ -18,7 +18,8 @@ class InvalidBootstrapClient {
                     @Override
                     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) {
                         System.out.println("Received data");
-                    }})
+                    }
+                })
                 .connect(new InetSocketAddress("www.manning.com", 80))
                 .syncUninterruptibly();
     }
