@@ -9,6 +9,9 @@ rootProject.name = 'java'
 //include 'data:collections'
 //include 'data:stream-api'
 
+include 'performance'
+include 'memory'
+
 // ~ distributed systems
 //include 'distributed-systems:distributed-algorithms:cluster-core'
 //include 'distributed-systems:distributed-algorithms:cluster-leader-election'
