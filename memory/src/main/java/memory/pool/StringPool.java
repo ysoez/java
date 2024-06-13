@@ -7,6 +7,7 @@ class StringPool {
 
     // ~ -XX:+PrintStringTableStatistics
     // ~ -XX:StringTableSize=10785
+    // ~ -XX:MaxHeapSize=200m (OOM)
     public static void main(String[] args) {
         var list = new ArrayList<String>();
         var start = new Date();
