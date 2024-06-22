@@ -3,6 +3,7 @@ rootProject.name = 'java'
 // ~ core
 //include 'language'
 //include 'library'
+include 'library:collection'
 //include 'multithreading'
 
 //include 'data:ds-alg'
