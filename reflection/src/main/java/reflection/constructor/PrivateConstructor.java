@@ -1,4 +1,4 @@
-package reflection.instantiation;
+package reflection.constructor;
 
 import com.sun.net.httpserver.HttpServer;
 
@@ -7,21 +7,22 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.net.InetSocketAddress;
 
-public class PrivateConstructor {
+class PrivateConstructor {
 
     public static void main(String[] args) throws Exception {
         initConfiguration();
-        WebServer webServer = new WebServer();
-        webServer.start(ServerConfiguration.getInstance());
+        var webServer = new WebServer();
+        webServer.start(ServerConfiguration.instance);
     }
 
     private static void initConfiguration() throws Exception {
         Constructor<ServerConfiguration> constructor = ServerConfiguration.class.getDeclaredConstructor(int.class, String.class);
         constructor.setAccessible(true);
-        constructor.newInstance(8080, "Hello World");
+        constructor.newInstance(8080, "Good Day");
     }
 
-    static class ServerConfiguration {
+    private static class ServerConfiguration {
+
         private static ServerConfiguration instance;
         private final InetSocketAddress serverAddress;
         private final String greetingMessage;
@@ -34,26 +35,17 @@ public class PrivateConstructor {
             }
         }
 
-        public static ServerConfiguration getInstance() {
-            return instance;
-        }
-
-        public InetSocketAddress getServerAddress() {
-            return this.serverAddress;
-        }
-
-        public String getGreetingMessage() {
-            return this.greetingMessage;
-        }
     }
 
-    static class WebServer {
-        public void start(ServerConfiguration configuration) throws IOException {
-            InetSocketAddress serverAddress = configuration.getServerAddress();
+    private static class WebServer {
+
+        void start(ServerConfiguration configuration) throws IOException {
+            InetSocketAddress serverAddress = configuration.serverAddress;
             HttpServer httpServer = HttpServer.create(serverAddress, 0);
 
+            // ~ add routes
             httpServer.createContext("/home").setHandler(exchange -> {
-                String responseMessage = ServerConfiguration.getInstance().getGreetingMessage();
+                String responseMessage = ServerConfiguration.instance.greetingMessage;
                 exchange.sendResponseHeaders(200, responseMessage.length());
                 OutputStream responseBody = exchange.getResponseBody();
                 responseBody.write(responseMessage.getBytes());
@@ -61,12 +53,13 @@ public class PrivateConstructor {
                 responseBody.close();
             });
 
+            // ~ run
             System.out.printf("Starting server on address %s:%d%n",
-                    ServerConfiguration.getInstance().getServerAddress().getHostName(),
-                    ServerConfiguration.getInstance().getServerAddress().getPort());
-
+                    ServerConfiguration.instance.serverAddress.getHostName(),
+                    ServerConfiguration.instance.serverAddress.getPort());
             httpServer.start();
         }
+
     }
 
 }
