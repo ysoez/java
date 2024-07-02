@@ -5,6 +5,7 @@ rootProject.name = 'java'
 //include 'library'
 include 'library:collection'
 //include 'multithreading'
+include 'reflection'
 
 //include 'data:ds-alg'
 //include 'data:collections'
@@ -32,8 +33,6 @@ include 'memory'
 //include 'testing:junit'
 //include 'testing:mockito'
 //include 'testing:assertj'
-
-//include 'reflection'
 
 //include 'design:gof-patterns'
 
