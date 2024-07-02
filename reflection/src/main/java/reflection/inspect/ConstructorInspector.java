@@ -14,15 +14,15 @@ public class ConstructorInspector {
         printConstructorsData(RoundingMode.class);
     }
 
-    static void printConstructorsData(Class<?> clazz) {
-        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-        System.out.printf("Type %s has %d declared constructors%n", clazz.getSimpleName(), constructors.length);
+    static void printConstructorsData(Class<?> type) {
+        Constructor<?>[] constructors = type.getDeclaredConstructors();
+        System.out.printf("Type %s has %d declared constructors%n", type.getSimpleName(), constructors.length);
         for (Constructor<?> constructor : constructors) {
             Class<?>[] parameterTypes = constructor.getParameterTypes();
             List<String> parameterTypeNames = Arrays.stream(parameterTypes)
                     .map(Class::getSimpleName)
                     .toList();
-            System.out.println(parameterTypeNames);
+            System.out.println(type.getSimpleName() + ": " + parameterTypeNames);
         }
     }
 
