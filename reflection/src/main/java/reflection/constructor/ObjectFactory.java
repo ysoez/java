@@ -1,16 +1,18 @@
-package reflection.instantiation;
+package reflection.constructor;
 
 import lombok.ToString;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class ObjectFactory {
+class ObjectFactory {
 
     public static void main(String[] args) throws Exception {
+        System.out.println("User() => " + createInstance(User.class));
+        System.out.println("User(String name, int age) => " + createInstance(User.class, "John", 20));
+
         Address address = createInstance(Address.class, "First Street", 10);
-        User user = createInstance(User.class, address, "John", 20);
-        System.out.println(user);
+        System.out.println("User(Address address, String name, int age) => " + createInstance(User.class, address, "John", 20));
     }
 
     static <T> T createInstance(Class<T> clazz, Object... args) throws IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -23,8 +25,8 @@ public class ObjectFactory {
         throw new InstantiationException("Constructor was not found");
     }
 
-    @ToString()
-    static class User {
+    @ToString
+    private static class User {
         private final Address address;
         private final String name;
         private final int age;
@@ -54,15 +56,7 @@ public class ObjectFactory {
         }
     }
 
-    @ToString
-    public static class Address {
-        private final String street;
-        private final int number;
-
-        public Address(String street, int number) {
-            this.street = street;
-            this.number = number;
-        }
+    private record Address(String street, int number) {
     }
 
 }
