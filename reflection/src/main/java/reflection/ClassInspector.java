@@ -1,8 +1,8 @@
-package reflection.inspect;
+package reflection;
 
 import java.util.*;
 
-class TypeInspector {
+class ClassInspector {
 
     private static final List<String> JDK_PACKAGE_PREFIXES = List.of("com.sun.", "java", "javax", "jdk", "org.w3c", "org.xml");
 
