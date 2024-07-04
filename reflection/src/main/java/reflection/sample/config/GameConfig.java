@@ -1,4 +1,4 @@
-package reflection.serialization.config;
+package reflection.sample.config;
 
 import lombok.Getter;
 import lombok.ToString;
