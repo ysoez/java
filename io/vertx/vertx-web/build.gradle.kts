@@ -59,6 +59,8 @@ tasks.withType<Test> {
     testLogging {
         events = setOf(PASSED, SKIPPED, FAILED)
     }
+    // disable test from this project during
+    isEnabled = false
 }
 
 tasks.withType<JavaExec> {

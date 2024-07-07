@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static vertx.config.ConfigEnv.*;
 
+//todo: add embedded postgres support
 public abstract class AbstractRestApiTest {
 
     protected static final int TEST_SERVER_PORT = 9000;
