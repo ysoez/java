@@ -1,13 +1,13 @@
-package reflection.inspect;
+package reflection.field;
 
 import java.lang.reflect.Field;
 
-public class FieldInspector {
+class FieldInspector {
 
     public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
         printDeclaredFields(Movie.class);
         printDeclaredFields(Movie.Stats.class);
-        printDeclaredFields(Category.class);;
+        printDeclaredFields(Category.class);
         printDeclaredFields(Movie.class, new Movie("Lord of the Rings", 2001, 12.99, true, Category.ADVENTURE));
 
         Field staticField = Movie.class.getDeclaredField("MINIMUM_PRICE");
@@ -65,13 +65,13 @@ public class FieldInspector {
         }
 
         class Stats {
-            private double timesWatched;
+            private final double timesWatched;
 
-            public Stats(double timesWatched) {
+            Stats(double timesWatched) {
                 this.timesWatched = timesWatched;
             }
 
-            public double getRevenue() {
+            double getRevenue() {
                 return timesWatched * actualPrice;
             }
         }
