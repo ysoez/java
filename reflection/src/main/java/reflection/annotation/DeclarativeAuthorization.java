@@ -1,4 +1,4 @@
-package reflection.annotation.repeatable;
+package reflection.annotation;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-class Authorization {
+class DeclarativeAuthorization {
 
     public static void main(String[] args) throws Throwable {
         var admin = new User(Role.ADMIN);
