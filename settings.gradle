@@ -2,14 +2,11 @@ rootProject.name = 'java'
 
 // ~ core
 include 'language'
-//include 'library'
-include 'library:collection'
+include 'library'
 //include 'multithreading'
 include 'reflection'
 
 //include 'data:ds-alg'
-//include 'data:collections'
-include 'data:stream-api'
 
 include 'performance'
 include 'memory'
