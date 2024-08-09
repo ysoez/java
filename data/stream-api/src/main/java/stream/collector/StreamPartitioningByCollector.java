@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.partitioningBy;
 
-class StreamPartitioningBy {
+class StreamPartitioningByCollector {
 
     private static final Predicate<Integer> EVEN_NUMBER_PREDICATE = n -> n % 2 == 0;
 

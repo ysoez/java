@@ -5,7 +5,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.summarizingInt;
 
-class StreamSummarizing {
+class StreamSummarizingCollector {
 
     public static void main(String[] args) {
         System.out.println(statistics(List.of(1, 2, 3, 4, 5)));

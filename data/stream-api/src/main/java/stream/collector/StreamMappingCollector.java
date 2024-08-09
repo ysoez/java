@@ -5,7 +5,7 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.*;
 
-class StreamMapping {
+class StreamMappingCollector {
 
     public static void main(String[] args) {
         List<Language> employees = List.of(
