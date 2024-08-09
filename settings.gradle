@@ -57,7 +57,7 @@ include 'memory'
 //include 'io:vertx:vertx-web'
 //include 'io:vertx:vertx-websockets'
 //include 'io:vertx:vertx-mutiny'
-include 'io:vertx:vertx-quarkus'
+//include 'io:vertx:vertx-quarkus'
 
 // ~ reactive
 //include 'reactive:mutiny'
