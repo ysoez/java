@@ -9,7 +9,7 @@ include 'reflection'
 
 //include 'data:ds-alg'
 //include 'data:collections'
-//include 'data:stream-api'
+include 'data:stream-api'
 
 include 'performance'
 include 'memory'
