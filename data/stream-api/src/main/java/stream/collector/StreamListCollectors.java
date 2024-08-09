@@ -3,7 +3,7 @@ package stream.collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class ListCollectors {
+class StreamListCollectors {
 
     @SuppressWarnings("SimplifyStreamApiCallChains")
     public static void main(String[] args) {
