@@ -1,5 +1,0 @@
-dependencies {
-    implementation "org.springframework.retry:spring-retry:${springRetryVersion}"
-    implementation "org.springframework:spring-aspects:${springVersion}"
-    implementation "org.springframework:spring-context:${springVersion}"
-}

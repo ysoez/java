@@ -6,7 +6,8 @@ include 'library'
 //include 'multithreading'
 include 'reflection'
 
-//include 'data:ds-alg'
+// ~ api
+include 'api:grpc'
 
 include 'performance'
 include 'memory'
@@ -45,8 +46,6 @@ include 'memory'
 
 //include 'sandbox:crypto-transfers'
 
-// ~ api
-//include 'api:grpc'
 
 // ~ io
 //include 'io:netty'

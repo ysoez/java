@@ -1,9 +1,0 @@
-plugins {
-    id 'java-library'
-}
-
-dependencies {
-    api "org.testcontainers:testcontainers:${testContainersVersion}"
-    api "org.apache.zookeeper:zookeeper:3.9.1"
-
-}
