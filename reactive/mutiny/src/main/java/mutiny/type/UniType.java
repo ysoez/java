@@ -6,14 +6,19 @@ public class UniType {
 
     // ~ uni emits either 1 item or failure
     public static void main(String[] args) {
-        // ~ success
+        onSuccess();
+        onFailure();
+    }
+
+    private static void onSuccess() {
         Uni.createFrom()
                 .item("item")
                 .onItem().transform(item -> item + "-transform")
                 .onItem().transform(String::toUpperCase)
                 .subscribe().with(System.out::println);
+    }
 
-        // ~ failure
+    private static void onFailure() {
         Uni.createFrom()
                 .item("item")
                 .onItem().castTo(Integer.class)
