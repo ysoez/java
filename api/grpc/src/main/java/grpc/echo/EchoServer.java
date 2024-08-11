@@ -14,13 +14,7 @@ class EchoServer {
 
     private Server server;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        var server = new EchoServer();
-        server.start();
-        server.blockUntilShutdown();
-    }
-
-    private void start() throws IOException {
+    void start() throws IOException {
         int port = 50051;
         server = Grpc.newServerBuilderForPort(port, InsecureServerCredentials.create())
                 .addService(new DefaultEchoService())
@@ -46,7 +40,7 @@ class EchoServer {
     }
 
     // ~ await termination on the main thread since the grpc library uses daemon threads.
-    private void blockUntilShutdown() throws InterruptedException {
+    void blockUntilShutdown() throws InterruptedException {
         if (server != null) {
             server.awaitTermination();
         }
