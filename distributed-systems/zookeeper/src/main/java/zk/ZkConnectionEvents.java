@@ -1,6 +1,5 @@
 package zk;
 
-import container.ZookeeperContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -12,31 +11,27 @@ import static zk.ZkUtils.SESSION_TIMEOUT;
 
 @Slf4j
 @SuppressWarnings("SynchronizeOnNonFinalField")
-class ZkConnectionEvents implements Watcher {
+class ZkConnectionEvents implements Watcher, AutoCloseable {
 
     private ZooKeeper zkClient;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        var app = new ZkConnectionEvents();
-        try (var zookeeper = new ZookeeperContainer()) {
-            zookeeper.start();
-            app.waitForDisconnect(zookeeper);
-        } finally {
-            app.close();
+        try (var app = new ZkConnectionEvents()) {
+            app.waitForDisconnect();
         }
     }
 
-    private void waitForDisconnect(ZookeeperContainer container) throws IOException, InterruptedException {
-        zkClient = container.getConnection(SESSION_TIMEOUT, this);
-        container.stopAfter(3000);
+    private void waitForDisconnect() throws IOException, InterruptedException {
+        zkClient = ZkUtils.newLocalClient(this);
         synchronized (zkClient) {
             zkClient.wait();
         }
     }
 
-    void close() throws InterruptedException {
+    @Override
+    public void close() throws InterruptedException {
         zkClient.close();
-        System.out.println("Gracefully closed the application");
+        log.info("Gracefully closed the application");
     }
 
     @Override

@@ -1,59 +1,61 @@
 package zk;
 
-import container.ZookeeperContainer;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.zookeeper.*;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import zk.ZkUtils.ToxicRunnable;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import static zk.ZkUtils.SESSION_TIMEOUT;
-import static zk.ZkUtils.wrap;
+import static org.apache.zookeeper.CreateMode.EPHEMERAL;
+import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
 
 @Slf4j
 @SuppressWarnings("SynchronizeOnNonFinalField")
-class ZkWatchers implements Watcher {
+class ZkWatchers implements Watcher, AutoCloseable {
+
     private static final String PARENT_NODE = "/parent";
+    private final Timer timer = new Timer();
     private ZooKeeper zkClient;
 
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-        var app = new ZkWatchers();
-        try (var container = new ZookeeperContainer()) {
-            container.start();
-            app.connectToServer(container);
-            app.executeCommands(container);
+        try (var app = new ZkWatchers()) {
+            app.connectToServer();
             app.watchNode(PARENT_NODE);
+            app.executeCommands();
             app.waitForDisconnect();
-        } finally {
-            app.close();
         }
     }
 
-    private void connectToServer(ZookeeperContainer container) throws IOException {
-        zkClient = container.getConnection(SESSION_TIMEOUT, this);
+    @Override
+    public void close() throws InterruptedException {
+        zkClient.close();
+        System.out.println("Gracefully closed the application");
     }
 
-    private void executeCommands(ZookeeperContainer container) {
+    private void connectToServer() throws IOException {
+        zkClient = ZkUtils.newLocalClient(this);
+    }
+
+    private void executeCommands() {
         // ~ trigger NodeCreated
-        container.executeAfter(wrap(() -> zkClient.create(PARENT_NODE, "p1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL)), 3000);
+        scheduleCommand(() -> zkClient.create(PARENT_NODE, "p1".getBytes(), OPEN_ACL_UNSAFE, EPHEMERAL), 500);
         // ~ trigger NodeDataChanged
-        container.executeAfter(wrap(() -> zkClient.setData(PARENT_NODE, "p2".getBytes(), 0)), 3100);
+        scheduleCommand(() -> zkClient.setData(PARENT_NODE, "p2".getBytes(), 0), 1000);
         // ~ trigger NodeDeleted
-        container.executeAfter(wrap(() -> zkClient.delete(PARENT_NODE, 1)), 3300);
-        // ~ trigger Disconnected & stop container
-        container.stopAfter(3500);
+        scheduleCommand(() -> zkClient.delete(PARENT_NODE, 1), 1500);
     }
 
     private void waitForDisconnect() throws InterruptedException {
         synchronized (zkClient) {
             zkClient.wait();
         }
-    }
-
-    private void close() throws InterruptedException {
-        zkClient.close();
-        System.out.println("Gracefully closed the application");
     }
 
     private void watchNode(String path) throws InterruptedException, KeeperException {
@@ -74,7 +76,7 @@ class ZkWatchers implements Watcher {
                 switch (event.getState()) {
                     case SyncConnected -> log.info("Successfully connected to Zookeeper server");
                     case Disconnected -> {
-                        log.warn("Disconnected from Zookeeper server: timeout is " + zkClient.getSessionTimeout());
+                        log.warn("Disconnected from Zookeeper server");
                         synchronized (zkClient) {
                             zkClient.notifyAll();
                         }
@@ -96,6 +98,15 @@ class ZkWatchers implements Watcher {
         } catch (InterruptedException | KeeperException e) {
             log.error("Error happened", e);
         }
+    }
+
+    private void scheduleCommand(ToxicRunnable runnable, long delayMillis) {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ZkUtils.run(runnable);
+            }
+        }, delayMillis);
     }
 
 }
