@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+import zk.ZkUtils;
 
 import java.io.IOException;
 
@@ -11,13 +12,10 @@ import java.io.IOException;
 @SuppressWarnings("SynchronizeOnNonFinalField")
 public class ClusterConnector implements Watcher, AutoCloseable {
 
-    private static final String ZOOKEEPER_ADDRESS = "localhost:2181";
-    private static final int SESSION_TIMEOUT = 3000;
-
     private ZooKeeper zooKeeper;
 
     public ZooKeeper connect() throws IOException {
-        return this.zooKeeper = new ZooKeeper(ZOOKEEPER_ADDRESS, SESSION_TIMEOUT, this);
+        return this.zooKeeper = ZkUtils.newLocalClient(this);
     }
 
     public void waitForDisconnect() throws InterruptedException {
