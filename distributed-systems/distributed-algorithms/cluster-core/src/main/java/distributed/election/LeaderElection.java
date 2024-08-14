@@ -37,7 +37,7 @@ public class LeaderElection implements Watcher {
 
     public void electLeader() throws KeeperException, InterruptedException {
         Stat predecessorStat = null;
-        String predecessorNodeName = "";
+        String predecessorNodeName;
         //
         // ~ handle race condition between getChildren() & exists()
         // ~ case 1: become a new leader
@@ -63,9 +63,9 @@ public class LeaderElection implements Watcher {
             // ~ subscribe for predecessor node notification
             //
             predecessorStat = zooKeeper.exists(ELECTION_NAMESPACE + "/" + predecessorNodeName, this);
+            onElectionCallback.onWorker();
+            log.debug("Watching node: {}", predecessorNodeName);
         }
-        onElectionCallback.onWorker();
-        log.debug("Watching node: {}", predecessorNodeName);
     }
 
     @Override
