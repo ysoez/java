@@ -1,4 +1,4 @@
-package thread;
+package library.concurrency.xxx;
 
 import lombok.Getter;
 

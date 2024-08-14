@@ -1,10 +1,4 @@
-# Leader Election
-
-### Install Zookeeper
-
-``` 
-brew install kafka
-```
+# AutoHealer
 
 ### Run Zookeeper
 
