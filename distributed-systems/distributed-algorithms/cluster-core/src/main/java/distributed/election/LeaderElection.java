@@ -31,7 +31,7 @@ public class LeaderElection implements Watcher {
                 new byte[]{},
                 ZooDefs.Ids.OPEN_ACL_UNSAFE,
                 CreateMode.EPHEMERAL_SEQUENTIAL);
-        log.debug("Created node: {}", nodeFullPath);
+        log.info("Created node: {}", nodeFullPath);
         this.currentNodeName = nodeFullPath.replace(ELECTION_NAMESPACE + "/", "");
     }
 
@@ -47,13 +47,13 @@ public class LeaderElection implements Watcher {
             List<String> children = zooKeeper.getChildren(ELECTION_NAMESPACE, false);
             Collections.sort(children);
             String smallestChild = children.getFirst();
-            log.debug("Leader {}, current {}", smallestChild, currentNodeName);
+            log.info("Leader {}, current {}", smallestChild, currentNodeName);
             if (smallestChild.equals(currentNodeName)) {
-                log.debug("I am the leader");
+                log.info("I am the leader");
                 onElectionCallback.onLeader();
                 return;
             }
-            log.debug("I am the worker");
+            log.info("I am the worker");
             //
             // ~ if not a leader = at least one node joined before
             //
@@ -64,7 +64,7 @@ public class LeaderElection implements Watcher {
             //
             predecessorStat = zooKeeper.exists(ELECTION_NAMESPACE + "/" + predecessorNodeName, this);
             onElectionCallback.onWorker();
-            log.debug("Watching node: {}", predecessorNodeName);
+            log.info("Watching node: {}", predecessorNodeName);
         }
     }
 

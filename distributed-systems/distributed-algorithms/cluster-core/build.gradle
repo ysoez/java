@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation "org.apache.zookeeper:zookeeper:${zookeeperVersion}"
+    api "org.apache.zookeeper:zookeeper:${zookeeperVersion}"
     implementation project(':distributed-systems:zookeeper')
 }
