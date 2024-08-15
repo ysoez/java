@@ -14,8 +14,8 @@ include 'memory'
 
 // ~ distributed systems
 include 'distributed-systems:zookeeper'
-include 'distributed-systems:distributed-algorithms:autohealer:worker'
-include 'distributed-systems:distributed-algorithms:autohealer:watchdog'
+include 'distributed-systems:distributed-algorithms:cluster-autohealer:worker'
+include 'distributed-systems:distributed-algorithms:cluster-autohealer:watchdog'
 include 'distributed-systems:distributed-algorithms:cluster-core'
 include 'distributed-systems:distributed-algorithms:cluster-leader-election'
 include 'distributed-systems:distributed-algorithms:cluster-service-registry'
