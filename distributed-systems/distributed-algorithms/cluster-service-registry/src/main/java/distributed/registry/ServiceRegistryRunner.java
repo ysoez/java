@@ -1,8 +1,7 @@
-package distributed;
+package distributed.registry;
 
 import distributed.election.LeaderElection;
-import distributed.registry.OnElectionAction;
-import distributed.registry.ServiceRegistry;
+import distributed.ClusterConnector;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.ZooKeeper;
 
@@ -13,12 +12,15 @@ public class ServiceRegistryRunner {
     private static final String REGISTRY_NAMESPACE = "/service_registry";
 
     public static void main(String[] args) throws Exception {
-        int currentServerPort = args.length == 1 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
-
+        //
+        // ~ use default port if instances are running on different machines
+        // ~ use post from arguments if multiple instances are running on the same machine
+        //
+        int serverPort = args.length == 1 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
         try (var connector = new ClusterConnector()) {
             ZooKeeper zooKeeper = connector.connect();
             var serviceRegistry = new ServiceRegistry(zooKeeper, REGISTRY_NAMESPACE);
-            var onElectionAction = new OnElectionAction(serviceRegistry, currentServerPort);
+            var onElectionAction = new OnElectionAction(serviceRegistry, serverPort);
             var leaderElection = new LeaderElection(zooKeeper, onElectionAction);
             //
             // ~ initial leader election

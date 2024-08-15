@@ -2,13 +2,11 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 dependencies {
-    implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.9.1'
     implementation project(':distributed-systems:distributed-algorithms:cluster-core')
-    implementation files(":distributed-systems:distributed-algorithms:jar")
 }
 
 application {
-    mainClass = 'distributed.ServiceRegistryRunner'
+    mainClass = 'distributed.registry.ServiceRegistryRunner'
 }
 
 jar {
@@ -20,4 +18,5 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    dependsOn(':distributed-systems:distributed-algorithms:cluster-core:jar')
 }

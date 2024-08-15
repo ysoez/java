@@ -27,11 +27,11 @@ public class ServiceRegistry implements Watcher {
 
     public void registerToCluster(String serverAddress) throws KeeperException, InterruptedException {
         if (this.currentNode != null) {
-            log.debug("Already registered to service registry");
+            log.info("Already registered to service registry");
             return;
         }
         this.currentNode = zooKeeper.create(registryNamespace + "/n_", serverAddress.getBytes(), OPEN_ACL_UNSAFE, EPHEMERAL_SEQUENTIAL);
-        log.debug("Registered to service registry: {}", currentNode);
+        log.info("Registered to service registry: {}", currentNode);
     }
 
     public void registerForUpdates() {
@@ -59,23 +59,6 @@ public class ServiceRegistry implements Watcher {
         }
     }
 
-    private synchronized void updateAddresses() throws KeeperException, InterruptedException {
-        List<String> workerNodes = zooKeeper.getChildren(registryNamespace, this);
-        List<String> addresses = new ArrayList<>(workerNodes.size());
-        for (String workerNode : workerNodes) {
-            String workerFullPath = registryNamespace + "/" + workerNode;
-            Stat stat = zooKeeper.exists(workerFullPath, false);
-            if (stat == null) {
-                continue;
-            }
-            byte[] addressBytes = zooKeeper.getData(workerFullPath, false, stat);
-            String address = new String(addressBytes);
-            addresses.add(address);
-        }
-        this.allServiceAddresses = Collections.unmodifiableList(addresses);
-        log.debug("The cluster addresses are: {}", this.allServiceAddresses);
-    }
-
     @Override
     public void process(WatchedEvent event) {
         try {
@@ -90,9 +73,28 @@ public class ServiceRegistry implements Watcher {
             if (zooKeeper.exists(registryNamespace, false) == null) {
                 zooKeeper.create(registryNamespace, new byte[]{}, OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
-        } catch (KeeperException | InterruptedException e) {
+        } catch (KeeperException e) {
+            log.error("Registry already exists", e);
+        } catch (InterruptedException e) {
             log.error("Failed to create registry", e);
         }
+    }
+
+    private synchronized void updateAddresses() throws KeeperException, InterruptedException {
+        List<String> workerNodes = zooKeeper.getChildren(registryNamespace, this);
+        List<String> addresses = new ArrayList<>(workerNodes.size());
+        for (String workerNode : workerNodes) {
+            String workerFullPath = registryNamespace + "/" + workerNode;
+            Stat stat = zooKeeper.exists(workerFullPath, false);
+            if (stat == null) {
+                continue;
+            }
+            byte[] addressBytes = zooKeeper.getData(workerFullPath, false, stat);
+            String address = new String(addressBytes);
+            addresses.add(address);
+        }
+        this.allServiceAddresses = Collections.unmodifiableList(addresses);
+        log.info("The cluster addresses are: {}", this.allServiceAddresses);
     }
 
 }

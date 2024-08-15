@@ -20,6 +20,10 @@ public class OnElectionAction implements OnElectionCallback {
 
     @Override
     public void onLeader() {
+        //
+        // ~ do nothing if a node just has joined a cluster
+        // ~ unregister from the registry if a node used to be worker but now promoted to be a leader
+        //
         serviceRegistry.unregisterFromCluster();
         serviceRegistry.registerForUpdates();
     }
