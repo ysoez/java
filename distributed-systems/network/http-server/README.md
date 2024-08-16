@@ -18,7 +18,7 @@ java -jar distributed-systems/network/http-server/build/libs/http-server-1.0.jar
 curl -v localhost:8081/test
 ```
 
-### Status
+### Health Endpoint
 
 ```
 curl -v localhost:8081/status

@@ -1,5 +1,6 @@
 package server.handler;
 
+import cluster.server.AbstractRequestHandler;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -11,40 +12,45 @@ public class NumbersMultiplierRequestHandler extends AbstractRequestHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if (!isHttpMethodAllowed(exchange, "post")) {
+        if (isHttpMethodNotAllowed(exchange, "post")) {
             return;
         }
-
         Headers headers = exchange.getRequestHeaders();
-
-        // ~ test mode
-        if (headers.containsKey(X_TEST_HEADER) && headers.get(X_TEST_HEADER).getFirst().equalsIgnoreCase("true")) {
+        if (isModeEnabled(headers, X_TEST_HEADER)) {
             String dummyResponse = "123\n";
-            sendResponse(dummyResponse.getBytes(), exchange);
+            sendOk(dummyResponse.getBytes(), exchange);
             return;
         }
-
-        // ~ debug mode
         boolean isDebugMode = false;
-        if (headers.containsKey(X_DEBUG_HEADER) && headers.get(X_DEBUG_HEADER).getFirst().equalsIgnoreCase("true")) {
+        if (isModeEnabled(headers, X_DEBUG_HEADER)) {
             isDebugMode = true;
         }
+        byte[] responseBytes = processRequest(exchange, isDebugMode);
+        sendOk(responseBytes, exchange);
+    }
 
-        // ~ process request
+    @Override
+    public String endpoint() {
+        return "/task";
+    }
+
+    private static boolean isModeEnabled(Headers headers, String xHeader) {
+        return headers.containsKey(xHeader) && headers.get(xHeader).getFirst().equalsIgnoreCase("true");
+    }
+
+    private byte[] processRequest(HttpExchange exchange, boolean isDebugMode) throws IOException {
         long startTime = System.nanoTime();
         byte[] requestBytes = exchange.getRequestBody().readAllBytes();
-        byte[] responseBytes = calculateResponse(requestBytes);
+        byte[] responseBytes = calculateResult(requestBytes);
         long finishTime = System.nanoTime();
-
         if (isDebugMode) {
             String debugMessage = String.format("Operation took %d ns", finishTime - startTime);
             exchange.getResponseHeaders().put("X-Debug-Info", Collections.singletonList(debugMessage));
         }
-
-        sendResponse(responseBytes, exchange);
+        return responseBytes;
     }
 
-    private byte[] calculateResponse(byte[] requestBytes) {
+    private byte[] calculateResult(byte[] requestBytes) {
         String bodyString = new String(requestBytes);
         String[] stringNumbers = bodyString.split(",");
 
@@ -55,11 +61,6 @@ public class NumbersMultiplierRequestHandler extends AbstractRequestHandler {
         }
 
         return String.format("Result of the multiplication is %s\n", result).getBytes();
-    }
-
-    @Override
-    public String endpoint() {
-        return "/task";
     }
 
 }

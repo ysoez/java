@@ -1,9 +1,9 @@
 package server;
 
+import cluster.server.AbstractRequestHandler;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 import lombok.extern.slf4j.Slf4j;
-import server.handler.AbstractRequestHandler;
 import server.handler.NumbersMultiplierRequestHandler;
 import server.handler.StatusCheckRequestHandler;
 
@@ -21,18 +21,16 @@ public class WebServer {
         if (args.length == 1) {
             serverPort = Integer.parseInt(args[0]);
         }
-
         var webServer = new WebServer(serverPort);
-        webServer.startServer();
-
-        log.debug("Server is listening on port {}", serverPort);
+        webServer.start();
+        log.info("Server is listening on port {}", serverPort);
     }
 
     public WebServer(int port) {
         this.port = port;
     }
 
-    public void startServer() throws IOException {
+    public void start() throws IOException {
         HttpServer server;
         try {
             server = HttpServer.create(new InetSocketAddress(port), 0);
@@ -40,21 +38,22 @@ public class WebServer {
             log.error("Failed to start a server", e);
             throw e;
         }
-
         registerEndpoint(server, new StatusCheckRequestHandler());
         registerEndpoint(server, new NumbersMultiplierRequestHandler());
-
-        int nThreads = Runtime.getRuntime().availableProcessors();
-        server.setExecutor(Executors.newFixedThreadPool(nThreads));
-        log.debug("Server thread pool size is {}", nThreads);
-
+        setThreadPool(server);
         server.start();
     }
 
     private void registerEndpoint(HttpServer server, AbstractRequestHandler handler) {
         HttpContext context = server.createContext(handler.endpoint());
         context.setHandler(handler);
-        log.debug("Registered handler: path={}, class={}", handler.endpoint(), handler.getClass().getSimpleName());
+        log.info("Registered handler: path={}, class={}", handler.endpoint(), handler.getClass().getSimpleName());
+    }
+
+    private static void setThreadPool(HttpServer server) {
+        int nThreads = Runtime.getRuntime().availableProcessors();
+        server.setExecutor(Executors.newFixedThreadPool(nThreads));
+        log.info("Server thread pool size is {}", nThreads);
     }
 
 }
