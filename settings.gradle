@@ -14,8 +14,8 @@ include 'memory'
 
 // ~ distributed systems
 include 'distributed-systems:zookeeper'
-include 'distributed-systems:network:http-server'
-//include 'distributed-systems:network:http-client'
+include 'distributed-systems:http:http-server'
+include 'distributed-systems:http:http-client'
 include 'distributed-systems:distributed-search:worker'
 include 'distributed-systems:distributed-algorithms:cluster-autohealer:worker'
 include 'distributed-systems:distributed-algorithms:cluster-autohealer:watchdog'

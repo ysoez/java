@@ -1,15 +1,21 @@
-# HTTP Server
+# HTTP
 
-### Build 
+### Build Server
 
 ``` 
-./gradlew distributed-systems:network:http-server:build
+./gradlew distributed-systems:http:http-server:build
 ```
 
-### Run
+### Build Client
 
 ``` 
-java -jar distributed-systems/network/http-server/build/libs/http-server-1.0.jar 8081
+./gradlew distributed-systems:http:http-client:build
+```
+
+### Run Server
+
+``` 
+java -jar distributed-systems/http/http-server/build/libs/http-server-1.0.jar 8081
 ```
 
 ### Test

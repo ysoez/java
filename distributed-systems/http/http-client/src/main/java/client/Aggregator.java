@@ -1,17 +1,15 @@
 package client;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class Aggregator {
 
     private final WebClient webClient;
-
-    public Aggregator(WebClient webClient) {
-        this.webClient = webClient;
-    }
 
     public List<String> sendTasks(List<String> workersAddresses, List<String> tasks) {
         List<CompletableFuture<String>> futures = new ArrayList<>(workersAddresses.size());
@@ -21,7 +19,7 @@ public class Aggregator {
             byte[] requestPayload = task.getBytes();
             futures.add(webClient.sendTask(workerAddress, requestPayload));
         }
-        return futures.stream().map(CompletableFuture::join).collect(Collectors.toList());
+        return futures.stream().map(CompletableFuture::join).toList();
     }
 
 }
