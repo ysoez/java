@@ -1,6 +1,6 @@
-package distributed.registry;
+package cluster.registry;
 
-import distributed.election.OnElectionCallback;
+import cluster.election.OnElectionCallback;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.KeeperException;
 

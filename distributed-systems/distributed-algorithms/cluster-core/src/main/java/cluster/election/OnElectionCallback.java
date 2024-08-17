@@ -1,4 +1,4 @@
-package distributed.election;
+package cluster.election;
 
 public interface OnElectionCallback {
 
