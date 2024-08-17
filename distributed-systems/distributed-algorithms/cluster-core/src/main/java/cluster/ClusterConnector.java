@@ -42,7 +42,7 @@ public class ClusterConnector implements Watcher, AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws InterruptedException {
         zooKeeper.close();
     }
 
