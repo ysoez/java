@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'idea'
+}
+
+dependencies {
+    implementation project(':distributed-systems:distributed-algorithms:cluster-core')
+    implementation project(':distributed-systems:distributed-search:search-cluster-api')
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+}
+
+application {
+    mainClass = 'search.frontend.FrontendServerRunner'
+}
+
+jar {
+    archiveBaseName = 'frontend-server-app'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    dependsOn(':distributed-systems:distributed-algorithms:cluster-core:jar')
+    dependsOn(':distributed-systems:distributed-search:search-cluster-api:jar')
+}

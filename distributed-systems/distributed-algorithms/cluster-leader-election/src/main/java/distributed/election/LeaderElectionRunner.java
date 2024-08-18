@@ -1,6 +1,7 @@
 package distributed.election;
 
-import distributed.ClusterConnector;
+import cluster.ClusterConnector;
+import cluster.election.LeaderElection;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.ZooKeeper;
 

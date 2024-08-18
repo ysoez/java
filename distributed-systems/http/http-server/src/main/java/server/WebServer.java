@@ -1,11 +1,11 @@
 package server;
 
-import cluster.server.AbstractRequestHandler;
+import cluster.network.http.AbstractHttpRequestHandler;
+import cluster.network.http.HealthCheckRequestHandler;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 import lombok.extern.slf4j.Slf4j;
-import server.handler.NumbersMultiplierRequestHandler;
-import server.handler.StatusCheckRequestHandler;
+import server.handler.NumbersMultiplierHttpRequestHandler;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,13 +38,13 @@ public class WebServer {
             log.error("Failed to start a server", e);
             throw e;
         }
-        registerEndpoint(server, new StatusCheckRequestHandler());
-        registerEndpoint(server, new NumbersMultiplierRequestHandler());
+        registerEndpoint(server, new HealthCheckRequestHandler());
+        registerEndpoint(server, new NumbersMultiplierHttpRequestHandler());
         setThreadPool(server);
         server.start();
     }
 
-    private void registerEndpoint(HttpServer server, AbstractRequestHandler handler) {
+    private void registerEndpoint(HttpServer server, AbstractHttpRequestHandler handler) {
         HttpContext context = server.createContext(handler.endpoint());
         context.setHandler(handler);
         log.info("Registered handler: path={}, class={}", handler.endpoint(), handler.getClass().getSimpleName());

@@ -1,0 +1,39 @@
+plugins {
+    id 'java-library'
+    id 'com.google.protobuf' version '0.9.4'
+}
+
+dependencies {
+    api 'com.google.protobuf:protobuf-java:3.23.4'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.23.4'
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    // Set output subdirectory under generated source directory
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/proto'
+        }
+        java {
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+tasks.withType(Copy) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

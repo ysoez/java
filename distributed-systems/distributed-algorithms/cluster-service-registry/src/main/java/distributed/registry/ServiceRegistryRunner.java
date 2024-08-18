@@ -1,7 +1,8 @@
 package distributed.registry;
 
-import distributed.election.LeaderElection;
-import distributed.ClusterConnector;
+import cluster.registry.ServiceRegistry;
+import cluster.election.LeaderElection;
+import cluster.ClusterConnector;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.ZooKeeper;
 

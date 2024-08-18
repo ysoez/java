@@ -1,6 +1,6 @@
 package server.handler;
 
-import cluster.server.AbstractRequestHandler;
+import cluster.network.http.AbstractHttpRequestHandler;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Collections;
 
-public class NumbersMultiplierRequestHandler extends AbstractRequestHandler {
+public class NumbersMultiplierHttpRequestHandler extends AbstractHttpRequestHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

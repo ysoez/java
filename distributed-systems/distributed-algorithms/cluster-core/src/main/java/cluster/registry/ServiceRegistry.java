@@ -7,6 +7,7 @@ import org.apache.zookeeper.data.Stat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static org.apache.zookeeper.CreateMode.EPHEMERAL_SEQUENTIAL;
 import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
@@ -16,12 +17,14 @@ public class ServiceRegistry implements Watcher {
 
     private final ZooKeeper zooKeeper;
     private final String registryNamespace;
+    private final Random random;
     private String currentNode;
     private List<String> allServiceAddresses;
 
     public ServiceRegistry(ZooKeeper zooKeeper, String registryNamespace) {
         this.zooKeeper = zooKeeper;
         this.registryNamespace = registryNamespace;
+        this.random = new Random();
         createServiceRegistry();
     }
 
@@ -47,6 +50,18 @@ public class ServiceRegistry implements Watcher {
             updateAddresses();
         }
         return allServiceAddresses;
+    }
+
+    public synchronized String getRandomServiceAddress() throws KeeperException, InterruptedException {
+        if (allServiceAddresses == null) {
+            updateAddresses();
+        }
+        if (!allServiceAddresses.isEmpty()) {
+            int randomIndex = random.nextInt(allServiceAddresses.size());
+            return allServiceAddresses.get(randomIndex);
+        } else {
+            return null;
+        }
     }
 
     public void unregisterFromCluster() {

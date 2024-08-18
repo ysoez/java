@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "search.cluster.model";
+
+message SearchRequest {
+  string query = 1;
+}
+
+message SearchResponse {
+  repeated DocumentStats relevant_documents = 1;
+  message DocumentStats {
+    string name = 1;
+    optional double score = 2;
+    optional int64 size = 3;
+    optional string author = 4;
+  }
+}

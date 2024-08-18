@@ -1,12 +1,11 @@
-package cluster.http;
+package cluster.network.http;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public abstract class AbstractRequestHandler implements HttpHandler {
+public abstract class AbstractHttpRequestHandler implements HttpRequestHandler {
 
     protected static final String X_DEBUG_HEADER = "X-Debug";
     protected static final String X_TEST_HEADER = "X-Test";
@@ -27,7 +26,5 @@ public abstract class AbstractRequestHandler implements HttpHandler {
         outputStream.close();
         exchange.close();
     }
-
-    public abstract String endpoint();
 
 }

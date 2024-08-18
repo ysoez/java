@@ -1,11 +1,10 @@
-package server.handler;
+package cluster.network.http;
 
-import cluster.server.AbstractRequestHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 
-public class StatusCheckRequestHandler extends AbstractRequestHandler {
+public class HealthCheckRequestHandler extends AbstractHttpRequestHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
