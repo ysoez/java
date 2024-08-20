@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+dependencies {
+    implementation 'org.jsoup:jsoup:1.12.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'server.WebServerRunner'
+}
+
+jar {
+    archiveBaseName = 'webapp'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

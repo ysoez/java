@@ -1,0 +1,12 @@
+FROM gradle:7.4.2-jdk11 AS GRADLE_TOOL_CHAIN_CONTAINER
+COPY --chown=gradle:gradle . /home/gradle/project
+WORKDIR /home/gradle/project
+RUN gradle build
+
+FROM openjdk:11
+# Copy the JAR file from the build stage
+COPY --from=GRADLE_TOOL_CHAIN_CONTAINER /home/gradle/project/build/libs/*.jar /tmp/app.jar
+
+WORKDIR /tmp/
+ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["80", "Server Name"]
