@@ -3,8 +3,6 @@ rootProject.name = 'java'
 // ~ core
 include 'language'
 include 'library'
-//include 'multithreading'
-include 'reflection'
 
 // ~ api
 include 'api:grpc'
