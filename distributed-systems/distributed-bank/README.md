@@ -1,9 +1,9 @@
-# How To Run
+# Distributed Bank
 
-### Run & Setup Kafka
+### Run Kafka
 
 ```
-
+brew services start zookeeper
 ```
 
 ### Build & Run Account Manager Service
