@@ -26,13 +26,17 @@ public class ConcurrencyUtils {
         System.out.printf(ANSI_CYAN + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
     }
 
-        public static void logWorker(Object message) {
+    public static void logWorker(Object message) {
         System.out.printf(ANSI_PURPLE + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
     }
 
-    public static void sleep(TimeUnit timeUnit, long timeout) {
+    public static void logError(Object message) {
+        System.out.printf(ANSI_RED + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
+    }
+
+    public static void sleep(long timeout, TimeUnit timeUnit) {
         try {
-            timeUnit.sleep(500);
+            timeUnit.sleep(timeout);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

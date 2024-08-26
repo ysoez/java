@@ -9,7 +9,7 @@ class ThreadState {
 
     public static void main(String[] args) throws InterruptedException {
         var thread = new Thread(() -> {
-            sleep(TimeUnit.MILLISECONDS, 500);
+            sleep(500, TimeUnit.MILLISECONDS);
             log(Thread.currentThread().getState());
         });
         log(thread.getName() + " is " + thread.getState());
