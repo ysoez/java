@@ -2,7 +2,7 @@ package library.collection.list;
 
 import java.util.Arrays;
 
-class AsListModifications {
+class ListModifications {
 
     public static void main(String[] args) {
         var list = Arrays.asList(1, 2, 3);
