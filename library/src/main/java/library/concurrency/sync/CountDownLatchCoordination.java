@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import static library.concurrency.ConcurrencyUtils.*;
 
-public class CountDownLatchCoordination {
+class CountDownLatchCoordination {
 
     public static void main(String[] args) throws InterruptedException {
         int threadCount = Runtime.getRuntime().availableProcessors();
