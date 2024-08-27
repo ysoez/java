@@ -16,7 +16,7 @@ class ConcurrentHashMapFailSafeIterator {
     }
 
     private static void updateConcurrently(Map<Integer, String> map) throws InterruptedException {
-        System.out.println(map.getClass());
+        System.out.println(map.getClass().getName());
         new Thread(() -> {
             try {
                 TimeUnit.MILLISECONDS.sleep(50);
