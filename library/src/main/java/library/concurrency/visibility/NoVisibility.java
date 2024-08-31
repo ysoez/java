@@ -13,8 +13,14 @@ class NoVisibility {
 
     private static class ReaderThread extends Thread {
         public void run() {
+            //
+            // ~ may loop forever
+            //
             while (!ready)
                 Thread.yield();
+            //
+            // ~ may print 0 or 42
+            //
             System.out.println(number);
         }
     }
