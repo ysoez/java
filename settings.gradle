@@ -8,6 +8,7 @@ include 'library'
 include 'api:grpc'
 
 include 'performance'
+include 'persistence'
 include 'memory'
 
 // ~ distributed systems
