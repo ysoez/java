@@ -1,0 +1,11 @@
+dependencies {
+    // ~ hibernate
+    implementation "org.hibernate.orm:hibernate-core:${hibernateVersion}"
+    // ~ jdbc proxy
+    implementation "net.ttddyy:datasource-proxy:1.10"
+    implementation "p6spy:p6spy:3.9.1"
+    // ~ connection pooling
+    implementation "com.zaxxer:HikariCP:5.0.1"
+    // ~ database
+    implementation 'org.hsqldb:hsqldb:2.7.2'
+}
