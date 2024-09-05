@@ -323,4 +323,12 @@ public abstract class AbstractConfigurator {
         }
     }
 
+    protected void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
 }

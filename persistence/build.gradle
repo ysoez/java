@@ -16,6 +16,7 @@ dependencies {
     implementation "p6spy:p6spy:3.9.1"
     // ~ connection pooling
     implementation "com.zaxxer:HikariCP:5.0.1"
+    implementation 'com.vladmihalcea.flexy-pool:flexy-hikaricp:2.0.0'
     // ~ jdbc drivers
     implementation 'org.hsqldb:hsqldb:2.7.2'
     implementation 'org.postgresql:postgresql:42.7.3'
