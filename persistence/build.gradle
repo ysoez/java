@@ -1,4 +1,14 @@
 dependencies {
+    // ~ aspectj
+    implementation "org.aspectj:aspectjrt:${aspectjVersion}"
+    implementation "org.aspectj:aspectjweaver:${aspectjVersion}"
+    // ~ spring
+    implementation "org.springframework:spring-beans:${springVersion}"
+    implementation "org.springframework:spring-context:${springVersion}"
+    implementation "org.springframework:spring-tx:${springVersion}"
+    implementation "org.springframework:spring-orm:${springVersion}"
+    implementation "org.springframework:spring-instrument:${springVersion}"
+    implementation "org.springframework:spring-test:${springVersion}"
     // ~ hibernate
     implementation "org.hibernate.orm:hibernate-core:${hibernateVersion}"
     // ~ jdbc proxy
@@ -6,6 +16,9 @@ dependencies {
     implementation "p6spy:p6spy:3.9.1"
     // ~ connection pooling
     implementation "com.zaxxer:HikariCP:5.0.1"
-    // ~ database
+    // ~ jdbc drivers
     implementation 'org.hsqldb:hsqldb:2.7.2'
+    implementation 'org.postgresql:postgresql:42.7.3'
+    // ~ migration
+    implementation 'org.flywaydb:flyway-core:6.4.4'
 }

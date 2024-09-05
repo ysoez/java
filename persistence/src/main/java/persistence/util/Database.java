@@ -1,6 +1,7 @@
 package persistence.util;
 
 import persistence.util.provider.HSQLDBDataSourceProvider;
+import persistence.util.provider.PostgreSQLDataSourceProvider;
 
 public enum Database {
 
@@ -8,6 +9,12 @@ public enum Database {
         @Override
         public Class<? extends DataSourceProvider> dataSourceProviderClass() {
             return HSQLDBDataSourceProvider.class;
+        }
+    },
+    POSTGRESQL {
+        @Override
+        public Class<? extends DataSourceProvider> dataSourceProviderClass() {
+            return PostgreSQLDataSourceProvider.class;
         }
     };
 
