@@ -2,7 +2,7 @@ package guava.base;
 
 import com.google.common.base.Splitter;
 
-class GuavaSplitter {
+class GuavaStringSplitter {
 
     public static void main(String[] args) {
         Iterable<String> output = Splitter.on(",")
