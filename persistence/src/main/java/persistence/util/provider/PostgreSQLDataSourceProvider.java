@@ -49,7 +49,7 @@ public class PostgreSQLDataSourceProvider implements DataSourceProvider {
     @Override
     public Properties dataSourceProperties() {
         Properties properties = new Properties();
-        properties.setProperty("databaseName", "high_performance_java_persistence");
+        properties.setProperty("databaseName", "defaultdb");
         properties.setProperty("serverName", "localhost");
         properties.setProperty("user", username());
         properties.setProperty("password", password());
@@ -61,7 +61,7 @@ public class PostgreSQLDataSourceProvider implements DataSourceProvider {
 
     @Override
     public String url() {
-        return "jdbc:postgresql://localhost/high_performance_java_persistence";
+        return "jdbc:postgresql://localhost/defaultdb";
     }
 
     @Override
