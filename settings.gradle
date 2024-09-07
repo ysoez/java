@@ -14,7 +14,7 @@ include 'memory'
 // ~ distributed systems
 include 'distributed-systems:zookeeper'
 include 'distributed-systems:kafka'
-include 'distributed-systems:haproxy-load-balancer'
+include 'distributed-systems:haproxy'
 include 'distributed-systems:distributed-algorithms:cluster-autohealer:worker'
 include 'distributed-systems:distributed-algorithms:cluster-autohealer:watchdog'
 include 'distributed-systems:distributed-algorithms:cluster-core'
