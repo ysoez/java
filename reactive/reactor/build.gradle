@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'io.projectreactor:reactor-core:3.6.11'
+    implementation 'io.projectreactor:reactor-test:3.6.11'
+}
