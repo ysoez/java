@@ -50,3 +50,5 @@ include 'utils'
 // ~ reactive
 include 'reactive:mutiny'
 include 'reactive:reactor'
+
+include 'spring:async'
