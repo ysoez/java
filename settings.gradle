@@ -52,3 +52,4 @@ include 'reactive:mutiny'
 include 'reactive:reactor'
 
 include 'spring:async'
+include 'observability:spring-prometheus-grafana'
