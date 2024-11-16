@@ -3,5 +3,5 @@
 for i in {1..100000}
 do
 	curl localhost:8080/hello &
-        sleep 1
+        sleep 0.2
 done
