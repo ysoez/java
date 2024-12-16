@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.18.1'
+    implementation "org.mongodb:mongodb-driver-async:3.0.4"
+}

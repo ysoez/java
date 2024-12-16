@@ -10,6 +10,10 @@ include 'api:grpc'
 
 include 'performance'
 include 'persistence'
+
+// ~ databases
+include 'database:mongodb'
+
 include 'memory'
 
 // ~ distributed systems
