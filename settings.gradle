@@ -11,6 +11,11 @@ include 'api:grpc'
 include 'performance'
 include 'persistence'
 
+// ~ design
+include "design:architectural-patterns:cqrs-event-sourcing:bank-core"
+include "design:architectural-patterns:cqrs-event-sourcing:bank-account:account-cmd"
+include "design:architectural-patterns:cqrs-event-sourcing:bank-account:account-query"
+
 // ~ databases
 include 'database:mongodb'
 
