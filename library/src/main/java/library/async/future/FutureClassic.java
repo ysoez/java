@@ -1,4 +1,4 @@
-package library.async;
+package library.async.future;
 
 import java.util.ArrayList;
 import java.util.concurrent.*;
