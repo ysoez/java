@@ -26,7 +26,6 @@ include 'distributed-systems:zookeeper'
 
 // ~ kafka
 include 'distributed-systems:kafka:kafka-connect:connect-rest-api'
-include 'distributed-systems:kafka:kafka-connect:connect-github-issue-source'
 include 'distributed-systems:kafka:kafka-connect:connect-file-stream-source'
 include 'distributed-systems:kafka:kafka-connect:connect-elastic-search-sink'
 include 'distributed-systems:kafka:kafka-connect:connect-postgres-sink'
