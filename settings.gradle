@@ -23,7 +23,14 @@ include 'memory'
 
 // ~ distributed systems
 include 'distributed-systems:zookeeper'
-include 'distributed-systems:kafka'
+
+// ~ kafka
+include 'distributed-systems:kafka:kafka-connect:connect-rest-api'
+include 'distributed-systems:kafka:kafka-connect:connect-github-issue-source'
+include 'distributed-systems:kafka:kafka-connect:connect-file-stream-source'
+include 'distributed-systems:kafka:kafka-connect:connect-elastic-search-sink'
+include 'distributed-systems:kafka:kafka-connect:connect-postgres-sink'
+
 include 'distributed-systems:haproxy'
 include 'distributed-systems:distributed-algorithms:cluster-autohealer:worker'
 include 'distributed-systems:distributed-algorithms:cluster-autohealer:watchdog'
