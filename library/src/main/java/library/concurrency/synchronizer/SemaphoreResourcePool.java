@@ -15,7 +15,6 @@ class SemaphoreResourcePool {
         var latch = new CountDownLatch(threadsCount);
         for (int i = 1; i <= threadsCount; i++) {
             new Thread(() -> {
-                logWorker("start running");
                 latch.countDown();
                 try {
                     latch.await();
