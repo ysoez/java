@@ -22,6 +22,18 @@ public class ConcurrencyUtils {
         System.out.printf("[%s] %s: %s\n", FORMATTER.format(now()), currentThread().getName(), message);
     }
 
+    public static void logGreen(Object message) {
+        System.out.printf(ANSI_GREEN + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
+    }
+
+    public static void logRed(Object message) {
+        System.out.printf(ANSI_RED + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
+    }
+
+    public static void logYellow(Object message) {
+        System.out.printf(ANSI_YELLOW + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
+    }
+
     public static void logMain(Object message) {
         System.out.printf(ANSI_CYAN + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
     }
