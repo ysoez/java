@@ -7,6 +7,9 @@ import java.util.concurrent.CyclicBarrier;
 class CyclicBarrierGameSimulation {
 
     public static void main(String[] args) {
+        //
+        // ~ coordinate a fixed set of threads to all wait for each other to reach a common barrier point.
+        //
         var barrier = new CyclicBarrier(4, () -> System.out.println("Round started!"));
         for (int i = 1; i <= 4; i++) {
             new Player(barrier, "player-" + i).start();
