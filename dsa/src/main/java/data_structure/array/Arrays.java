@@ -4,7 +4,7 @@ public class Arrays {
 
     public static void checkCapacity(int capacity) {
         if (capacity < 0) {
-            throw new IllegalArgumentException("Array must have a positive capacity");
+            throw new NegativeArraySizeException();
         }
     }
 
