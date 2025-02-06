@@ -1,5 +1,11 @@
 package data_structure.array;
 
+import data_structure.Algorithm;
+import data_structure.Algorithm.Complexity;
+
+import static data_structure.Algorithm.Complexity.Value.CONSTANT;
+import static data_structure.Algorithm.Complexity.Value.LINEAR;
+
 public class Arrays {
 
     public static void checkCapacity(int capacity) {
@@ -18,6 +24,17 @@ public class Arrays {
         var temp = array[first];
         array[first] = array[second];
         array[second] = temp;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
+    public static Integer max(int[] array) {
+        if (array == null || array.length == 0)
+            throw new EmptyArrayException();
+        int max = array[0];
+        for (int i = 1; i < array.length; i++)
+            if (array[i] > max)
+                max = array[i];
+        return max;
     }
 
 }

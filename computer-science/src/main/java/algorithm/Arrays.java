@@ -23,17 +23,6 @@ class Arrays {
         return false;
     }
 
-    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
-    static Integer max(int[] array) {
-        if (array == null || array.length == 0)
-            throw new IllegalArgumentException("Array must contain at least 1 element");
-        int max = array[0];
-        for (int i = 1; i < array.length; i++)
-            if (array[i] > max)
-                max = array[i];
-        return max;
-    }
-
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     static int[] twoSum(int[] nums, int target) {
         var map = new HashMap<Integer, Integer>();
