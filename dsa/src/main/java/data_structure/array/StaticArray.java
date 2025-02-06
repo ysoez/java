@@ -1,12 +1,12 @@
 package data_structure.array;
 
-import util.Algorithm;
-import util.Algorithm.Complexity;
+import data_structure.Algorithm;
+import data_structure.Algorithm.Complexity;
 
+import static data_structure.Algorithm.Complexity.Value.CONSTANT;
+import static data_structure.Algorithm.Complexity.Value.LINEAR;
 import static data_structure.array.Arrays.checkCapacity;
 import static data_structure.array.Arrays.checkIndex;
-import static util.Algorithm.Complexity.Value.CONSTANT;
-import static util.Algorithm.Complexity.Value.LINEAR;
 
 class StaticArray<E> implements Array<E> {
 

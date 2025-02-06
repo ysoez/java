@@ -1,13 +1,13 @@
 package data_structure.array;
 
-import util.Algorithm;
-import util.Algorithm.Complexity;
+import data_structure.Algorithm;
+import data_structure.Algorithm.Complexity;
 
 import java.util.Objects;
 
+import static data_structure.Algorithm.Complexity.Value.CONSTANT;
+import static data_structure.Algorithm.Complexity.Value.LINEAR;
 import static data_structure.array.Arrays.checkIndex;
-import static util.Algorithm.Complexity.Value.CONSTANT;
-import static util.Algorithm.Complexity.Value.LINEAR;
 
 class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
@@ -149,7 +149,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
     @SuppressWarnings("ManualArrayCopy")
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     private void grow() {
-        var newArr = size < 2 ? new Object[DEFAULT_CAPACITY]: new Object[size + size / 2];
+        var newArr = size < 2 ? new Object[DEFAULT_CAPACITY] : new Object[size + size / 2];
         for (int i = 0; i < size; i++)
             newArr[i] = elements[i];
         this.elements = newArr;

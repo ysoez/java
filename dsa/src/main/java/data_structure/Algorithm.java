@@ -1,4 +1,4 @@
-package util;
+package data_structure;
 
 public @interface Algorithm {
 
