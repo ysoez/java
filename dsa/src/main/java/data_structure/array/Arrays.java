@@ -28,7 +28,9 @@ public class Arrays {
 
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public static Integer max(int[] array) {
-        if (array == null || array.length == 0)
+        if (array == null)
+            throw new IllegalArgumentException();
+        if (array.length == 0)
             throw new EmptyArrayException();
         int max = array[0];
         for (int i = 1; i < array.length; i++)
