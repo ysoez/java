@@ -158,7 +158,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private void throwIfEmpty() {
         if (isEmpty())
-            throw new IllegalStateException("Array is empty");
+            throw new EmptyArrayException();
     }
 
 }
