@@ -3,8 +3,11 @@ package data_structure.array;
 import data_structure.Algorithm;
 import data_structure.Algorithm.Complexity;
 
+import java.util.HashSet;
+
 import static data_structure.Algorithm.Complexity.Value.CONSTANT;
 import static data_structure.Algorithm.Complexity.Value.LINEAR;
+import static data_structure.Algorithm.Target.OUT_OF_PLACE;
 
 public class Arrays {
 
@@ -37,6 +40,25 @@ public class Arrays {
             if (array[i] > max)
                 max = array[i];
         return max;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR), target = OUT_OF_PLACE)
+    static int[] intersectionForSorted(int[] arr1, int[] arr2) {
+        if (arr1 == null || arr2 == null)
+            throw new IllegalArgumentException();
+        var resultSet = new HashSet<Integer>();
+        for (int i = 0, j = 0; i < arr1.length && j < arr2.length; ) {
+            if (arr1[i] < arr2[j]) {
+                i++;
+            } else if (arr1[i] > arr2[j]) {
+                j++;
+            } else {
+                resultSet.add(arr1[i]);
+                i++;
+                j++;
+            }
+        }
+        return resultSet.stream().mapToInt(Integer::intValue).toArray();
     }
 
 }
