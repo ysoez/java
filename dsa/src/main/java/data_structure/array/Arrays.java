@@ -61,4 +61,15 @@ public class Arrays {
         return resultSet.stream().mapToInt(Integer::intValue).toArray();
     }
 
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR), target = OUT_OF_PLACE)
+    static int[] reverse(int[] arr) {
+        if (arr == null)
+            throw new IllegalArgumentException("Array is null");
+        var reversedArr = new int[arr.length];
+        for (int i = arr.length - 1, j = 0; i >= 0; i--, j++) {
+            reversedArr[j] = arr[i];
+        }
+        return reversedArr;
+    }
+
 }
