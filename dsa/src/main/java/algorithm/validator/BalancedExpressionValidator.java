@@ -13,6 +13,10 @@ class BalancedExpressionValidator implements Predicate<String> {
     private static final List<Character> CLOSING_SYMBOLS = List.of(')');
 
     public boolean test(String expression) {
+        if (expression == null)
+            throw new IllegalArgumentException();
+        if (expression.isBlank())
+            return true;
         var stack = new Stack<Character>();
         for (char ch : expression.toCharArray()) {
             if (isOpeningSymbol(ch)) {
