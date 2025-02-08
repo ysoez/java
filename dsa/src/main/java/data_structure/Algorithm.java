@@ -4,8 +4,6 @@ public @interface Algorithm {
 
     Complexity complexity();
 
-    Implementation[] implementation() default Implementation.SEQUENTIAL;
-
     Target target() default Target.IN_PLACE;
 
     @interface Complexity {
@@ -21,13 +19,6 @@ public @interface Algorithm {
             POLYNOMIAL,
             EXPONENTIAL
         }
-
-    }
-
-    enum Implementation {
-        RECURSIVE,
-        PARALLEL_OR_DISTRIBUTED,
-        SEQUENTIAL
     }
 
     enum Target {
