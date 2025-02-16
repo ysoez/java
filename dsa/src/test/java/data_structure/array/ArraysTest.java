@@ -32,14 +32,6 @@ class ArraysTest {
         assertArrayEquals(expected, Arrays.intersectionForSorted(first, second));
     }
 
-    @Test
-    void reverseIntArray() {
-        assertThrows(IllegalArgumentException.class, () -> Arrays.reverse(null));
-        assertArrayEquals(new int[0], Arrays.reverse(new int[0]));
-        assertArrayEquals(new int[]{5, 4, 3, 2, 1}, Arrays.reverse(new int[]{1, 2, 3, 4, 5}));
-        assertArrayEquals(new int[]{40, 30, 20, 10}, Arrays.reverse(new int[]{10, 20, 30, 40}));
-    }
-
     private static Stream<Arguments> sortedArrayIntersectionDataSet() {
         return Stream.of(
                 arguments(new int[]{1, 3, 4, 6, 7, 9}, new int[]{1, 2, 4, 5, 9, 10}, new int[]{1, 4, 9}),
@@ -49,5 +41,30 @@ class ArraysTest {
                 arguments(new int[]{3, 5, 7}, new int[]{3, 7, 8, 9}, new int[]{3, 7})
         );
     }
+
+    @Test
+    void reverseIntArray() {
+        assertThrows(IllegalArgumentException.class, () -> Arrays.reverse(null));
+        assertArrayEquals(new int[0], Arrays.reverse(new int[0]));
+        assertArrayEquals(new int[]{5, 4, 3, 2, 1}, Arrays.reverse(new int[]{1, 2, 3, 4, 5}));
+        assertArrayEquals(new int[]{40, 30, 20, 10}, Arrays.reverse(new int[]{10, 20, 30, 40}));
+    }
+
+    @ParameterizedTest
+    @MethodSource("twoSumDataSet")
+    void twoSum(int[] nums, int target, int[] result) {
+        assertArrayEquals(result, Arrays.twoSum(nums, target));
+    }
+
+    private static Stream<Arguments> twoSumDataSet() {
+        return Stream.of(
+                arguments(new int[]{2, 7, 11, 15}, 9, new int[]{0, 1}),
+                arguments(new int[]{3, 2, 4}, 6, new int[]{1, 2}),
+                arguments(new int[]{3, 3}, 6, new int[]{0, 1})
+        );
+    }
+
+
+
 
 }

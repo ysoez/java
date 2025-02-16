@@ -3,6 +3,7 @@ package data_structure.array;
 import data_structure.Algorithm;
 import data_structure.Algorithm.Complexity;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import static data_structure.Algorithm.Complexity.Value.CONSTANT;
@@ -70,6 +71,18 @@ public class Arrays {
             reversedArr[j] = arr[i];
         }
         return reversedArr;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    static int[] twoSum(int[] arr, int target) {
+        var map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < arr.length; i++) {
+            var complement = map.get(target - i);
+            if (complement != null)
+                return new int[]{i, complement};
+            map.put(arr[i], i);
+        }
+        return null;
     }
 
 }
