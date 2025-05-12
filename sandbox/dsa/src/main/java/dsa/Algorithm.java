@@ -1,4 +1,4 @@
-package data_structure;
+package dsa;
 
 public @interface Algorithm {
 
