@@ -1,7 +1,6 @@
-package dsa.reverse.string;
+package dsa.reverse;
 
 import dsa.Algorithm.Complexity;
-import dsa.reverse.Reverser;
 
 import static dsa.Algorithm.Complexity.Value.LINEAR;
 

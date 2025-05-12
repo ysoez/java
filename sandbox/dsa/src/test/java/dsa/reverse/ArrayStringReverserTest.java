@@ -1,6 +1,5 @@
-package dsa.reverse.string;
+package dsa.reverse;
 
-import dsa.reverse.Reverser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
