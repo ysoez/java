@@ -3,6 +3,12 @@ rootProject.name = 'java'
 include ':library'
 
 //
+// ~ serialization
+//
+include ':serialization:protobuf'
+include ':serialization:jackson'
+
+//
 // ~ sandbox
 //
 include ':sandbox:dsa'
