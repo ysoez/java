@@ -16,7 +16,7 @@ public @interface Algorithm {
             LOGARITHMIC,
             LINEAR,
             N_LOG_N,
-            POLYNOMIAL,
+            QUADRATIC,
             EXPONENTIAL
         }
     }

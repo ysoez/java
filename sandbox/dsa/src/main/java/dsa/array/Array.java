@@ -1,4 +1,4 @@
-package data_structure.array;
+package dsa.array;
 
 interface Array<E> {
 
