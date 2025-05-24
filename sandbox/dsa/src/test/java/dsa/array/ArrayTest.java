@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 class ArrayTest {
 
-    @ParameterizedTest(name = "{index} => array={0}")
+    @ParameterizedTest
     @MethodSource("implementations")
     void testSetAndGet(Array<Integer> array) {
         array.set(0, 10);
