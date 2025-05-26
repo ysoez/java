@@ -12,3 +12,5 @@ include ':serialization:jackson'
 // ~ sandbox
 //
 include ':sandbox:dsa'
+include ':sandbox:gof'
+include ':sandbox:adp'
