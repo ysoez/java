@@ -3,6 +3,11 @@ rootProject.name = 'java'
 include ':library'
 
 //
+// ~ utils
+//
+include ':utils:resilience4j'
+
+//
 // ~ serialization
 //
 include ':serialization:protobuf'
