@@ -1,13 +1,14 @@
-package data_structure.array;
+package dsa.array;
 
-import data_structure.Algorithm;
-import data_structure.Algorithm.Complexity;
+import dsa.Algorithm;
+import dsa.Algorithm.Complexity;
 
 import java.util.Objects;
 
-import static data_structure.Algorithm.Complexity.Value.CONSTANT;
-import static data_structure.Algorithm.Complexity.Value.LINEAR;
-import static data_structure.array.Arrays.checkIndex;
+import static dsa.Algorithm.Complexity.Value.CONSTANT;
+import static dsa.Algorithm.Complexity.Value.LINEAR;
+import static dsa.array.Arrays.checkIndex;
+import static dsa.array.Arrays.newArray;
 
 class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
@@ -17,7 +18,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     DynamicArray() {
-        elements = new Object[DEFAULT_CAPACITY];
+        super();
     }
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = LINEAR))
@@ -83,44 +84,42 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public void trimToSize() {
-        var newArr = new Object[size];
+        var newArr = (E[]) new Object[size];
         System.arraycopy(elements, 0, newArr, 0, size);
         this.elements = newArr;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E deleteFirst() {
         throwIfEmpty();
-        Object elementToRemove = elements[0];
+        var elementToRemove = elements[0];
         for (int i = 0; i < size - 1; i++)
             elements[i] = elements[i + 1];
         size--;
-        return (E) elementToRemove;
+        return elementToRemove;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E deleteAt(int index) {
         throwIfEmpty();
         checkIndex(index, size);
-        Object elementToRemove = elements[index];
+        var elementToRemove = elements[index];
         for (int i = index; i < size - 1; i++)
             elements[i] = elements[i + 1];
         size--;
-        return (E) elementToRemove;
+        return elementToRemove;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E deleteLast() {
         throwIfEmpty();
-        return (E) elements[--size];
+        return elements[--size];
     }
 
     @Override
@@ -149,7 +148,7 @@ class DynamicArray<E> extends StaticArray<E> implements ResizableArray<E> {
     @SuppressWarnings("ManualArrayCopy")
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     private void grow() {
-        var newArr = size < 2 ? new Object[DEFAULT_CAPACITY] : new Object[size + size / 2];
+        E[] newArr = size < 2 ? newArray(DEFAULT_CAPACITY) : newArray(size + size / 2);
         for (int i = 0; i < size; i++)
             newArr[i] = elements[i];
         this.elements = newArr;

@@ -5,32 +5,27 @@ import dsa.Algorithm.Complexity;
 
 import static dsa.Algorithm.Complexity.Value.CONSTANT;
 import static dsa.Algorithm.Complexity.Value.LINEAR;
-import static dsa.array.Arrays.checkCapacity;
-import static dsa.array.Arrays.checkIndex;
+import static dsa.array.Arrays.*;
 
 class StaticArray<E> implements Array<E> {
 
     private static final int DEFAULT_CAPACITY = 10;
     protected E[] elements;
 
-    @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     StaticArray() {
-        elements = (E[]) new Object[DEFAULT_CAPACITY];
+        elements = newArray(DEFAULT_CAPACITY);
     }
 
-    @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = LINEAR))
     StaticArray(int capacity) {
-        checkCapacity(capacity);
-        elements = (E[]) new Object[capacity];
+        elements = newArray(capacity);
     }
 
     @SafeVarargs
-    @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     StaticArray(E... values) {
-        elements = (E[]) new Object[values.length];
+        elements = newArray(values.length);
         System.arraycopy(values, 0, elements, 0, values.length);
     }
 
