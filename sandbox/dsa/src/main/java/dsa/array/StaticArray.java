@@ -11,7 +11,7 @@ import static dsa.array.Arrays.checkIndex;
 class StaticArray<E> implements Array<E> {
 
     private static final int DEFAULT_CAPACITY = 10;
-    private final E[] elements;
+    protected E[] elements;
 
     @SuppressWarnings("unchecked")
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
