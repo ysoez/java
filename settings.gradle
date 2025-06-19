@@ -8,6 +8,11 @@ include ':library'
 include ':utils:resilience4j'
 
 //
+// ~ api
+//
+include ':api:grpc'
+
+//
 // ~ serialization
 //
 include ':serialization:protobuf'
