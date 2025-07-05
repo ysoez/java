@@ -1,27 +1,10 @@
 rootProject.name = 'java'
 
-include ':dsa'
 include ':library'
+include ':language'
 
-//
-// ~ utils
-//
-include ':utils:resilience4j'
-
-//
-// ~ api
-//
-include ':api:grpc'
-
-//
-// ~ serialization
-//
-include ':serialization:protobuf'
-include ':serialization:jackson'
-
-//
-// ~ sandbox
-//
-include ':sandbox:dsa'
-include ':sandbox:gof'
-include ':sandbox:adp'
+include ':dsa'
+include ':reactive'
+include ':serialization'
+include ':api'
+include ':utils'
