@@ -9,16 +9,23 @@ public @interface Algorithm {
     Traversal traversal() default Traversal.NONE;
 
     @interface Complexity {
-        Value runtime();
-        Value space();
-        enum Value {
+        Runtime runtime();
+        Space space();
+
+        enum Runtime {
+            CONSTANT,      // O(1)
+            LOGARITHMIC,   // O(log n)
+            LINEAR,        // O(n)
+            LINEARITHMIC,  // O(n log n)
+            QUADRATIC,     // O(n^2)
+            EXPONENTIAL    // O(2^n);
+        }
+
+        enum Space {
             CONSTANT,
-            HEIGHT_DEPENDENT,
             LOGARITHMIC,
             LINEAR,
-            N_LOG_N,
-            QUADRATIC,
-            EXPONENTIAL
+            QUADRATIC
         }
     }
 
