@@ -40,4 +40,32 @@ class ArraysTest {
         }
     }
 
+    @Nested
+    class IsSorted {
+        @Test
+         void testEmptyArray() {
+            assertTrue(Arrays.isSorted(new int[] {}));
+        }
+        @Test
+        void testSingleElement() {
+            assertTrue(Arrays.isSorted(new int[]{42}));
+        }
+        @Test
+        void testSortedAscending() {
+            assertTrue(Arrays.isSorted(new int[]{1, 2, 3, 4, 5}));
+        }
+        @Test
+        void testSortedWithDuplicates() {
+            assertTrue(Arrays.isSorted(new int[]{1, 2, 2, 3, 4}));
+        }
+        @Test
+        void testUnsorted() {
+            assertFalse(Arrays.isSorted(new int[]{5, 4, 3, 2, 1}));
+        }
+        @Test
+        void testUnsortedMiddleElement() {
+            assertFalse(Arrays.isSorted(new int[]{1, 2, 4, 3, 5}));
+        }
+    }
+
 }
