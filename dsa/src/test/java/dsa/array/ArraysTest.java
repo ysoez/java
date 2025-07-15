@@ -3,6 +3,7 @@ package dsa.array;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static dsa.array.Arrays.isSorted;
 import static dsa.array.Arrays.swap;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,27 +45,27 @@ class ArraysTest {
     class IsSorted {
         @Test
          void testEmptyArray() {
-            assertTrue(Arrays.isSorted(new int[] {}));
+            assertTrue(isSorted(new int[] {}));
         }
         @Test
         void testSingleElement() {
-            assertTrue(Arrays.isSorted(new int[]{42}));
+            assertTrue(isSorted(new int[]{42}));
         }
         @Test
         void testSortedAscending() {
-            assertTrue(Arrays.isSorted(new int[]{1, 2, 3, 4, 5}));
+            assertTrue(isSorted(new int[]{1, 2, 3, 4, 5}));
         }
         @Test
         void testSortedWithDuplicates() {
-            assertTrue(Arrays.isSorted(new int[]{1, 2, 2, 3, 4}));
+            assertTrue(isSorted(new int[]{1, 2, 2, 3, 4}));
         }
         @Test
         void testUnsorted() {
-            assertFalse(Arrays.isSorted(new int[]{5, 4, 3, 2, 1}));
+            assertFalse(isSorted(new int[]{5, 4, 3, 2, 1}));
         }
         @Test
         void testUnsortedMiddleElement() {
-            assertFalse(Arrays.isSorted(new int[]{1, 2, 4, 3, 5}));
+            assertFalse(isSorted(new int[]{1, 2, 4, 3, 5}));
         }
     }
 
