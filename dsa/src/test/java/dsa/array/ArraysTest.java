@@ -104,8 +104,8 @@ class ArraysTest {
     @Nested
     class IsSorted {
         @Test
-         void testEmptyArray() {
-            assertTrue(isSorted(new int[] {}));
+        void testEmptyArray() {
+            assertTrue(isSorted(new int[]{}));
         }
         @Test
         void testSingleElement() {
