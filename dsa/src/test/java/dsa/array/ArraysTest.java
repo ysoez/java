@@ -10,6 +10,66 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArraysTest {
 
     @Nested
+    class NewArray {
+        @Test
+        void testNewArrayWithPositiveCapacity() {
+            Object[] arr = Arrays.newArray(5);
+            assertNotNull(arr);
+            assertEquals(5, arr.length);
+        }
+        @Test
+        void testNewArrayWithZeroCapacity() {
+            Object[] arr = Arrays.newArray(0);
+            assertNotNull(arr);
+            assertEquals(0, arr.length);
+        }
+        @Test
+        void testNewArrayWithNegativeCapacity() {
+            assertThrows(NegativeArraySizeException.class, () -> Arrays.newArray(-1));
+        }
+    }
+
+    @Nested
+    class CheckCapacity {
+        @Test
+        void testCheckCapacityWithValidInput() {
+            assertDoesNotThrow(() -> Arrays.checkCapacity(10));
+        }
+        @Test
+        void testCheckCapacityWithZero() {
+            assertDoesNotThrow(() -> Arrays.checkCapacity(0));
+        }
+        @Test
+        void testCheckCapacityWithNegativeInput() {
+            assertThrows(NegativeArraySizeException.class, () -> Arrays.checkCapacity(-5));
+        }
+    }
+
+    @Nested
+    class CheckIndex {
+        @Test
+        void testCheckIndexValid() {
+            assertDoesNotThrow(() -> Arrays.checkIndex(2, 5));
+        }
+        @Test
+        void testCheckIndexEqualToSize() {
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(5, 5));
+        }
+        @Test
+        void testCheckIndexGreaterThanSize() {
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(6, 5));
+        }
+        @Test
+        void testCheckIndexNegative() {
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(-1, 5));
+        }
+        @Test
+        void testCheckIndexWithEmptyArray() {
+            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(0, 0));
+        }
+    }
+
+    @Nested
     class Swap {
         @Test
         void testSwapTwoDifferentElements() {
