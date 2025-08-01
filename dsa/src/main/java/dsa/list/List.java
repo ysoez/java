@@ -1,6 +1,6 @@
-package dsa.array;
+package dsa.list;
 
-interface ResizableArray<E> extends Array<E> {
+public interface List<E> {
 
     void insertFirst(E value);
 
@@ -13,8 +13,6 @@ interface ResizableArray<E> extends Array<E> {
     boolean isEmpty();
 
     int indexOf(E value);
-
-    void trimToSize();
 
     E deleteFirst();
 
