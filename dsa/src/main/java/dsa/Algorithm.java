@@ -4,6 +4,8 @@ public @interface Algorithm {
 
     Complexity complexity();
 
+    Assumption[] assumptions() default {};
+
     Target target() default Target.IN_PLACE;
 
     Traversal traversal() default Traversal.NONE;
@@ -19,6 +21,12 @@ public @interface Algorithm {
             QUADRATIC,     // O(n^2)
             EXPONENTIAL    // O(2^n);
         }
+    }
+
+    enum Assumption {
+        NONE,
+        ORDERING,
+        UNIQUENESS
     }
 
     enum Target {

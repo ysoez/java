@@ -3,6 +3,7 @@ package dsa.array;
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
+import static dsa.Algorithm.Assumption.ORDERING;
 import static dsa.Algorithm.Complexity.Value.CONSTANT;
 import static dsa.Algorithm.Complexity.Value.LINEAR;
 
@@ -40,7 +41,7 @@ public class Arrays {
         return true;
     }
 
-    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
+    @Algorithm(assumptions = {ORDERING}, complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public static int removeDuplicates(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
