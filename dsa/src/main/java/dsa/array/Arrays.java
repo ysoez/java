@@ -1,5 +1,11 @@
 package dsa.array;
 
+import dsa.Algorithm;
+import dsa.Algorithm.Complexity;
+
+import static dsa.Algorithm.Complexity.Value.CONSTANT;
+import static dsa.Algorithm.Complexity.Value.LINEAR;
+
 public class Arrays {
 
     public static <E> E[] newArray(int capacity) {
@@ -32,6 +38,21 @@ public class Arrays {
             if (arr[i] < arr[i - 1])
                 return false;
         return true;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
+    public static int removeDuplicates(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int uniquePos = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != nums[i - 1]) {
+                nums[uniquePos] = nums[i];
+                uniquePos++;
+            }
+        }
+        return uniquePos;
     }
 
 }

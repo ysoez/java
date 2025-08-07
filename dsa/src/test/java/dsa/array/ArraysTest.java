@@ -129,4 +129,65 @@ class ArraysTest {
         }
     }
 
+    @Nested
+    class RemoveDuplicates {
+        @Test
+        void testNullArray() {
+            assertEquals(0, Arrays.removeDuplicates(null));
+        }
+        @Test
+        void testEmptyArray() {
+            int[] nums = {};
+            int uniqueCount = Arrays.removeDuplicates(new int[]{});
+            assertEquals(0, uniqueCount);
+            assertArrayEquals(new int[]{}, nums);
+        }
+        @Test
+        void testSingleElement() {
+            int[] nums = {1};
+            int uniqueCount = Arrays.removeDuplicates(nums);
+            assertEquals(1, uniqueCount);
+            assertArrayEquals(new int[]{1}, nums);
+        }
+        @Test
+        void testNoDuplicates() {
+            int[] nums = {1, 2, 3, 4};
+            int uniqueCount = Arrays.removeDuplicates(nums);
+            assertEquals(4, uniqueCount);
+            assertArrayEquals(new int[]{1, 2, 3, 4}, nums);
+        }
+        @Test
+        void testAllDuplicates() {
+            int[] nums = {1, 1, 1, 1};
+            int uniqueCount = Arrays.removeDuplicates(nums);
+            assertEquals(1, uniqueCount);
+            int[] expected = new int[nums.length];
+
+            expected[0] = 1;
+            for (int i = 0; i < uniqueCount; i++) {
+                assertEquals(expected[i], nums[i]);
+            }
+        }
+        @Test
+        void testSomeDuplicates() {
+            int[] nums = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+            int uniqueCount = Arrays.removeDuplicates(nums);
+            assertEquals(5, uniqueCount);
+            int[] expected = new int[]{0, 1, 2, 3, 4};
+            for (int i = 0; i < uniqueCount; i++) {
+                assertEquals(expected[i], nums[i]);
+            }
+        }
+        @Test
+        void testNegativeNumbers() {
+            int[] nums = {-3, -3, -2, -1, -1, 0};
+            int uniqueCount = Arrays.removeDuplicates(nums);
+            assertEquals(4, uniqueCount);
+            int[] expected = new int[]{-3, -2, -1, 0};
+            for (int i = 0; i < uniqueCount; i++) {
+                assertEquals(expected[i], nums[i]);
+            }
+        }
+    }
+
 }
