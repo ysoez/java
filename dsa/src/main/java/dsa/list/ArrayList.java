@@ -4,7 +4,12 @@ import dsa.array.DynamicArray;
 
 class ArrayList<E> implements List<E> {
 
+    static final int DEFAULT_CAPACITY = 10;
     private final DynamicArray<E> array;
+
+    ArrayList() {
+        this(DEFAULT_CAPACITY);
+    }
 
     ArrayList(int capacity) {
         this.array = new DynamicArray<>(capacity);
