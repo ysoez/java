@@ -252,16 +252,7 @@ class ArraysTest {
                     arguments(new Arrays.TwoSum.HashMapOptimized(), new int[]{-3, 4, -1, 8}, -4, new int[]{0, 2}),
                     arguments(new Arrays.TwoSum.HashMapOptimized(), new int[]{1, 4, 3, 4}, 8, new int[]{1, 3}),
                     arguments(new Arrays.TwoSum.HashMapOptimized(), new int[]{Integer.MAX_VALUE - 1, 1, 2}, Integer.MAX_VALUE, new int[]{0, 1}),
-                    arguments(new Arrays.TwoSum.HashMapOptimized(), new int[]{-1, 0, 1, 0}, 0, new int[]{0, 2}),
-
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{2, 7, 11, 15}, 9, new int[]{0, 1}),
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{3, 2, 4}, 6, new int[]{1, 2}),
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{3, 3}, 6, new int[]{0, 1}),
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{1, 3, 7, 9, 2}, 11, new int[]{3, 4}),
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{-3, 4, -1, 8}, -4, new int[]{0, 2}),
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{1, 4, 3, 4}, 8, new int[]{1, 3}),
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{Integer.MAX_VALUE - 1, 1, 2}, Integer.MAX_VALUE, new int[]{0, 1}),
-                    arguments(new Arrays.TwoSum.XXXX(), new int[]{-1, 0, 1, 0}, 0, new int[]{0, 2})
+                    arguments(new Arrays.TwoSum.HashMapOptimized(), new int[]{-1, 0, 1, 0}, 0, new int[]{0, 2})
             );
         }
 
