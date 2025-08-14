@@ -3,11 +3,15 @@ package dsa.array;
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
+import java.util.HashMap;
+
 import static dsa.Algorithm.Assumption.ORDERING;
-import static dsa.Algorithm.Complexity.Value.CONSTANT;
-import static dsa.Algorithm.Complexity.Value.LINEAR;
+import static dsa.Algorithm.Complexity.Value.*;
+import static java.util.Arrays.sort;
 
 public class Arrays {
+
+    static final int[] EMPTY_INT_ARR = new int[0];
 
     public static <E> E[] newArray(int capacity) {
         checkCapacity(capacity);
@@ -54,6 +58,64 @@ public class Arrays {
             }
         }
         return uniquePos;
+    }
+
+    interface TwoSum {
+
+        int[] getIndices(int[] arr, int target);
+
+        class BruteForce implements TwoSum {
+            @Override
+            @Algorithm(complexity = @Complexity(runtime = QUADRATIC, space = CONSTANT))
+            public int[] getIndices(int[] arr, int targetSum) {
+                for (int i = 0; i < arr.length; i++) {
+                    int ntf = targetSum - arr[i];
+                    for (int j = i + 1; j < arr.length; j++)
+                        if (arr[j] == ntf)
+                            return new int[]{i, j};
+                }
+                return EMPTY_INT_ARR;
+            }
+        }
+
+        // we test against inx from unsorted array
+        // sort - change indexs - broken test
+        // works when return numbers but not work get return indeces (sorting)....
+//        class XXXX implements TwoSum {
+//            @Override
+//            @Algorithm(complexity = @Complexity(runtime = LINEARITHMIC, space = CONSTANT))
+//            public int[] getIndices(int[] arr, int targetSum) {
+//                sort(arr);
+//                var left = 0;
+//                var right = arr.length - 1;
+//                while (left < right) {
+//                    var currentSum = arr[left] + arr[right];
+//                    if (currentSum == targetSum) {
+//                        return new int[]{left, right};
+//                    } else if (currentSum < targetSum) {
+//                        left++;
+//                    } else {
+//                        right--;
+//                    }
+//                }
+//                return EMPTY_INT_ARR;
+//            }
+//        }
+
+        class HashMapOptimized implements TwoSum {
+            @Override
+            @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+            public int[] getIndices(int[] arr, int targetSum) {
+                var numberToIndex = new HashMap<Integer, Integer>();
+                for (int i = 0; i < arr.length; i++) {
+                    var val = targetSum - arr[i];
+                    if (numberToIndex.containsKey(val))
+                        return new int[]{numberToIndex.get(val), i};
+                    numberToIndex.put(arr[i], i);
+                }
+                return EMPTY_INT_ARR;
+            }
+        }
     }
 
 }

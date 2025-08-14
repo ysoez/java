@@ -9,73 +9,7 @@ import static dsa.Algorithm.Complexity.Value.*;
 
 class Arrays {
 
-    static <E> E[] newArray(int capacity) {
-        checkCapacity(capacity);
-        @SuppressWarnings("unchecked") var arr = (E[]) new Object[capacity];
-        return arr;
-    }
 
-    static void checkCapacity(int capacity) {
-        if (capacity < 0) {
-            throw new NegativeArraySizeException();
-        }
-    }
-
-    static void checkIndex(int index, int size) {
-        if (index < 0 || index >= size) {
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
-    }
-
-    public static void swap(int[] array, int first, int second) {
-        var temp = array[first];
-        array[first] = array[second];
-        array[second] = temp;
-    }
-
-    static boolean isEmpty(int[] arr) {
-        return arr == null || arr.length == 0;
-    }
-
-    // target not found: what to return (null, empty array, 1 value)
-    // multiple results: find first or input contain only 1 solution?
-    interface TwoSum {
-
-        int[] getIndices(int[] arr, int target);
-
-        // multiple pointers???
-        class BruteForce implements TwoSum {
-            @Override
-            @Algorithm(complexity = @Complexity(runtime = QUADRATIC, space = CONSTANT))
-            public int[] getIndices(int[] arr, int target) {
-                for (int i = 0; i < arr.length; i++) {
-                    int ntf = target - arr[i];
-                    for (int j = i + 1; j < arr.length; j++) {
-                        if (arr[j] == ntf) {
-                            return new int[]{i, j};
-                        }
-                    }
-                }
-                return null;
-            }
-        }
-
-        // trade space for runtime
-        class HashMapOptimized implements TwoSum {
-            @Override
-            @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
-            public int[] getIndices(int[] arr, int target) {
-                var map = new HashMap<Integer, Integer>();
-                for (int i = 0; i < arr.length; i++) {
-                    var complement = map.get(target - i);
-                    if (complement != null)
-                        return new int[]{i, complement};
-                    map.put(arr[i], i);
-                }
-                return null;
-            }
-        }
-    }
 
     interface MaxWaterContainer {
 
