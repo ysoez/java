@@ -2,7 +2,7 @@ package library.optional;
 
 import java.util.Optional;
 
-class OptionalInstantiation {
+class OptionalFactory {
 
     public static void main(String[] args) {
         System.out.println(Optional.empty());

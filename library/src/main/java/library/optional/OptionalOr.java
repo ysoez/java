@@ -2,26 +2,29 @@ package library.optional;
 
 import java.util.Optional;
 
-public class OptionalOr {
+class OptionalOr {
 
-    public String findUser(String userId, String name, String txId) {
-        return Optional.ofNullable(userId)
-                .flatMap(this::findById)
-                .or(() -> findByName(name))
-                .or(() -> findByTxId(txId))
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public static void main(String[] args) {
+        System.out.println(new UserRepo().by("1", "admin", 42));
     }
 
-    private Optional<String> findById(String userId) {
-        return Optional.empty();
-    }
-
-    private Optional<String> findByName(String name) {
-        return Optional.empty();
-    }
-
-    private Optional<String> findByTxId(String txId) {
-        return Optional.empty();
+    private static class UserRepo {
+        String by(String userId, String name, int age) {
+            return Optional.ofNullable(userId)
+                    .flatMap(this::byUserId)
+                    .or(() -> byName(name))
+                    .or(() -> byAge(age))
+                    .orElseThrow(() -> new RuntimeException("user not found: " + userId));
+        }
+        Optional<String> byUserId(String userId) {
+            return Optional.empty();
+        }
+        Optional<String> byName(String name) {
+            return Optional.empty();
+        }
+        Optional<String> byAge(int age) {
+            return Optional.of("sudo");
+        }
     }
 
 }
