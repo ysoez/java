@@ -270,7 +270,7 @@ class ArraysTest {
     @Nested
     class ValidSubsequence {
 
-        @ParameterizedTest(name = "{0}: input={1}, targetSum={2}, out={3}")
+        @ParameterizedTest(name = "{0}: arr={1}, sequence={2}, out={3}")
         @MethodSource("happyPath")
         void testHappyPath(Arrays.ValidSubsequence validSubsequence, int[] arr, int[] sequence, boolean out) {
             assertEquals(out, validSubsequence.validate(arr, sequence));
@@ -300,6 +300,26 @@ class ArraysTest {
             );
         }
 
+    }
+
+    @Nested
+    class SortedSquared {
+
+        @ParameterizedTest(name = "{0}: arr={1}, expected={2}")
+        @MethodSource("happyPath")
+        void testHappyPath(Arrays.SortedSquared sortedSquared, int[] arr, int[] expected) {
+            assertArrayEquals(expected, sortedSquared.apply(arr));
+        }
+
+        @MethodSource
+        static Stream<Arguments> happyPath() {
+            return Stream.of(
+                    arguments(new Arrays.SortedSquared.BruteForce(), new int[]{-4, -1, 0, 3, 10}, new int[]{0, 1, 9, 16, 100}),
+                    arguments(new Arrays.SortedSquared.BruteForce(), new int[]{-7, -3, 2, 3, 11}, new int[]{4, 9, 9, 49, 121}),
+                    arguments(new Arrays.SortedSquared.MultiPointers(), new int[]{-4, -1, 0, 3, 10}, new int[]{0, 1, 9, 16, 100}),
+                    arguments(new Arrays.SortedSquared.MultiPointers(), new int[]{-7, -3, 2, 3, 11}, new int[]{4, 9, 9, 49, 121})
+            );
+        }
     }
 
 }
