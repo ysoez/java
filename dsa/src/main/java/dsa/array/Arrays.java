@@ -125,4 +125,39 @@ public class Arrays {
         }
     }
 
+    interface ValidSubsequence {
+
+        boolean validate(int[] arr, int[] sequence);
+
+        class WhileLoop implements ValidSubsequence {
+            @Override
+            @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
+            public boolean validate(int[] arr, int[] sequence) {
+                var arrIdx = 0;
+                var seqIdx = 0;
+                while (arrIdx < arr.length && seqIdx < sequence.length) {
+                    if (arr[arrIdx] == sequence[seqIdx])
+                        seqIdx++;
+                    arrIdx++;
+                }
+                return seqIdx == sequence.length;
+            }
+        }
+
+        class ForLoop implements ValidSubsequence {
+            @Override
+            @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
+            public boolean validate(int[] arr, int[] sequence) {
+                var seqIdx = 0;
+                for (int num : arr) {
+                    if (seqIdx == sequence.length)
+                        break;
+                    if (num == sequence[seqIdx])
+                        seqIdx++;
+                }
+                return seqIdx == sequence.length;
+            }
+        }
+    }
+
 }
