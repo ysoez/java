@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import static dsa.Algorithm.Assumption.ORDERING;
 import static dsa.Algorithm.Complexity.Value.*;
-import static java.util.Arrays.sort;
 
 public class Arrays {
 
@@ -76,6 +75,10 @@ public class Arrays {
                 }
                 return EMPTY_INT_ARR;
             }
+            @Override
+            public String toString() {
+                return getClass().getSimpleName();
+            }
         }
 
         // we test against inx from unsorted array
@@ -114,6 +117,10 @@ public class Arrays {
                     numberToIndex.put(arr[i], i);
                 }
                 return EMPTY_INT_ARR;
+            }
+            @Override
+            public String toString() {
+                return getClass().getSimpleName();
             }
         }
     }

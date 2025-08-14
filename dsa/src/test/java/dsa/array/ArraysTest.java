@@ -222,13 +222,13 @@ class ArraysTest {
     @Nested
     class TwoSum {
 
-        @ParameterizedTest
+        @ParameterizedTest(name = "{0}: input={1}, targetSum={2}, out={3}")
         @MethodSource("happyPath")
         void testHappyPath(Arrays.TwoSum twoSum, int[] in, int targetSum, int[] out) {
             assertArrayEquals(out, twoSum.getIndices(in, targetSum));
         }
 
-        @ParameterizedTest
+        @ParameterizedTest(name = "{0}: input={1}, targetSum={2}, out={3}")
         @MethodSource("cornerCases")
         void testCornerCases(Arrays.TwoSum twoSum, int[] in, int targetSum, int[] out) {
             assertArrayEquals(out, twoSum.getIndices(in, targetSum));
