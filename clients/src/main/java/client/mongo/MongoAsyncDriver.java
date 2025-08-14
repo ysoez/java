@@ -1,4 +1,4 @@
-package db.mongo;
+package client.mongo;
 
 import com.mongodb.async.SingleResultCallback;
 import com.mongodb.async.client.MongoClient;
