@@ -19,21 +19,34 @@ public class Arrays {
         return arr;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public static void checkCapacity(int capacity) {
         if (capacity < 0)
             throw new NegativeArraySizeException();
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public static void checkIndex(int index, int size) {
         if (index < 0 || index >= size) {
             throw new ArrayIndexOutOfBoundsException(index);
         }
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public static void swap(int[] arr, int idx1, int idx2) {
         var tmp = arr[idx1];
         arr[idx1] = arr[idx2];
         arr[idx2] = tmp;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    public static boolean isEmpty(Object[] arr) {
+        return arr == null || arr.length == 0;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    public static boolean isEmpty(int[] arr) {
+        return arr == null || arr.length == 0;
     }
 
     public static boolean isSorted(int[] arr) {
