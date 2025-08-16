@@ -1,6 +1,7 @@
 package dsa.challenge;
 
 import dsa.Algorithm;
+import dsa.Algorithm.Complexity;
 
 import java.util.Arrays;
 
@@ -9,7 +10,7 @@ import static dsa.Algorithm.Complexity.Value.LINEARITHMIC;
 
 class NonConstructibleChange {
 
-    @Algorithm(complexity = @Algorithm.Complexity(runtime = LINEARITHMIC, space = CONSTANT))
+    @Algorithm(complexity = @Complexity(runtime = LINEARITHMIC, space = CONSTANT))
     static int getMin(int[] coins) {
         Arrays.sort(coins);
         var currentChange = 0;
