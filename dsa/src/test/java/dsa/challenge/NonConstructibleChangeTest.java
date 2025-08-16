@@ -11,6 +11,7 @@ class NonConstructibleChangeTest {
         assertEquals(2, NonConstructibleChange.getMin(new int[]{1}));
         assertEquals(1, NonConstructibleChange.getMin(new int[]{2}));
         assertEquals(4, NonConstructibleChange.getMin(new int[]{1, 1, 1}));
+        assertEquals(6, NonConstructibleChange.getMin(new int[]{1, 1, 3}));
         assertEquals(6, NonConstructibleChange.getMin(new int[]{1, 1, 1, 1, 1}));
         assertEquals(7, NonConstructibleChange.getMin(new int[]{1, 2, 3}));
         assertEquals(4, NonConstructibleChange.getMin(new int[]{1, 2, 5}));
