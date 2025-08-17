@@ -6,12 +6,12 @@ import dsa.Algorithm.Complexity;
 import java.util.HashMap;
 
 import static dsa.Algorithm.Assumption.ORDERING;
-import static dsa.Algorithm.Complexity.Value.*;
-import static java.util.Arrays.sort;
+import static dsa.Algorithm.Complexity.*;
 
 public class Arrays {
 
-    static final int[] EMPTY_INT_ARR = new int[0];
+    public static final int[] EMPTY_INT_ARR = new int[0];
+    public static final int[][] EMPTY_2D_INT_ARR = new int[0][0];
 
     public static <E> E[] newArray(int capacity) {
         checkCapacity(capacity);

@@ -11,16 +11,14 @@ public @interface Algorithm {
     Traversal traversal() default Traversal.NONE;
 
     @interface Complexity {
-        Value runtime();
-        Value space();
-        enum Value {
-            CONSTANT,      // O(1)
-            LOGARITHMIC,   // O(log n)
-            LINEAR,        // O(n)
-            LINEARITHMIC,  // O(n log n)
-            QUADRATIC,     // O(n^2)
-            EXPONENTIAL    // O(2^n);
-        }
+        String runtime();
+        String space();
+        String CONSTANT = "O(1)";
+        String LOGARITHMIC = "O(log n)";
+        String LINEAR = "O(n)";
+        String LINEARITHMIC = "O(n * log n)";
+        String QUADRATIC = "O(n^2)";
+        String EXPONENTIAL = " O(2^n);";
     }
 
     enum Assumption {

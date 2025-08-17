@@ -5,7 +5,7 @@ import dsa.Algorithm.Complexity;
 
 import java.util.NoSuchElementException;
 
-import static dsa.Algorithm.Complexity.Value.CONSTANT;
+import static dsa.Algorithm.Complexity.CONSTANT;
 import static dsa.array.Arrays.checkCapacity;
 import static dsa.array.Arrays.checkIndex;
 

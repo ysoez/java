@@ -5,8 +5,8 @@ import dsa.Algorithm.Complexity;
 
 import java.util.Arrays;
 
-import static dsa.Algorithm.Complexity.Value.CONSTANT;
-import static dsa.Algorithm.Complexity.Value.LINEARITHMIC;
+import static dsa.Algorithm.Complexity.CONSTANT;
+import static dsa.Algorithm.Complexity.LINEARITHMIC;
 
 class NonConstructibleChange {
 

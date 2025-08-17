@@ -3,8 +3,8 @@ package dsa.challenge;
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
-import static dsa.Algorithm.Complexity.Value.CONSTANT;
-import static dsa.Algorithm.Complexity.Value.LINEAR;
+import static dsa.Algorithm.Complexity.CONSTANT;
+import static dsa.Algorithm.Complexity.LINEAR;
 
 interface ValidSubsequence {
 

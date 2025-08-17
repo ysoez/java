@@ -6,7 +6,7 @@ import dsa.Algorithm.Complexity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dsa.Algorithm.Complexity.Value.*;
+import static dsa.Algorithm.Complexity.*;
 import static dsa.Algorithm.Traversal.*;
 
 abstract class BinaryTree implements Tree<Long> {

@@ -5,7 +5,7 @@ import dsa.Algorithm.Complexity;
 
 import java.util.HashMap;
 
-import static dsa.Algorithm.Complexity.Value.LINEAR;
+import static dsa.Algorithm.Complexity.LINEAR;
 import static dsa.array.Arrays.isEmpty;
 
 class TournamentWinner {

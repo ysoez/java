@@ -4,7 +4,8 @@ import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
 import static dsa.Algorithm.Assumption.ORDERING;
-import static dsa.Algorithm.Complexity.Value.*;
+import static dsa.Algorithm.Complexity.LINEAR;
+import static dsa.Algorithm.Complexity.LINEARITHMIC;
 import static java.util.Arrays.sort;
 
 public interface SquareSortedArray {

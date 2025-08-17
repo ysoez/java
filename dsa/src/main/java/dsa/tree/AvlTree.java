@@ -3,8 +3,8 @@ package dsa.tree;
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
-import static dsa.Algorithm.Complexity.Value.CONSTANT;
-import static dsa.Algorithm.Complexity.Value.LOGARITHMIC;
+import static dsa.Algorithm.Complexity.CONSTANT;
+import static dsa.Algorithm.Complexity.LOGARITHMIC;
 import static dsa.Algorithm.Traversal.PRE_ORDER;
 
 class AvlTree extends BinarySearchTree {
