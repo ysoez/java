@@ -5,7 +5,6 @@ import dsa.list.ListTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ResizableArrayTest extends ListTest {
 
@@ -25,28 +24,6 @@ class ResizableArrayTest extends ListTest {
 
         array.insertLast(40);
         assertEquals(6, array.length());
-    }
-
-    @Test
-    void testDeleteAt() {
-        var array = new DynamicArray<>();
-        array.insertLast(10);
-        array.insertLast(20);
-        array.insertLast(30);
-        array.insertLast(40);
-
-        assertEquals(10, array.deleteAt(0));;
-        assertEquals(20, array.get(0));
-
-        assertEquals(30, array.deleteAt(1));
-        assertEquals(20, array.get(0));
-        assertEquals(40, array.get(1));
-
-        assertEquals(20, array.deleteAt(0));
-        assertEquals(40, array.get(0));
-
-        assertEquals(40, array.deleteAt(0));
-        assertTrue(array.isEmpty());
     }
 
 }

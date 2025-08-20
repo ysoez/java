@@ -73,14 +73,24 @@ public abstract class ListTest {
 
     @Test
     void testDeleteAtIndex() {
-        list.insertLast(5);
         list.insertLast(10);
-        list.insertLast(15);
+        list.insertLast(20);
+        list.insertLast(30);
+        list.insertLast(40);
 
-        var deleted = list.deleteAt(1);
+        assertEquals(10, list.deleteAt(0));;
+        assertEquals(20, list.get(0));
+        assertEquals(3, list.size());
 
-        assertEquals(2, list.size());
-        assertEquals(10, deleted);
+        assertEquals(30, list.deleteAt(1));
+        assertEquals(20, list.get(0));
+        assertEquals(40, list.get(1));
+
+        assertEquals(20, list.deleteAt(0));
+        assertEquals(40, list.get(0));
+
+        assertEquals(40, list.deleteAt(0));
+        assertTrue(list.isEmpty());
     }
 
     @Test
