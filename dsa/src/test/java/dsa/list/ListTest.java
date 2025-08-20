@@ -1,199 +1,120 @@
 package dsa.list;
 
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
-import java.util.stream.Stream;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ListTest {
+public abstract class ListTest {
 
-    // REVIEW TESTTS
+    private final List<Integer> list = newList();
 
-    @Nested
-    class InsertFirstTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void testInsertFirst_AddsElementAtStart(List<String> list) {
-            list.insertFirst("A");
-            assertEquals(0, list.indexOf("A"));
-        }
+    public abstract List<Integer> newList();
 
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void testInsertFirstOnEmptyList(List<String> list) {
-            assertTrue(list.isEmpty());
-            list.insertFirst("X");
-            assertFalse(list.isEmpty());
-        }
+    @Test
+    void testInsertFirst() {
+        list.insertFirst(10);
+        list.insertFirst(5);
 
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void insertFirstMultipleTimes(List<String> list) {
-            list.insertFirst("C");
-            list.insertFirst("B");
-            list.insertFirst("A");
-            assertEquals(0, list.indexOf("A"));
-            assertEquals(3, list.size());
-        }
+        assertEquals(2, list.size());
+        assertEquals(5, list.get(0));
+        assertEquals(10, list.get(1));
     }
 
-    @Nested
-    class InsertLastTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void insertLast_AppendsElement(List<String> list) {
-            list.insertLast("A");
-            list.insertLast("B");
-            assertEquals(1, list.indexOf("B"));
-        }
+    @Test
+    void testInsertLast() {
+        list.insertLast(1);
+        list.insertLast(2);
+        list.insertLast(3);
 
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void insertLast_OnEmptyList(List<String> list) {
-            list.insertLast("X");
-            assertEquals(0, list.indexOf("X"));
-        }
+        assertEquals(3, list.size());
+        assertEquals(3, list.get(2));
     }
 
-    @Nested
-    class InsertAtTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void insertAt_ValidIndex(List<String> list) {
-            list.insertLast("A");
-            list.insertLast("C");
-            list.insertAt(1, "B");
-            assertEquals("B", list.deleteAt(1));
-        }
+    @Test
+    void testInsertAtMiddle() {
+        list.insertLast(1);
+        list.insertLast(3);
 
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void insertAt_AtStart(List<String> list) {
-            list.insertLast("B");
-            list.insertAt(0, "A");
-            assertEquals(0, list.indexOf("A"));
-        }
+        list.insertAt(1, 2);
 
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void insertAt_AtEnd(List<String> list) {
-            list.insertLast("A");
-            list.insertAt(list.size(), "B");
-            assertEquals(1, list.indexOf("B"));
-        }
-
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void insertAt_InvalidIndexThrows(List<String> list) {
-            assertThrows(IndexOutOfBoundsException.class, () -> list.insertAt(1, "X"));
-        }
+        assertEquals(3, list.size());
+        assertEquals(2, list.get(1));
     }
 
-    @Nested
-    class DeleteFirstTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void deleteFirst_RemovesFirst(List<String> list) {
-            list.insertLast("A");
-            list.insertLast("B");
-            assertEquals("A", list.deleteFirst());
-        }
-
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void deleteFirst_OnEmptyListThrows(List<String> list) {
-            assertThrows(IndexOutOfBoundsException.class, list::deleteFirst);
-        }
+    @Test
+    void testInsertAtInvalidIndex() {
+        assertThrows(IndexOutOfBoundsException.class, () -> list.insertAt(-1, 5));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.insertAt(1, 10));
     }
 
-    @Nested
-    class DeleteLastTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void deleteLast_RemovesLast(List<String> list) {
-            list.insertLast("A");
-            list.insertLast("B");
-            assertEquals("B", list.deleteLast());
-        }
+    @Test
+    void testDeleteFirst() {
+        list.insertLast(10);
+        list.insertLast(20);
 
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void deleteLast_OnEmptyListThrows(List<String> list) {
-            assertThrows(IndexOutOfBoundsException.class, list::deleteLast);
-        }
+        var deleted = list.deleteFirst();
+
+        assertEquals(1, list.size());
+        assertEquals(10, deleted);
     }
 
-    @Nested
-    class DeleteAtTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void deleteAt_RemovesElementAtIndex(List<String> list) {
-            list.insertLast("A");
-            list.insertLast("B");
-            assertEquals("B", list.deleteAt(1));
-        }
+    @Test
+    void testDeleteLast() {
+        list.insertLast(100);
+        list.insertLast(200);
 
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void deleteAt_InvalidIndexThrows(List<String> list) {
-            list.insertLast("A");
-            assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(2));
-        }
+        var deleted = list.deleteLast();
+
+        assertEquals(1, list.size());
+        assertEquals(200, deleted);
     }
 
-    @Nested
-    class SizeTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void size_ReturnsCorrectValue(List<String> list) {
-            assertEquals(0, list.size());
-            list.insertLast("A");
-            assertEquals(1, list.size());
-        }
+    @Test
+    void testDeleteAtIndex() {
+        list.insertLast(5);
+        list.insertLast(10);
+        list.insertLast(15);
+
+        var deleted = list.deleteAt(1);
+
+        assertEquals(2, list.size());
+        assertEquals(10, deleted);
     }
 
-    @Nested
-    class IsEmptyTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void isEmpty_OnEmptyListTrue(List<String> list) {
-            assertTrue(list.isEmpty());
-        }
-
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void isEmpty_AfterInsertFalse(List<String> list) {
-            list.insertLast("A");
-            assertFalse(list.isEmpty());
-        }
+    @Test
+    void testDeleteAtInvalidIndex() {
+        list.insertLast(1);
+        assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(1));
     }
 
-    @Nested
-    class IndexOfTests {
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void indexOf_Found(List<String> list) {
-            list.insertLast("A");
-            assertEquals(0, list.indexOf("A"));
-        }
-
-        @ParameterizedTest
-        @MethodSource("dsa.list.ListTest#implementations")
-        void indexOf_NotFound(List<String> list) {
-            list.insertLast("A");
-            assertEquals(-1, list.indexOf("B"));
-        }
+    @Test
+    void testDeleteFromEmptyList() {
+        assertThrows(NoSuchElementException.class, list::deleteFirst);
+        assertThrows(NoSuchElementException.class, list::deleteLast);
     }
 
-    static Stream<Arguments> implementations() {
-        return Stream.of(
-                Arguments.arguments(new ArrayList<String>())
-        );
+    @Test
+    void testIndexOfAndContains() {
+        list.insertLast(42);
+        list.insertLast(99);
+
+        assertEquals(0, list.indexOf(42));
+        assertEquals(1, list.indexOf(99));
+
+        assertTrue(list.contains(42));
+        assertFalse(list.contains(7));
     }
 
+    @Test
+    void testIsEmpty() {
+        assertTrue(list.isEmpty());
+        list.insertLast(1);
+        assertFalse(list.isEmpty());
+        list.deleteFirst();
+        assertTrue(list.isEmpty());
+    }
 
 }

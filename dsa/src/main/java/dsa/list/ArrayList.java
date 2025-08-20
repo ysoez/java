@@ -4,15 +4,15 @@ import dsa.array.DynamicArray;
 
 class ArrayList<E> implements List<E> {
 
-    static final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
     private final DynamicArray<E> array;
 
     ArrayList() {
         this(DEFAULT_CAPACITY);
     }
 
-    ArrayList(int capacity) {
-        this.array = new DynamicArray<>(capacity);
+    ArrayList(int initialCapacity) {
+        this.array = new DynamicArray<>(initialCapacity);
     }
 
     @Override
@@ -28,6 +28,16 @@ class ArrayList<E> implements List<E> {
     @Override
     public void insertLast(E value) {
         array.insertLast(value);
+    }
+
+    @Override
+    public void set(int index, E value) {
+        array.set(index, value);
+    }
+
+    @Override
+    public E get(int index) {
+        return array.get(index);
     }
 
     @Override
