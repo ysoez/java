@@ -43,4 +43,14 @@ class ResizableArrayTest extends ListTest {
         assertEquals(6, array.length());
     }
 
+    @Test
+    void testTrimToSize() {
+        var array = new DynamicArray<>(5);
+        array.insertLast(1);
+
+        array.trimToSize();
+
+        assertEquals(array.size(), array.length());
+    }
+
 }
