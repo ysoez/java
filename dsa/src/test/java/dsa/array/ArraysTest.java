@@ -56,34 +56,6 @@ class ArraysTest {
     }
 
     @Nested
-    class CheckIndex {
-        @Test
-        void testCheckIndexValid() {
-            assertDoesNotThrow(() -> Arrays.checkIndex(2, 5));
-        }
-
-        @Test
-        void testCheckIndexEqualToSize() {
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(5, 5));
-        }
-
-        @Test
-        void testCheckIndexGreaterThanSize() {
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(6, 5));
-        }
-
-        @Test
-        void testCheckIndexNegative() {
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(-1, 5));
-        }
-
-        @Test
-        void testCheckIndexWithEmptyArray() {
-            assertThrows(ArrayIndexOutOfBoundsException.class, () -> Arrays.checkIndex(0, 0));
-        }
-    }
-
-    @Nested
     class Swap {
         @Test
         void testSwapTwoDifferentElements() {

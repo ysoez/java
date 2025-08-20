@@ -26,13 +26,6 @@ public class Arrays {
     }
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
-    public static void checkIndex(int index, int size) {
-        if (index < 0 || index >= size) {
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
-    }
-
-    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public static void swap(int[] arr, int idx1, int idx2) {
         var tmp = arr[idx1];
         arr[idx1] = arr[idx2];

@@ -8,7 +8,6 @@ import java.util.NoSuchElementException;
 import static dsa.Algorithm.Complexity.CONSTANT;
 import static dsa.Algorithm.Complexity.LINEAR;
 import static dsa.array.Arrays.checkCapacity;
-import static dsa.array.Arrays.checkIndex;
 
 public class DynamicArray<E> implements ResizableArray<E> {
 
@@ -29,14 +28,14 @@ public class DynamicArray<E> implements ResizableArray<E> {
     @Override
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public void set(int index, E value) {
-        checkIndex(index, size);
+        checkIndex(index);
         elements.set(index, value);
     }
 
     @Override
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E get(int index) {
-        checkIndex(index, size);
+        checkIndex(index);
         return elements.get(index);
     }
 
@@ -53,7 +52,7 @@ public class DynamicArray<E> implements ResizableArray<E> {
 
     @Override
     public void insertAt(int index, E value) {
-        checkIndex(index, size);
+        checkIndexForAdd(index);
         growIfFull();
         shiftFrom(index);
         elements.set(index, value);
@@ -98,7 +97,7 @@ public class DynamicArray<E> implements ResizableArray<E> {
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
     public E deleteAt(int index) {
         throwIfEmpty();
-        checkIndex(index, size);
+        checkIndex(index);
         var toRemove = elements.get(index);
         unshiftTo(index);
         size--;
@@ -118,6 +117,18 @@ public class DynamicArray<E> implements ResizableArray<E> {
         var arr = new StaticArray<E>(size);
         copyTo(arr);
         this.elements = arr;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size)
+            throw new ArrayIndexOutOfBoundsException(index);
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private void checkIndexForAdd(int index) {
+        if (index < 0 || index > size)
+            throw new IndexOutOfBoundsException();
     }
 
     @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
