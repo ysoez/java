@@ -113,9 +113,11 @@ public abstract class ListTest {
 
         assertEquals(0, list.indexOf(42));
         assertEquals(1, list.indexOf(99));
+        assertEquals(-1, list.indexOf(Integer.MAX_VALUE));
 
         assertTrue(list.contains(42));
         assertFalse(list.contains(7));
+        assertFalse(list.contains(Integer.MAX_VALUE));
     }
 
     @Test
