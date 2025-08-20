@@ -46,11 +46,13 @@ public class DynamicArray<E> implements ResizableArray<E> {
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public void insertFirst(E value) {
         insertAt(0, value);
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
     public void insertAt(int index, E value) {
         checkIndexForAdd(index);
         growIfFull();
