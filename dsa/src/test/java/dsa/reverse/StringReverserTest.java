@@ -1,6 +1,5 @@
-package dsa.challenge;
+package dsa.reverse;
 
-import dsa.Reverser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

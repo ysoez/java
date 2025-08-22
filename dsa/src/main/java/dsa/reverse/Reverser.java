@@ -1,4 +1,4 @@
-package dsa;
+package dsa.reverse;
 
 import java.util.function.UnaryOperator;
 

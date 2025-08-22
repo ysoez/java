@@ -1,6 +1,4 @@
-package dsa.challenge;
-
-import dsa.Reverser;
+package dsa.reverse;
 
 import java.util.ArrayDeque;
 
