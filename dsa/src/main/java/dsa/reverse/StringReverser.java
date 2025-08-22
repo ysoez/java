@@ -1,10 +1,15 @@
 package dsa.reverse;
 
+import dsa.Algorithm;
+
 import java.util.ArrayDeque;
+
+import static dsa.Algorithm.Complexity.LINEAR;
 
 class StringReverser implements Reverser<String> {
 
     @Override
+    @Algorithm(complexity = @Algorithm.Complexity(runtime = LINEAR, space = LINEAR))
     public String apply(String str) {
         if (str == null)
             return null;
