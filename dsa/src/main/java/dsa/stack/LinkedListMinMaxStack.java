@@ -1,14 +1,19 @@
 package dsa.stack;
 
+import dsa.Algorithm;
+import dsa.Algorithm.Complexity;
 import lombok.RequiredArgsConstructor;
 
 import java.util.EmptyStackException;
+
+import static dsa.Algorithm.Complexity.CONSTANT;
 
 class LinkedListMinMaxStack<E extends Comparable<E>> implements MinMaxStack<E> {
 
     private Node<E> top;
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public void push(E e) {
         var node = new Node<>(e);
         if (isEmpty()) {
@@ -23,6 +28,7 @@ class LinkedListMinMaxStack<E extends Comparable<E>> implements MinMaxStack<E> {
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E pop() {
         throwIfEmpty();
         var value = top.value;
@@ -31,28 +37,33 @@ class LinkedListMinMaxStack<E extends Comparable<E>> implements MinMaxStack<E> {
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E peek() {
         throwIfEmpty();
         return top.value;
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return top == null;
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E min() {
         throwIfEmpty();
         return top.min;
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E max() {
         throwIfEmpty();
         return top.max;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private E min(E e1, E e2) {
         if (e1 == null)
             return e2;
@@ -61,6 +72,7 @@ class LinkedListMinMaxStack<E extends Comparable<E>> implements MinMaxStack<E> {
         return e1.compareTo(e2) <= 0 ? e1 : e2;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private E max(E e1, E e2) {
         if (e1 == null)
             return e2;
@@ -69,6 +81,7 @@ class LinkedListMinMaxStack<E extends Comparable<E>> implements MinMaxStack<E> {
         return e1.compareTo(e2) >= 0 ? e1 : e2;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private void throwIfEmpty() {
         if (isEmpty())
             throw new EmptyStackException();
