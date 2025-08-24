@@ -129,4 +129,33 @@ public abstract class ListTest {
         assertTrue(list.isEmpty());
     }
 
+    @Test
+    void testReverse() {
+        list.insertLast(1);
+        list.insertLast(2);
+        list.insertLast(3);
+
+        list.reverse();
+
+        assertEquals(3, list.get(0));
+        assertEquals(2, list.get(1));
+        assertEquals(1, list.get(2));
+    }
+
+    @Test
+    void testGetFromEnd() {
+        list.insertLast(1);
+        list.insertLast(2);
+        list.insertLast(3);
+
+        assertEquals(3, list.getFromEnd(-2));
+        assertEquals(3, list.getFromEnd(-1));
+        assertEquals(3, list.getFromEnd(0));
+        assertEquals(3, list.getFromEnd(1));
+        assertEquals(2, list.getFromEnd(2));
+        assertEquals(1, list.getFromEnd(3));
+
+        assertThrows(IllegalArgumentException.class, () -> list.getFromEnd(4));
+    }
+
 }
