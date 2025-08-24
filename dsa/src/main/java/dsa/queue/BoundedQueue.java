@@ -1,6 +1,6 @@
 package dsa.queue;
 
-interface FixedQueue<E> extends Queue<E> {
+interface BoundedQueue<E> extends Queue<E> {
 
     boolean isFull();
 
