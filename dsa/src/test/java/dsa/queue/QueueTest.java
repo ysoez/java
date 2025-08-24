@@ -54,7 +54,6 @@ abstract class QueueTest {
         queue.enqueue(2);
         queue.enqueue(3);
 
-
         assertEquals(1, queue.poll());
         assertEquals(2, queue.poll());
         assertEquals(3, queue.poll());
