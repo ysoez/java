@@ -16,7 +16,7 @@ abstract class QueueTest {
         queue.enqueue(1);
         assertFalse(queue.isEmpty());
 
-        queue.peek();
+        queue.poll();
         assertTrue(queue.isEmpty());
     }
 
@@ -40,10 +40,10 @@ abstract class QueueTest {
         assertEquals(1, queue.peek());
 
         queue.enqueue(2);
-        assertEquals(2, queue.peek());
+        assertEquals(1, queue.peek());
 
-        queue.enqueue(3);
-        assertEquals(3, queue.peek());
+        queue.poll();
+        assertEquals(2, queue.peek());
     }
 
     @Test
