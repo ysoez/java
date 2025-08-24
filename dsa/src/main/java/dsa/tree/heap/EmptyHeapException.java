@@ -1,4 +1,4 @@
 package dsa.tree.heap;
 
-class EmptyHeapException extends IllegalStateException {
+public class EmptyHeapException extends IllegalStateException {
 }

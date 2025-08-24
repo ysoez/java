@@ -1,15 +1,21 @@
 package dsa.tree.heap;
 
-//todo: revisit and download all courses DSA & SD
-
 import static dsa.array.Arrays.swap;
 import static dsa.tree.heap.Heaps.leftChildIndex;
 import static dsa.tree.heap.Heaps.rightChildIndex;
 
 public class MaxHeap implements Heap {
 
-    private int[] arr = new int[10];
+    private final int[] arr;
     private int size;
+
+    public MaxHeap(int maxSize) {
+        arr = new int[maxSize];
+    }
+
+    public MaxHeap() {
+        arr = new int[10];
+    }
 
     @Override
     public void insert(int value) {

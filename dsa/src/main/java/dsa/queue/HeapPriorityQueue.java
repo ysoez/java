@@ -1,22 +1,53 @@
 package dsa.queue;
 
+import dsa.tree.heap.EmptyHeapException;
 import dsa.tree.heap.MaxHeap;
 
-// heap wrapper to provide queue interface
-public class HeapPriorityQueue {
+class HeapPriorityQueue implements BoundedPriorityQueue<Integer> {
 
-    private MaxHeap heap = new MaxHeap();
+    private final MaxHeap heap;
 
-    void enqueue(int val) {
-        heap.insert(val);
+    HeapPriorityQueue(int maxSize) {
+        heap = new MaxHeap(maxSize);
     }
 
-    void dequeue() {
-        heap.remove();
+    @Override
+    public void enqueue(Integer val) {
+        try {
+            heap.insert(val);
+        } catch (IllegalStateException e) {
+            throw new FullQueueException();
+        }
     }
 
-    boolean isEmpty() {
+    @Override
+    public Integer poll() {
+        try {
+            return heap.remove();
+        } catch (EmptyHeapException e) {
+            throw new EmptyQueueException();
+        }
+    }
+
+    @Override
+    public Integer peek() {
+        // causes test to fail
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isEmpty() {
         return heap.isEmpty();
+    }
+
+    @Override
+    public int size() {
+        return heap.size();
+    }
+
+    @Override
+    public boolean isFull() {
+        return heap.isFull();
     }
 
 }
