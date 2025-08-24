@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import static dsa.Algorithm.Complexity.CONSTANT;
 import static dsa.Algorithm.Complexity.LINEAR;
 import static dsa.array.Arrays.checkCapacity;
+import static dsa.array.Arrays.newArray;
 
 public class DynamicArray<E> implements ResizableArray<E> {
 
@@ -37,6 +38,14 @@ public class DynamicArray<E> implements ResizableArray<E> {
     public E get(int index) {
         checkIndex(index);
         return elements.get(index);
+    }
+
+    @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    public E getFromEnd(int offset) {
+        if (offset > size)
+            throw new IllegalArgumentException();
+        return offset > 0 ? elements.get(size - offset) : elements.get(size - 1);
     }
 
     @Override
@@ -111,6 +120,31 @@ public class DynamicArray<E> implements ResizableArray<E> {
     public E deleteLast() {
         throwIfEmpty();
         return elements.get(--size);
+    }
+
+    @Override
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    public E[] toArray() {
+        E[] arr = newArray(size);
+        for (int i = 0; i < size; i++)
+            arr[i] = elements.get(i);
+        return arr;
+    }
+
+    @Override
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
+    public void reverse() {
+        if (isEmpty() || size == 0)
+            return;
+        var left = 0;
+        var right = size - 1;
+        while (left != right) {
+            var leftVal = elements.get(left);
+            elements.set(left, elements.get(right));
+            elements.set(right, leftVal);
+            left++;
+            right--;
+        }
     }
 
     @Override

@@ -54,6 +54,12 @@ class ArrayList<E> implements List<E> {
 
     @Override
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    public E getFromEnd(int offset) {
+        return array.getFromEnd(offset);
+    }
+
+    @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public int size() {
         return array.size();
     }
@@ -86,6 +92,18 @@ class ArrayList<E> implements List<E> {
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public E deleteLast() {
         return array.deleteLast();
+    }
+
+    @Override
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    public E[] toArray() {
+        return array.toArray();
+    }
+
+    @Override
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
+    public void reverse() {
+        array.reverse();
     }
 
 }
