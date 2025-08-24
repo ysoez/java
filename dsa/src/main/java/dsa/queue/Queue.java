@@ -8,4 +8,6 @@ interface Queue<E> {
 
     E peek();
 
+    boolean isEmpty();
+
 }
