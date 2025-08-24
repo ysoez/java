@@ -1,17 +1,14 @@
 package dsa.array;
 
-import dsa.list.List;
 import dsa.list.ListTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ResizableArrayTest extends ListTest {
+abstract class ResizableArrayTest extends ListTest {
 
     @Override
-    public List<Integer> newList() {
-        return new DynamicArray<>();
-    }
+    public abstract ResizableArray<Integer> newList();
 
     @Test
     void testInsertLastAndGrow() {
