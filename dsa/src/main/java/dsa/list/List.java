@@ -12,6 +12,8 @@ public interface List<E> {
 
     E get(int index);
 
+    E getFromEnd(int offset);
+
     int size();
 
     boolean isEmpty();
@@ -27,5 +29,9 @@ public interface List<E> {
     E deleteAt(int index);
 
     E deleteLast();
+
+    E[] toArray();
+
+    void reverse();
 
 }
