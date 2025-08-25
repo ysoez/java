@@ -35,6 +35,9 @@ class QueueStack<E> implements Stack<E> {
             top = pushQueue.remove();
             queue2.add(top);
         }
+        //
+        // ~ swap the queues to repeat this algorithm next time on pop
+        //
         swapQueues();
         return queue2.remove();
     }
