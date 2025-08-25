@@ -2,14 +2,14 @@ package dsa.queue;
 
 import dsa.array.Arrays;
 
-class StaticArrayBoundedQueue<E> implements BoundedQueue<E> {
+class ArrayBoundedQueue<E> implements BoundedQueue<E> {
 
     private final E[] elements;
     private int front;
     private int rear;
     private int size;
 
-    StaticArrayBoundedQueue(int maxSize) {
+    ArrayBoundedQueue(int maxSize) {
         elements = Arrays.newArray(maxSize);
     }
 

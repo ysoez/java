@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class StaticArrayBoundedQueueTest extends BoundedQueueTest {
+class ArrayBoundedQueueTest extends BoundedQueueTest {
 
     @Override
     BoundedQueue<Integer> newQueue() {
-        return new StaticArrayBoundedQueue<>(3);
+        return new ArrayBoundedQueue<>(3);
     }
 
     @Test
     void testCircularArray() {
-        var queue = new StaticArrayBoundedQueue<>(3);
+        var queue = new ArrayBoundedQueue<>(3);
 
         queue.enqueue(1);
         queue.enqueue(2);
