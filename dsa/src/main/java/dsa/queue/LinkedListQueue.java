@@ -4,7 +4,10 @@ import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+
 import static dsa.Algorithm.Complexity.CONSTANT;
+import static dsa.Algorithm.Complexity.LINEAR;
 
 class LinkedListQueue<E> implements Queue<E> {
 
@@ -29,7 +32,11 @@ class LinkedListQueue<E> implements Queue<E> {
         if (isEmpty())
             throw new EmptyQueueException();
         var polled = front;
-        front = front.next;
+        if (front == rear)
+            front = rear = null;
+        else
+            front = front.next;
+        polled.next = null;
         return polled.value;
     }
 
@@ -45,6 +52,18 @@ class LinkedListQueue<E> implements Queue<E> {
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return front == null;
+    }
+
+    @Override
+    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = LINEAR))
+    public String toString() {
+        var list = new ArrayList<E>();
+        Node<E> current = front;
+        while (current != null) {
+            list.add(current.value);
+            current = current.next;
+        }
+        return list.toString();
     }
 
     @RequiredArgsConstructor
