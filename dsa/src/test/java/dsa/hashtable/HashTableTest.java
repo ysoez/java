@@ -88,32 +88,4 @@ abstract class HashTableTest {
         assertNull(table.remove("NonExistent"));
     }
 
-    //    @Test
-//    void testHandlingCollisions() {
-//        // Force collisions by using keys with same hash index
-//        HashTable<Integer, String> intTable = new LinearProbingHashTable<>(3);
-//
-//        intTable.put(3, "A"); // 3 % 3 = 0
-//        intTable.put(6, "B"); // 6 % 3 = 0 (collision, linear probe)
-//
-//        assertEquals("A", intTable.get(3));
-//        assertEquals("B", intTable.get(6));
-//    }
-
-//
-//    @Test
-//    void testRemoveAndReuseSlot() {
-//        HashTable<Integer, String> intTable = new LinearProbingHashTable<>(3);
-//
-//        intTable.put(3, "A");
-//        intTable.put(6, "B");
-//
-//        assertEquals("A", intTable.remove(3));
-//        intTable.put(9, "C"); // should reuse deleted slot
-//
-//        assertEquals("C", intTable.get(9));
-//        assertEquals("B", intTable.get(6));
-//    }
-
-
 }

@@ -1,9 +1,5 @@
-package dsa.tree;
+package dsa.graph.tree;
 
-import dsa.graph.tree.AvlTree;
-import dsa.graph.tree.BinarySearchTree;
-import dsa.graph.tree.EmptyTreeException;
-import dsa.graph.tree.Tree;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
