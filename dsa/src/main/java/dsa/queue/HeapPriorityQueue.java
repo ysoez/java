@@ -1,7 +1,7 @@
 package dsa.queue;
 
-import dsa.tree.heap.EmptyHeapException;
-import dsa.tree.heap.MaxHeap;
+import dsa.graph.tree.heap.EmptyHeapException;
+import dsa.graph.tree.heap.MaxHeap;
 
 class HeapPriorityQueue implements BoundedPriorityQueue<Integer> {
 

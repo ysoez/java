@@ -1,5 +1,6 @@
 package dsa.tree;
 
+import dsa.graph.tree.AvlTree;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,5 +1,6 @@
 package dsa.tree.heap;
 
+import dsa.graph.tree.heap.Heaps;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

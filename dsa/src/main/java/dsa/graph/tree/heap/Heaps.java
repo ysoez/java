@@ -1,4 +1,4 @@
-package dsa.tree.heap;
+package dsa.graph.tree.heap;
 
 import static dsa.array.Arrays.swap;
 

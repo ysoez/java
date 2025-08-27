@@ -1,6 +1,6 @@
 package dsa.sort;
 
-import dsa.tree.heap.MaxHeap;
+import dsa.graph.tree.heap.MaxHeap;
 
 class HeapSort implements Sort {
 

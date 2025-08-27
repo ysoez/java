@@ -1,4 +1,4 @@
-package dsa.tree;
+package dsa.graph.tree;
 
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;

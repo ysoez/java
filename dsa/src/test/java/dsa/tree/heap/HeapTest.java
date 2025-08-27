@@ -1,5 +1,7 @@
 package dsa.tree.heap;
 
+import dsa.graph.tree.heap.Heap;
+import dsa.graph.tree.heap.MaxHeap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

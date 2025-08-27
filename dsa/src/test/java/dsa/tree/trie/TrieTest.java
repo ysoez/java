@@ -1,5 +1,6 @@
 package dsa.tree.trie;
 
+import dsa.graph.tree.trie.Trie;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

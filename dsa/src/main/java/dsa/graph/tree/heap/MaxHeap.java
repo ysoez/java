@@ -1,8 +1,8 @@
-package dsa.tree.heap;
+package dsa.graph.tree.heap;
 
 import static dsa.array.Arrays.swap;
-import static dsa.tree.heap.Heaps.leftChildIndex;
-import static dsa.tree.heap.Heaps.rightChildIndex;
+import static dsa.graph.tree.heap.Heaps.leftChildIndex;
+import static dsa.graph.tree.heap.Heaps.rightChildIndex;
 
 public class MaxHeap implements Heap {
 
