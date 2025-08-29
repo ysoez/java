@@ -3,36 +3,38 @@ package dsa.graph.tree;
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
-import static dsa.Algorithm.Complexity.CONSTANT;
-import static dsa.Algorithm.Complexity.LINEAR;
+import static dsa.Algorithm.Complexity.*;
 import static dsa.Algorithm.Traversal.POST_ORDER;
 
-class BinarySearchTree extends BinaryTree {
+class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> {
 
-    private BstNode root;
+    private BstNode<E> root;
 
     @Override
-    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
-    public void insert(Long value) {
-        var node = new BstNode(value);
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT))
+    public void insert(E value) {
+        var node = new BstNode<>(value);
         if (isEmpty()) {
             root = node;
             return;
         }
-        var parent = root;
+        var current = root;
+        //
+        // ~ break when a parent is found
+        //
         while (true) {
-            if (parent.value > value) {
-                if (parent.left == null) {
-                    parent.left = node;
+            if (current.value.compareTo(value) > 0) {
+                if (current.left == null) {
+                    current.left = node;
                     break;
                 }
-                parent = parent.left;
-            } else if (parent.value < value) {
-                if (parent.right == null) {
-                    parent.right = node;
+                current = current.left;
+            } else if (current.value.compareTo(value) < 0) {
+                if (current.right == null) {
+                    current.right = node;
                     break;
                 }
-                parent = parent.right;
+                current = current.right;
             } else {
                 break;
             }
@@ -40,36 +42,36 @@ class BinarySearchTree extends BinaryTree {
     }
 
     @Override
-    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
-    public boolean find(Long value) {
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT))
+    public boolean find(E value) {
         var current = root();
-        while (current != null) {
-            if (value < current.value()) {
+        while (current != null)
+            if (value.compareTo(current.value()) < 0)
                 current = current.left();
-            } else if (value > current.value()) {
+            else if (value.compareTo(current.value()) > 0)
                 current = current.right();
-            } else {
+            else
                 return true;
-            }
-        }
         return false;
     }
 
     @Override
-    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT), traversal = POST_ORDER)
-    public Long min() {
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT), traversal = POST_ORDER)
+    public E min() {
         throwIfEmpty();
         return min(root());
     }
 
-    private Long min(Node node) {
+    private E min(Node<E> node) {
         if (node.isLeaf())
             return node.value();
         return min(node.left());
     }
 
-    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
-    private Long minIterative() {
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT), traversal = POST_ORDER)
+    private E minIterative() {
+        if (root == null)
+            throw new EmptyTreeException();
         var current = root;
         var last = current;
         while (current != null) {
@@ -80,45 +82,45 @@ class BinarySearchTree extends BinaryTree {
     }
 
     @Override
-    @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
-    public Long max() {
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT))
+    public E max() {
         throwIfEmpty();
         return max(root());
     }
 
-    private Long max(Node root) {
+    private E max(Node<E> root) {
         if (root.right() == null)
             return root.value();
         return max(root.right());
     }
 
     @Override
-    Node root() {
+    Node<E> root() {
         return root;
     }
 
-    private static class BstNode implements Node {
+    private static class BstNode<E> implements Node<E> {
 
-        private final Long value;
-        private BstNode left;
-        private BstNode right;
+        private final E value;
+        private BstNode<E> left;
+        private BstNode<E> right;
 
-        private BstNode(Long value) {
+        private BstNode(E value) {
             this.value = value;
         }
 
         @Override
-        public Node left() {
+        public Node<E> left() {
             return left;
         }
 
         @Override
-        public Node right() {
+        public Node<E> right() {
             return right;
         }
 
         @Override
-        public Long value() {
+        public E value() {
             return value;
         }
     }

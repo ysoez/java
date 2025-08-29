@@ -2,7 +2,7 @@ package dsa.graph.tree;
 
 import java.util.Collection;
 
-interface Tree<E> {
+interface Tree<E extends Comparable<E>> {
 
     void insert(E value);
 
@@ -24,10 +24,10 @@ interface Tree<E> {
 
     int height();
 
-    int leavesCount();
-
     E min();
 
     E max();
+
+    int leavesCount();
 
 }
