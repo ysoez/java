@@ -2,6 +2,7 @@ package dsa.stack;
 
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
+import dsa.Utils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.EmptyStackException;
@@ -21,8 +22,8 @@ class LinkedListMinMaxStack<E extends Comparable<E>> implements MinMaxStack<E> {
             node.max = e;
         } else {
             node.next = top;
-            node.min = min(e, top.min);
-            node.max = max(e, top.max);
+            node.min = Utils.min(e, top.min);
+            node.max = Utils.max(e, top.max);
         }
         top = node;
     }
@@ -61,24 +62,6 @@ class LinkedListMinMaxStack<E extends Comparable<E>> implements MinMaxStack<E> {
     public E max() {
         throwIfEmpty();
         return top.max;
-    }
-
-    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
-    private E min(E e1, E e2) {
-        if (e1 == null)
-            return e2;
-        if (e2 == null)
-            return e1;
-        return e1.compareTo(e2) <= 0 ? e1 : e2;
-    }
-
-    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
-    private E max(E e1, E e2) {
-        if (e1 == null)
-            return e2;
-        if (e2 == null)
-            return e1;
-        return e1.compareTo(e2) >= 0 ? e1 : e2;
     }
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
