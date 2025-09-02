@@ -30,4 +30,6 @@ interface Tree<E extends Comparable<E>> {
 
     int leavesCount();
 
+//     void remove(E value);
+
 }

@@ -6,21 +6,23 @@ import dsa.Algorithm.Complexity;
 import static dsa.Algorithm.Complexity.CONSTANT;
 import static dsa.Algorithm.Complexity.LOGARITHMIC;
 import static dsa.Algorithm.Traversal.PRE_ORDER;
+import static dsa.Utils.lessThan;
 
-class AvlTree extends BinarySearchTree {
+class AvlTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 
-    AvlNode root;
+    AvlNode<E> root;
 
     @Override
     @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = LOGARITHMIC), traversal = PRE_ORDER)
-    public void insert(Long value) {
+    public void insert(E value) {
         root = insert(root, value);
     }
 
-    private AvlNode insert(AvlNode node, Long value) {
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = LOGARITHMIC), traversal = PRE_ORDER)
+    private AvlNode<E> insert(AvlNode<E> node, E value) {
         if (node == null)
-            return new AvlNode(value);
-        if (value < node.value)
+            return new AvlNode<>(value);
+        if (lessThan(value, node.value))
             node.left = insert(node.left, value);
         else
             node.right = insert(node.right, value);
@@ -29,7 +31,7 @@ class AvlTree extends BinarySearchTree {
     }
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
-    private AvlNode balance(AvlNode node) {
+    private AvlNode<E> balance(AvlNode<E> node) {
         if (isLeftHeavy(node)) {
             if (balanceFactor(node.left) < 0)
                 node.left = rotateLeft(node.left);
@@ -42,7 +44,8 @@ class AvlTree extends BinarySearchTree {
         return node;
     }
 
-    private AvlNode rotateLeft(AvlNode node) {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private AvlNode<E> rotateLeft(AvlNode<E> node) {
         var newRoot = node.right;
         //
         // ~ rotate
@@ -60,7 +63,8 @@ class AvlTree extends BinarySearchTree {
         return newRoot;
     }
 
-    private AvlNode rotateRight(AvlNode node) {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private AvlNode<E> rotateRight(AvlNode<E> node) {
         var newRoot = node.left;
         //
         // ~ rotate
@@ -79,53 +83,58 @@ class AvlTree extends BinarySearchTree {
     }
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
-    private void setHeight(AvlNode node) {
+    private void setHeight(AvlNode<E> node) {
         node.height = Math.max(height(node.left), height(node.right)) + 1;
     }
 
-    private int height(AvlNode node) {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private int height(AvlNode<E> node) {
         return node == null ? -1 : node.height;
     }
 
-    private boolean isLeftHeavy(AvlNode node) {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private boolean isLeftHeavy(AvlNode<E> node) {
         return balanceFactor(node) > 1;
     }
 
-    private boolean isRightHeavy(AvlNode node) {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private boolean isRightHeavy(AvlNode<E> node) {
         return balanceFactor(node) < -1;
     }
 
-    int balanceFactor(AvlNode node) {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    int balanceFactor(AvlNode<E> node) {
         return node == null ? 0 : height(node.left) - height(node.right);
     }
 
     @Override
-    Node root() {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    Node<E> root() {
         return root;
     }
 
-    private static class AvlNode implements Node {
-        final Long value;
-        AvlNode left;
-        AvlNode right;
+    private static class AvlNode<E> implements Node<E> {
+        final E value;
+        AvlNode<E> left;
+        AvlNode<E> right;
         int height;
 
-        AvlNode(Long value) {
+        AvlNode(E value) {
             this.value = value;
         }
 
         @Override
-        public Node left() {
+        public Node<E> left() {
             return left;
         }
 
         @Override
-        public Node right() {
+        public Node<E> right() {
             return right;
         }
 
         @Override
-        public Long value() {
+        public E value() {
             return value;
         }
     }
