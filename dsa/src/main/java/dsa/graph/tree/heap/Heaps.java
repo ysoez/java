@@ -3,7 +3,7 @@ package dsa.graph.tree.heap;
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
-import static dsa.Algorithm.Complexity.CONSTANT;
+import static dsa.Algorithm.Complexity.*;
 import static dsa.array.Arrays.swap;
 
 class Heaps {
@@ -23,46 +23,57 @@ class Heaps {
         return (index - 1) / 2;
     }
 
-    // in place
-    static void maxHeapify(int[] arr) {
-        // 5, 3, 8, 4, 1, 2
-        // optimization 1: loop bound = last parent
-        // optimization 2: loop direction: go from bottom to up??
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = LOGARITHMIC))
+    static void maxHeapOf(int[] arr) {
+        //
+        // ~ iterate over parent nodes only
+        // ~ starting from the deepest parent node reduces the number of recursive calls
+        //
         var lastParentIndex = arr.length / 2 - 1;
         for (var i = lastParentIndex; i >= 0; i--)
-            maxHeapify(arr, i);
+            maxHeapOf(arr, i);
     }
 
-    private static void maxHeapify(int[] arr, int index) {
+    private static void maxHeapOf(int[] arr, int index) {
+        //
+        // ~ assume parent is the largest
+        //
         var largerIndex = index;
+        //
+        // ~ resolve the index of the largest value
+        //
         var leftIndex = leftChildIndex(index);
         if (leftIndex < arr.length && arr[leftIndex] > arr[largerIndex])
             largerIndex = leftIndex;
         var rightIndex = rightChildIndex(index);
         if (rightIndex < arr.length && arr[rightIndex] > arr[largerIndex])
             largerIndex = rightIndex;
+        //
+        // ~ parent is the largest (no op)
+        //
         if (index == largerIndex)
             return;
+        //
+        // ~ swap with a larger child
+        //
         swap(arr, index, largerIndex);
         //
-        // ~ go up
+        // ~ go down the subtree
         //
-        maxHeapify(arr, largerIndex);
+        maxHeapOf(arr, largerIndex);
     }
 
-    // using array impl
+
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = LINEAR))
     static int getKthLargest(int[] arr, int k) {
         if (k < 1 || k > arr.length)
             throw new IllegalArgumentException();
-        var heap = new MaxHeap();
-        for (int num : arr) {
+        var heap = new MaxHeap<Integer>();
+        for (int num : arr)
             heap.insert(num);
-        }
-//        for (int i = 0; i < k - 1; i++) {
-//            heap.remove();
-//        }
-//        return heap.max();
-        return 0;
+        for (int i = 0; i < k - 1; i++)
+            heap.remove();
+        return heap.max();
     }
 
 }
