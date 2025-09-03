@@ -3,6 +3,8 @@ package dsa.graph.tree.heap;
 import dsa.Algorithm;
 import dsa.Algorithm.Complexity;
 
+import java.lang.reflect.Array;
+
 import static dsa.Algorithm.Complexity.CONSTANT;
 import static dsa.Algorithm.Complexity.LOGARITHMIC;
 import static dsa.Utils.greaterThan;
@@ -22,7 +24,7 @@ public class MaxHeap<E extends Comparable<E>> implements Heap<E> {
 
     @SuppressWarnings("unchecked")
     public MaxHeap(int maxSize) {
-        elements = (E[]) java.lang.reflect.Array.newInstance(Comparable.class, maxSize);
+        elements = (E[]) Array.newInstance(Comparable.class, maxSize);
     }
 
     @Override
