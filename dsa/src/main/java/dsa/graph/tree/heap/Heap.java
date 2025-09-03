@@ -1,10 +1,10 @@
 package dsa.graph.tree.heap;
 
-interface Heap {
+interface Heap<E extends Comparable<E>> {
 
-    void insert(int value);
+    void insert(E value);
 
-    int remove();
+    E remove();
 
     int size();
 
@@ -12,6 +12,6 @@ interface Heap {
 
     boolean isEmpty();
 
-    int max();
+    E max();
 
 }

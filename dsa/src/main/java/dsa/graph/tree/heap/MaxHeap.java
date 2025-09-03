@@ -1,80 +1,107 @@
 package dsa.graph.tree.heap;
 
+import dsa.Algorithm;
+import dsa.Algorithm.Complexity;
+
+import static dsa.Algorithm.Complexity.CONSTANT;
+import static dsa.Algorithm.Complexity.LOGARITHMIC;
+import static dsa.Utils.greaterThan;
+import static dsa.Utils.greaterThanOrEqual;
 import static dsa.array.Arrays.swap;
-import static dsa.graph.tree.heap.Heaps.leftChildIndex;
-import static dsa.graph.tree.heap.Heaps.rightChildIndex;
+import static dsa.graph.tree.heap.Heaps.*;
 
-public class MaxHeap implements Heap {
+public class MaxHeap<E extends Comparable<E>> implements Heap<E> {
 
-    private final int[] arr;
+    private static final int DEFAULT_MAX_SIZE = 10;
+    final E[] elements;
     private int size;
 
-    public MaxHeap(int maxSize) {
-        arr = new int[maxSize];
+    public MaxHeap() {
+        this(DEFAULT_MAX_SIZE);
     }
 
-    public MaxHeap() {
-        arr = new int[10];
+    @SuppressWarnings("unchecked")
+    public MaxHeap(int maxSize) {
+        elements = (E[]) java.lang.reflect.Array.newInstance(Comparable.class, maxSize);
     }
 
     @Override
-    public void insert(int value) {
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT))
+    public void insert(E value) {
         if (isFull())
-            throw new IllegalStateException("FULL");
-        arr[size++] = value;
+            throw new FullHeapException();
+        elements[size++] = value;
         bubbleUp();
     }
 
     @Override
-    public int remove() {
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT))
+    public E remove() {
         throwIfEmpty();
-        var root = arr[0];
-        arr[0] = arr[--size];
+        var root = elements[0];
+        //
+        // ~ move last element to the top
+        //
+        elements[0] = elements[--size];
         bubbleDown();
         return root;
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public int size() {
         return size;
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isFull() {
-        return arr.length == size;
+        return elements.length == size;
     }
 
     @Override
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public boolean isEmpty() {
         return size == 0;
     }
 
     @Override
-    public int max() {
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    public E max() {
         throwIfEmpty();
-        return arr[0];
+        return elements[0];
     }
 
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT))
     private void bubbleUp() {
+        //
+        // ~ resolve new element index (incremented after insert)
+        //
         var index = size - 1;
-        while (index > 0 && arr[index] > arr[parentIndex(index)]) {
-            swap(arr, index, parentIndex(index));
+        //
+        // ~ propagate bigger values to the top
+        // ~ ensure index > 0 for a valid parentIndex (avoid ArrayStoreException)
+        //
+        while (index > 0 && greaterThan(elements[index], elements[parentIndex(index)])) {
+            swap(elements, index, parentIndex(index));
             index = parentIndex(index);
         }
     }
 
+    @Algorithm(complexity = @Complexity(runtime = LOGARITHMIC, space = CONSTANT))
     private void bubbleDown() {
         var index = 0;
         while (index <= size && !isValidParent(index)) {
             var largerChildIndex = largerChildIndex(index);
-            swap(arr, index, largerChildIndex);
+            swap(elements, index, largerChildIndex);
             index = largerChildIndex;
         }
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private int largerChildIndex(int index) {
         //
-        // ~ no left child = no children (complete tree)
+        // ~ in complete tree no left child = no children
         //
         if (!hasLeftChild(index)) {
             return index;
@@ -85,42 +112,44 @@ public class MaxHeap implements Heap {
         //
         // ~ node has left and right child
         //
-        return leftChild(index) > rightChild(index) ? leftChildIndex(index) : rightChildIndex(index);
+        return greaterThan(leftChild(index), rightChild(index)) ? leftChildIndex(index) : rightChildIndex(index);
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private boolean hasLeftChild(int index) {
         return leftChildIndex(index) <= size;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private boolean hasRightChild(int index) {
         return rightChildIndex(index) <= size;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private boolean isValidParent(int index) {
         //
-        // ~ no left child = invalid (complete tree)
+        // ~ in complete tree no left child = no children
         //
         if (!hasLeftChild(index))
             return true;
-        var parent = arr[index];
-        var isValid = parent >= leftChild(index);
+        var parent = elements[index];
+        var isValid = greaterThanOrEqual(parent, leftChild(index));
         if (hasRightChild(index))
-            isValid &= parent >= rightChild(index);
+            isValid &= greaterThanOrEqual(parent, rightChild(index));
         return isValid;
     }
 
-    private int leftChild(int index) {
-        return arr[leftChildIndex(index)];
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private E leftChild(int index) {
+        return elements[leftChildIndex(index)];
     }
 
-    private int rightChild(int index) {
-        return arr[rightChildIndex(index)];
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    private E rightChild(int index) {
+        return elements[rightChildIndex(index)];
     }
 
-    private int parentIndex(int index) {
-        return (index - 1) / 2;
-    }
-
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     private void throwIfEmpty() {
         if (isEmpty())
             throw new EmptyHeapException();

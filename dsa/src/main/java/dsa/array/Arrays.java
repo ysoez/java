@@ -33,6 +33,13 @@ public class Arrays {
     }
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    public static void swap(Object[] arr, int idx1, int idx2) {
+        var tmp = arr[idx1];
+        arr[idx1] = arr[idx2];
+        arr[idx2] = tmp;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public static boolean isEmpty(Object[] arr) {
         return arr == null || arr.length == 0;
     }
