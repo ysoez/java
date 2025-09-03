@@ -6,7 +6,7 @@ class HeapSort implements Sort {
 
     @Override
     public int[] asc(int[] ints) {
-        var heap = new MaxHeap();
+        var heap = new MaxHeap<Integer>();
         for (int num : ints)
             heap.insert(num);
         for (int i = ints.length - 1; i >= 0; i--)
@@ -16,7 +16,7 @@ class HeapSort implements Sort {
 
     @Override
     public int[] desc(int[] ints) {
-        var heap = new MaxHeap();
+        var heap = new MaxHeap<Integer>();
         for (int num : ints)
             heap.insert(num);
         for (int i = 0; i < ints.length; i++)
@@ -24,4 +24,8 @@ class HeapSort implements Sort {
         return ints;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }
