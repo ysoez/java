@@ -4,7 +4,7 @@ class HeapPriorityQueueTest extends BoundedPriorityQueueTest {
 
     @Override
     BoundedPriorityQueue<Integer> newQueue() {
-        return new HeapPriorityQueue(3);
+        return new HeapPriorityQueue<>(3);
     }
 
 }

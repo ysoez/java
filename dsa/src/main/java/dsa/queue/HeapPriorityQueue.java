@@ -3,16 +3,16 @@ package dsa.queue;
 import dsa.graph.tree.heap.EmptyHeapException;
 import dsa.graph.tree.heap.MaxHeap;
 
-class HeapPriorityQueue implements BoundedPriorityQueue<Integer> {
+class HeapPriorityQueue<E extends Comparable<E>> implements BoundedPriorityQueue<E> {
 
-    private final MaxHeap heap;
+    private final MaxHeap<E> heap;
 
     HeapPriorityQueue(int maxSize) {
-        heap = new MaxHeap(maxSize);
+        heap = new MaxHeap<>(maxSize);
     }
 
     @Override
-    public void enqueue(Integer val) {
+    public void enqueue(E val) {
         try {
             heap.insert(val);
         } catch (IllegalStateException e) {
@@ -21,7 +21,7 @@ class HeapPriorityQueue implements BoundedPriorityQueue<Integer> {
     }
 
     @Override
-    public Integer poll() {
+    public E poll() {
         try {
             return heap.remove();
         } catch (EmptyHeapException e) {
@@ -30,9 +30,12 @@ class HeapPriorityQueue implements BoundedPriorityQueue<Integer> {
     }
 
     @Override
-    public Integer peek() {
-        // causes test to fail
-        throw new UnsupportedOperationException();
+    public E peek() {
+        try {
+            return heap.max();
+        } catch (EmptyHeapException e) {
+            throw new EmptyQueueException();
+        }
     }
 
     @Override
