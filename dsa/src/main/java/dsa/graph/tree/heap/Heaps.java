@@ -1,15 +1,26 @@
 package dsa.graph.tree.heap;
 
+import dsa.Algorithm;
+import dsa.Algorithm.Complexity;
+
+import static dsa.Algorithm.Complexity.CONSTANT;
 import static dsa.array.Arrays.swap;
 
 class Heaps {
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     static int leftChildIndex(int index) {
         return index * 2 + 1;
     }
 
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     static int rightChildIndex(int index) {
         return index * 2 + 2;
+    }
+
+    @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
+    static int parentIndex(int index) {
+        return (index - 1) / 2;
     }
 
     // in place
@@ -47,10 +58,11 @@ class Heaps {
         for (int num : arr) {
             heap.insert(num);
         }
-        for (int i = 0; i < k - 1; i++) {
-            heap.remove();
-        }
-        return heap.max();
+//        for (int i = 0; i < k - 1; i++) {
+//            heap.remove();
+//        }
+//        return heap.max();
+        return 0;
     }
 
 }
