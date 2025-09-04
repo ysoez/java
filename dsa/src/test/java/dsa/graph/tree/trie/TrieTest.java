@@ -1,6 +1,5 @@
 package dsa.graph.tree.trie;
 
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -8,24 +7,31 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TrieTest {
+abstract class TrieTest {
 
-    private final Trie trie = new Trie();
-
-    @Test
-    void lokkup() {
-        trie.insert("cat");
-        trie.insert("can");
-    }
+    abstract Trie newTrie();
 
     @Test
-    void lokkupXX() {
-        trie.insert("canada");
+    void testContains() {
+        var trie = newTrie();
+        trie.insert("cant");
+
         assertFalse(trie.contains("can"));
+        assertTrue(trie.contains("cant"));
     }
 
     @Test
-    void remove() {
+    void testContainsInvalidWord() {
+        var trie = newTrie();
+        trie.insert("cant");
+
+        assertFalse(trie.contains(null));
+        assertFalse(trie.contains(""));
+    }
+
+    @Test
+    void testRemoveSoft() {
+        var trie = newTrie();
         trie.insert("car");
         trie.insert("care");
 
@@ -36,7 +42,8 @@ class TrieTest {
     }
 
     @Test
-    void remove2() {
+    void testRemoveHard() {
+        var trie = newTrie();
         trie.insert("car");
         trie.insert("care");
 
@@ -47,40 +54,48 @@ class TrieTest {
     }
 
     @Test
-    void remove3() {
+    void testRemoveNotExistedWord() {
+        var trie = newTrie();
         trie.insert("car");
-        trie.insert("care");
 
         trie.remove("book");
+
+        assertTrue(trie.contains("car"));
+    }
+
+    @Test
+    void testRemoveInvalidWord() {
+        var trie = newTrie();
+        trie.insert("car");
+
         trie.remove("");
+        trie.remove(" ");
         trie.remove(null);
 
         assertTrue(trie.contains("car"));
-        assertTrue(trie.contains("care"));
     }
 
-    @Nested
-    class FindWord {
-        @Test
-        void words() {
-            trie.insert("car");
-            trie.insert("card");
-            trie.insert("care");
-            trie.insert("careful");
-            trie.insert("egg");
+    @Test
+    void testFindWords() {
+        var trie = newTrie();
+        trie.insert("car");
+        trie.insert("card");
+        trie.insert("care");
+        trie.insert("careful");
+        trie.insert("egg");
 
-            assertEquals(Collections.emptyList(), trie.findWords(""));
-            assertEquals(List.of("car", "card", "care", "careful"), trie.findWords("c"));
-            assertEquals(List.of("car", "card", "care", "careful"), trie.findWords("car"));
-            assertEquals(List.of("care", "careful"), trie.findWords("care"));
-            assertEquals(List.of("card"), trie.findWords("card"));
+        assertEquals(List.of("car", "card", "care", "careful", "egg"), trie.findWords(""));
 
-            assertEquals(List.of("egg"), trie.findWords("e"));
-            assertEquals(List.of("egg"), trie.findWords("egg"));
+        assertEquals(List.of("car", "card", "care", "careful"), trie.findWords("c"));
+        assertEquals(List.of("car", "card", "care", "careful"), trie.findWords("car"));
+        assertEquals(List.of("care", "careful"), trie.findWords("care"));
+        assertEquals(List.of("card"), trie.findWords("card"));
 
-            assertEquals(Collections.emptyList(), trie.findWords("cargo"));
-//            assertEquals(Collections.emptyList(), trie.findWords(null));
-        }
+        assertEquals(List.of("egg"), trie.findWords("e"));
+        assertEquals(List.of("egg"), trie.findWords("egg"));
+
+        assertEquals(Collections.emptyList(), trie.findWords("cargo"));
+        assertEquals(Collections.emptyList(), trie.findWords(null));
     }
 
 }
