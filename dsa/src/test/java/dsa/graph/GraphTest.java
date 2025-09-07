@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 abstract class GraphTest {
 
@@ -93,6 +93,34 @@ abstract class GraphTest {
         graph.addEdge("encryption-lib", "project");
 
         assertEquals(List.of("core-lib", "encryption-lib", "compression-lib", "project"), graph.topologicalSort());
+    }
+
+    @Test
+    void testCyclicGraph() {
+        var graph = newGraph();
+        graph.addNode("A");
+        graph.addNode("B");
+        graph.addNode("C");
+
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+
+        assertTrue(graph.hasCycle());
+    }
+
+    @Test
+    void testAcyclicGraph() {
+        var graph = newGraph();
+        graph.addNode("A");
+        graph.addNode("B");
+        graph.addNode("C");
+
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("A", "C");
+
+        assertFalse(graph.hasCycle());
     }
 
 }

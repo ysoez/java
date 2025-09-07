@@ -21,6 +21,8 @@ interface Graph<E> {
 
     List<E> topologicalSort();
 
+    boolean hasCycle();
+
     interface Traverser<E> {
         List<E> startFrom(E val);
     }

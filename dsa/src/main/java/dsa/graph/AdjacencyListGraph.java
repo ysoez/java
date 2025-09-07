@@ -86,6 +86,35 @@ class AdjacencyListGraph<E> implements Graph<E> {
         return sorted;
     }
 
+    @Override
+    public boolean hasCycle() {
+        var all = new HashSet<>(nodes.values());
+        var visiting = new HashSet<Node<E>>();
+        var visited = new HashSet<Node<E>>();
+        while (!all.isEmpty()) {
+            var current = all.iterator().next();
+            if (hasCycle(current, all, visiting, visited))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean hasCycle(Node<E> node, Set<Node<E>> all, Set<Node<E>> visiting, Set<Node<E>> visited) {
+        all.remove(node);
+        visiting.add(node);
+        for (Node<E> neighbour : adjacencyList.get(node)) {
+            if (visited.contains(neighbour))
+                continue;
+            if (visiting.contains(neighbour))
+                return true;
+            if (hasCycle(neighbour, all, visiting, visited))
+                return true;
+        }
+        visiting.remove(node);
+        visited.add(node);
+        return false;
+    }
+
     private void topologicalSort(Node<E> node, Set<Node<E>> visited, Deque<Node<E>> stack) {
         if (visited.contains(node))
             return;
