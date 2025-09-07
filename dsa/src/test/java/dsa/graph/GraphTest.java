@@ -79,4 +79,20 @@ abstract class GraphTest {
         assertEquals(List.of(), out);
     }
 
+    @Test
+    void testTopologicalSort() {
+        var graph = newGraph();
+        graph.addNode("core-lib");
+        graph.addNode("compression-lib");
+        graph.addNode("encryption-lib");
+        graph.addNode("project");
+
+        graph.addEdge("core-lib", "compression-lib");
+        graph.addEdge("core-lib", "encryption-lib");
+        graph.addEdge("compression-lib", "project");
+        graph.addEdge("encryption-lib", "project");
+
+        assertEquals(List.of("core-lib", "encryption-lib", "compression-lib", "project"), graph.topologicalSort());
+    }
+
 }

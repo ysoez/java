@@ -19,6 +19,8 @@ interface Graph<E> {
 
     Traverser<E> bft();
 
+    List<E> topologicalSort();
+
     interface Traverser<E> {
         List<E> startFrom(E val);
     }

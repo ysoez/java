@@ -74,6 +74,27 @@ class AdjacencyListGraph<E> implements Graph<E> {
         return new Bft();
     }
 
+    @Override
+    public List<E> topologicalSort() {
+        var stack = new ArrayDeque<Node<E>>();
+        var visited = new HashSet<Node<E>>();
+        for (var node : nodes.values())
+            topologicalSort(node, visited, stack);
+        var sorted = new ArrayList<E>();
+        while (!stack.isEmpty())
+            sorted.add(stack.pop().value);
+        return sorted;
+    }
+
+    private void topologicalSort(Node<E> node, Set<Node<E>> visited, Deque<Node<E>> stack) {
+        if (visited.contains(node))
+            return;
+        visited.add(node);
+        for (Node<E> neighbour : adjacencyList.get(node))
+            topologicalSort(neighbour, visited, stack);
+        stack.push(node);
+    }
+
     private void throwIfNull(Node<E> node) {
         if (node == null)
             throw new IllegalArgumentException();
