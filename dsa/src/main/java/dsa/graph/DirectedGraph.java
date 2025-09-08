@@ -6,7 +6,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
-class AdjacencyListGraph<E> implements Graph<E> {
+class DirectedGraph<E> implements Graph<E> {
 
     private final Map<E, Node<E>> nodes = new HashMap<>();
     private final Map<Node<E>, List<Node<E>>> adjacencyList = new HashMap<>();
