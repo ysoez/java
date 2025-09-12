@@ -1,8 +1,6 @@
 rootProject.name = 'java'
 
-include ':library'
-include ':language'
-
+include ':core'
 include ':dsa'
 include ':reactive'
 include ':serialization'
