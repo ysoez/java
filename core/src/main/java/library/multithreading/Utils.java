@@ -1,4 +1,4 @@
-package library.concurrency;
+package library.multithreading;
 
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.Thread.currentThread;
 import static java.time.LocalDateTime.now;
 
-public class ConcurrencyUtils {
+public class Utils {
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
