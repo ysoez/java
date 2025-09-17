@@ -12,16 +12,15 @@ class StreamGathererIntegrator {
                 .forEach(System.out::println);
     }
 
-    private static class StatelessIntegrator implements Gatherer.Integrator<Void, Integer, Integer> {
+    private static class StatelessIntegrator implements Gatherer.Integrator.Greedy<Void, Integer, Integer> {
         @Override
         public boolean integrate(Void state, Integer element, Gatherer.Downstream<? super Integer> downstream) {
             //
-            // ~ propagate doubled values to a downstream
+            // ~ propagate doubled values to the downstream
             //
             downstream.push(element * 2);
             //
-            // ~ consume all upstream (greedy integrator)
-            // ~ use false for short-circuiting
+            // ~ greedy integrator always returns true (consumes all upstream)
             //
             return true;
         }
