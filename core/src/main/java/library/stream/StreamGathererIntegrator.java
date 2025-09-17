@@ -20,7 +20,7 @@ class StreamGathererIntegrator {
             //
             downstream.push(element * 2);
             //
-            // ~ consume all upstream
+            // ~ consume all upstream (use false for short-circuiting)
             //
             return true;
         }
