@@ -1,7 +1,10 @@
 package library.stream;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.stream.Gatherer;
+import java.util.stream.Gatherer.Integrator;
 import java.util.stream.Stream;
 
 class StreamGathererStateful {
@@ -10,13 +13,11 @@ class StreamGathererStateful {
         Stream.of(1, 2, 3, 4, 5, 5, 4, 3, 2, 1)
                 .gather(limit(6))
                 .gather(distinct())
+                .gather(movingAverage(3))
                 .forEach(System.out::println);
     }
 
     private static <T> Gatherer<T, ?, T> limit(int maxSize) {
-        //
-        // ~ an array or local class can be used to store state
-        //
         return Gatherer.ofSequential(
                 () -> new int[1],
                 (int[] counter, T element, Gatherer.Downstream<? super T> downstream) -> {
@@ -36,6 +37,22 @@ class StreamGathererStateful {
             seen.add(element);
             return downstream.push(element);
         });
+    }
+
+    private static <T extends Number> Gatherer<T, ?, Double> movingAverage(int windowSize) {
+        class State {
+            private final Deque<T> deque = new ArrayDeque<>();
+            private double sum;
+
+            double average(T number) {
+                deque.addLast(number);
+                sum += number.doubleValue();
+                if (deque.size() > windowSize)
+                    sum -= deque.removeFirst().doubleValue();
+                return sum / deque.size();
+            }
+        }
+        return Gatherer.ofSequential(State::new, Integrator.ofGreedy((state, element, downstream) -> downstream.push(state.average(element))));
     }
 
 }
