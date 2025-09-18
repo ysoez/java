@@ -24,11 +24,11 @@ class StreamGathererFinisher {
     }
 
     private static <T> Gatherer<T, ?, List<T>> batch(int size) {
-        return batch(() -> new BatchBuffer<T>(size));
+        return batch(() -> new BatchBuffer<>(size));
     }
 
     private static <T> Gatherer<T, ?, List<T>> batchUntil(Predicate<T> condition) {
-        return batch(() -> new BatchBuffer<T>(condition));
+        return batch(() -> new BatchBuffer<>(condition));
     }
 
     private static <T> Gatherer<T, ?, List<T>> batch(Supplier<BatchBuffer<T>> init) {
