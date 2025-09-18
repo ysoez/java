@@ -1,4 +1,4 @@
-package type;
+package language.type;
 
 class RecordCompactConstructor {
 
