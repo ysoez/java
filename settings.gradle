@@ -2,6 +2,8 @@ rootProject.name = 'java'
 
 include ':core'
 include ':dsa'
+include ':multithreading'
+include ':sandbox'
 //include ':reactive'
 //include ':serialization'
 //include ':network'
