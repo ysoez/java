@@ -4,6 +4,12 @@ include ':core'
 include ':dsa'
 include ':multithreading'
 include ':sandbox'
+
+//
+// ~ guava
+//
+include ':utils:guava'
+
 //include ':reactive'
 //include ':serialization'
 //include ':network'
