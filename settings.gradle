@@ -6,9 +6,14 @@ include ':multithreading'
 include ':sandbox'
 
 //
-// ~ guava
+// ~ utils
 //
 include ':utils:guava'
+
+//
+// ~ persistence
+//
+include ':persistence'
 
 //include ':reactive'
 //include ':serialization'
