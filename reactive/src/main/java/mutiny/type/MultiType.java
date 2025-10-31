@@ -6,8 +6,10 @@ import java.util.stream.IntStream;
 
 class MultiType {
 
-    // ~ multi emits either 0, 1, n items or failure
     public static void main(String[] args) {
+        //
+        // ~ multi emits either 0-n items or failure
+        //
         onSuccess();
         onFailure();
         onFailureRecovery();

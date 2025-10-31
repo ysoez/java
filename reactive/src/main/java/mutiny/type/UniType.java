@@ -4,8 +4,10 @@ import io.smallrye.mutiny.Uni;
 
 public class UniType {
 
-    // ~ uni emits either 1 item or failure
     public static void main(String[] args) {
+        //
+        // ~ uni emits either 1 item or failure
+        //
         onSuccess();
         onFailure();
     }
@@ -13,7 +15,6 @@ public class UniType {
     private static void onSuccess() {
         Uni.createFrom()
                 .item("item")
-                .onItem().transform(item -> item + "-transform")
                 .onItem().transform(String::toUpperCase)
                 .subscribe().with(System.out::println);
     }
