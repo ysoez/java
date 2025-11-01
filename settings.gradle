@@ -1,31 +1,46 @@
 rootProject.name = 'java'
 
-include ':core'
-include ':dsa'
-include ':multithreading'
+//include ':core'
+//include ':dsa'
+//include ':multithreading'
 
 //
 // ~ utils
 //
-include ':utils:guava'
+//include ':utils:guava'
 
 //
 // ~ persistence
 //
-include ':persistence'
+//include ':persistence'
 
 //
 // ~ protocols
 //
-include ':protocol:http'
+//include ':protocol:http'
+
+//
+// ~ clients
+//
+include ':client:zookeeper'
+
+//
+// ~ reactive
+//
+//include ':reactive'
 
 //
 // ~ sandbox
 //
-include ':sandbox'
-include ':sandbox:distributed-search'
+//include ':sandbox'
+include ':sandbox:distributed-algorithms:cluster-core'
+include ':sandbox:distributed-algorithms:cluster-leader-election'
+include ':sandbox:distributed-algorithms:cluster-service-registry'
+include ':sandbox:distributed-search:frontend-server'
+include ':sandbox:distributed-search:cluster-server-api'
+include ':sandbox:distributed-search:cluster-server'
+include ':sandbox:load-balancing:haproxy'
 
-//include ':reactive'
 //include ':serialization'
 //include ':network'
 //include ':io'
