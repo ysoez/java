@@ -1,0 +1,7 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api "org.apache.zookeeper:zookeeper:3.9.4"
+}
