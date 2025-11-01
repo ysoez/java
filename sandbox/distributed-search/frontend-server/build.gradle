@@ -5,13 +5,13 @@ plugins {
 }
 
 dependencies {
-    implementation project(':distributed-systems:distributed-algorithms:cluster-core')
-    implementation project(':distributed-systems:distributed-search:search-cluster-api')
+    implementation project(':sandbox:distributed-algorithms:cluster-core')
+    implementation project(':sandbox:distributed-search:cluster-server-api')
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
 }
 
 application {
-    mainClass = 'search.frontend.FrontendServerRunner'
+    mainClass = 'fe.FrontendServerRunner'
 }
 
 jar {
@@ -23,6 +23,6 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
-    dependsOn(':distributed-systems:distributed-algorithms:cluster-core:jar')
-    dependsOn(':distributed-systems:distributed-search:search-cluster-api:jar')
+    dependsOn(':sandbox:distributed-algorithms:cluster-core:jar')
+    dependsOn(':sandbox:distributed-search:cluster-server-api:jar')
 }

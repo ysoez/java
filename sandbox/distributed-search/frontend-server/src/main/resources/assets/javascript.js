@@ -1,7 +1,6 @@
-$( document ).ready(function() {
-    console.log( "ready!" );
+$(document).ready(function() {
+    console.log("ready");
 
-    // find elements on the page
     var banner = $("#banner-message");
     var button = $("#submit_button");
     var searchBox = $("#search_text");
@@ -11,11 +10,8 @@ $( document ).ready(function() {
     var resultsWrapper = $("#results");
     var noResultsError = $("#no_results_error");
 
-    // handle search click
     button.on("click", function(){
         banner.addClass("alt");
-
-        // send request to the server
         $.ajax({
           method : "POST",
           contentType: "application/json",
@@ -34,12 +30,10 @@ $( document ).ready(function() {
         }
 
         var maxNumberOfResults = parseInt(numResultsBox.val());
-
         if (isNaN(maxNumberOfResults)) {
             maxNumberOfResults = Number.MAX_SAFE_INTEGER;
         }
 
-        // Search request to the server
         var frontEndRequest = {
             search_query: searchQuery,
             min_score: minScore,
@@ -58,9 +52,6 @@ $( document ).ready(function() {
         }
     }
 
-    /*
-        Add results from the server to the html or show an error message
-     */
     function addResults(data) {
         var baseDir = data.documents_location;
 

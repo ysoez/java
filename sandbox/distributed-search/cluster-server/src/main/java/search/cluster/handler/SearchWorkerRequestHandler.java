@@ -1,9 +1,9 @@
 package search.cluster.handler;
 
-import cluster.network.http.AbstractHttpRequestHandler;
+import cluster.SerializationUtils;
+import cluster.http.server.handler.AbstractHttpRequestHandler;
 import search.cluster.model.DocumentData;
 import search.cluster.model.Result;
-import cluster.network.SerializationUtils;
 import search.cluster.model.Task;
 import search.cluster.util.TFIDF;
 import com.sun.net.httpserver.HttpExchange;
@@ -59,4 +59,8 @@ public class SearchWorkerRequestHandler extends AbstractHttpRequestHandler {
         return words;
     }
 
+    @Override
+    public String method() {
+        return "post";
+    }
 }

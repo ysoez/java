@@ -1,26 +1,26 @@
 package search.cluster.election;
 
-import cluster.election.OnElectionCallback;
-import cluster.network.http.WebServer;
+import cluster.election.ElectionCallback;
+import cluster.http.client.JdkWebClient;
+import cluster.http.server.WebServer;
 import cluster.registry.ServiceRegistry;
-import cluster.network.http.WebClient;
+import org.apache.zookeeper.KeeperException;
 import search.cluster.handler.SearchCoordinatorRequestHandler;
 import search.cluster.handler.SearchWorkerRequestHandler;
-import org.apache.zookeeper.KeeperException;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class OnElectionAction implements OnElectionCallback {
+public class ClusterElectionCallback implements ElectionCallback {
 
     private final ServiceRegistry workersServiceRegistry;
     private final ServiceRegistry coordinatorsServiceRegistry;
     private final int port;
     private WebServer webServer;
 
-    public OnElectionAction(ServiceRegistry workersServiceRegistry,
-                            ServiceRegistry coordinatorsServiceRegistry,
-                            int port) {
+    public ClusterElectionCallback(ServiceRegistry workersServiceRegistry,
+                                   ServiceRegistry coordinatorsServiceRegistry,
+                                   int port) {
         this.workersServiceRegistry = workersServiceRegistry;
         this.coordinatorsServiceRegistry = coordinatorsServiceRegistry;
         this.port = port;
@@ -35,7 +35,7 @@ public class OnElectionAction implements OnElectionCallback {
             webServer.stop();
         }
 
-        var searchCoordinator = new SearchCoordinatorRequestHandler(workersServiceRegistry, new WebClient());
+        var searchCoordinator = new SearchCoordinatorRequestHandler(workersServiceRegistry, new JdkWebClient());
         webServer = new WebServer(port).addHandler(searchCoordinator).withHealthCheck();
         webServer.startServer();
 

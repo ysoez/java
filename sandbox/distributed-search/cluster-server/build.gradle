@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'idea'
+}
+
+dependencies {
+    implementation project(':sandbox:distributed-algorithms:cluster-core')
+    implementation project(':sandbox:distributed-search:cluster-server-api')
+}
+
+application {
+    mainClass = 'search.cluster.ClusterServerRunner'
+}
+
+jar {
+    archiveBaseName = 'cluster-server-app'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    dependsOn(':sandbox:distributed-algorithms:cluster-core:jar')
+    dependsOn(':sandbox:distributed-search:cluster-server-api:jar')
+}

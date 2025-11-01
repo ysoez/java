@@ -1,8 +1,10 @@
 package search.cluster.handler;
 
-import cluster.network.SerializationUtils;
-import cluster.network.http.AbstractHttpRequestHandler;
-import cluster.network.http.WebClient;
+import cluster.SerializationUtils;
+import cluster.http.client.WebClient;
+import cluster.http.server.handler.AbstractHttpRequestHandler;
+import cluster.model.DocumentSearchRequest;
+import cluster.model.DocumentSearchResponse;
 import cluster.registry.ServiceRegistry;
 import search.cluster.util.TFIDF;
 import com.sun.net.httpserver.HttpExchange;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler {
 
-    private static final String BOOKS_DIRECTORY = "./distributed-systems/distributed-search/books";
+    private static final String BOOKS_DIRECTORY = "./sandbox/distributed-search/books";
     private final ServiceRegistry workersRegistry;
     private final WebClient client;
     private final List<String> documents;
@@ -32,12 +34,12 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         try {
-            var request = SearchRequest.parseFrom(httpExchange.getRequestBody().readAllBytes());
+            var request = DocumentSearchRequest.parseFrom(httpExchange.getRequestBody().readAllBytes());
             var response = createResponse(request);
             sendOk(response.toByteArray(), httpExchange);;
         } catch (IOException | InterruptedException | KeeperException e) {
             e.printStackTrace();
-            sendOk(SearchResponse.getDefaultInstance().toByteArray(), httpExchange);;
+            sendOk(DocumentSearchResponse.getDefaultInstance().toByteArray(), httpExchange);;
         }
     }
 
@@ -46,8 +48,8 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
         return "/search";
     }
 
-    private SearchResponse createResponse(SearchRequest searchRequest) throws KeeperException, InterruptedException {
-        var searchResponse = SearchResponse.newBuilder();
+    private DocumentSearchResponse createResponse(DocumentSearchRequest searchRequest) throws KeeperException, InterruptedException {
+        var searchResponse = DocumentSearchResponse.newBuilder();
         System.out.println("Received search query: " + searchRequest.getQuery());
         List<String> searchTerms = TFIDF.getWordsFromLine(searchRequest.getQuery());
         List<String> workers = workersRegistry.getAllServiceAddresses();
@@ -60,13 +62,13 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
         List<Task> tasks = createTasks(workers.size(), searchTerms);
         List<Result> results = sendTasksToWorkers(workers, tasks);
 
-        List<SearchResponse.DocumentStats> sortedDocuments = aggregateResults(results, searchTerms);
+        List<DocumentSearchResponse.DocumentStats> sortedDocuments = aggregateResults(results, searchTerms);
         searchResponse.addAllRelevantDocuments(sortedDocuments);
 
         return searchResponse.build();
     }
 
-    private List<SearchResponse.DocumentStats> aggregateResults(List<Result> results, List<String> terms) {
+    private List<DocumentSearchResponse.DocumentStats> aggregateResults(List<Result> results, List<String> terms) {
         Map<String, DocumentData> allDocumentsResults = new HashMap<>();
 
         for (Result result : results) {
@@ -79,15 +81,15 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
         return sortDocumentsByScore(scoreToDocuments);
     }
 
-    private List<SearchResponse.DocumentStats> sortDocumentsByScore(Map<Double, List<String>> scoreToDocuments) {
-        List<SearchResponse.DocumentStats> sortedDocumentsStatsList = new ArrayList<>();
+    private List<DocumentSearchResponse.DocumentStats> sortDocumentsByScore(Map<Double, List<String>> scoreToDocuments) {
+        List<DocumentSearchResponse.DocumentStats> sortedDocumentsStatsList = new ArrayList<>();
 
         for (Map.Entry<Double, List<String>> docScorePair : scoreToDocuments.entrySet()) {
             double score = docScorePair.getKey();
 
             for (String document : docScorePair.getValue()) {
                 File documentPath = new File(document);
-                var documentStats = SearchResponse.DocumentStats.newBuilder()
+                var documentStats = DocumentSearchResponse.DocumentStats.newBuilder()
                         .setScore(score)
                         .setName(documentPath.getName())
                         .setSize(documentPath.length())
@@ -157,5 +159,10 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
                 .stream()
                 .map(documentName -> BOOKS_DIRECTORY + "/" + documentName)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String method() {
+        return "";
     }
 }

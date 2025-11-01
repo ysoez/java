@@ -1,13 +1,13 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "search.cluster.model";
+option java_package = "cluster.model";
 
-message SearchRequest {
+message DocumentSearchRequest {
   string query = 1;
 }
 
-message SearchResponse {
+message DocumentSearchResponse {
   repeated DocumentStats relevant_documents = 1;
   message DocumentStats {
     string name = 1;

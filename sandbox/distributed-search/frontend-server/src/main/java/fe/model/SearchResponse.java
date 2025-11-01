@@ -1,19 +1,19 @@
-package search.frontend.model;
+package fe.model;
 
 import java.util.Collections;
 import java.util.List;
 
-public class FrontendSearchResponse {
+public class SearchResponse {
 
-    private List<SearchResultInfo> searchResults = Collections.emptyList();
+    private List<Result> searchResults = Collections.emptyList();
     private String documentsLocation = "";
 
-    public FrontendSearchResponse(List<SearchResultInfo> searchResults, String documentsLocation) {
+    public SearchResponse(List<Result> searchResults, String documentsLocation) {
         this.searchResults = searchResults;
         this.documentsLocation = documentsLocation;
     }
 
-    public List<SearchResultInfo> getSearchResults() {
+    public List<Result> getSearchResults() {
         return searchResults;
     }
 
@@ -21,12 +21,12 @@ public class FrontendSearchResponse {
         return documentsLocation;
     }
 
-    public static class SearchResultInfo {
+    public static class Result {
         private String title;
         private String extension;
         private int score;
 
-        public SearchResultInfo(String title, String extension, int score) {
+        public Result(String title, String extension, int score) {
             this.title = title;
             this.extension = extension;
             this.score = score;

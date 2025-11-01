@@ -1,18 +1,19 @@
-package search.frontend.handler;
+package fe.handler;
 
-import cluster.network.http.AbstractHttpRequestHandler;
-import cluster.network.http.WebClient;
+import cluster.http.client.JdkWebClient;
+import cluster.http.client.WebClient;
+import cluster.http.server.handler.AbstractHttpRequestHandler;
+import cluster.model.DocumentSearchRequest;
+import cluster.model.DocumentSearchResponse;
 import cluster.registry.ServiceRegistry;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.sun.net.httpserver.HttpExchange;
+import fe.model.SearchRequest;
+import fe.model.SearchResponse;
 import org.apache.zookeeper.KeeperException;
-import search.cluster.model.SearchRequest;
-import search.cluster.model.SearchResponse;
-import search.frontend.model.FrontendSearchRequest;
-import search.frontend.model.FrontendSearchResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
 
     public SearchRequestHandler(ServiceRegistry searchCoordinatorRegistry) {
         this.searchCoordinatorRegistry = searchCoordinatorRegistry;
-        this.client = new WebClient();
+        this.client = new JdkWebClient();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         this.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
@@ -39,10 +40,15 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
     }
 
     @Override
+    public String method() {
+        return "post";
+    }
+
+    @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
-            FrontendSearchRequest frontendSearchRequest = objectMapper.readValue(exchange.getRequestBody().readAllBytes(), FrontendSearchRequest.class);
-            FrontendSearchResponse frontendSearchResponse = createFrontendResponse(frontendSearchRequest);
+            SearchRequest frontendSearchRequest = objectMapper.readValue(exchange.getRequestBody().readAllBytes(), fe.model.SearchRequest.class);
+            SearchResponse frontendSearchResponse = createFrontendResponse(frontendSearchRequest);
             byte[] responseBody = objectMapper.writeValueAsBytes(frontendSearchResponse);
             sendOk(responseBody, exchange);
         } catch (IOException e) {
@@ -51,24 +57,24 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
         }
     }
 
-    private FrontendSearchResponse createFrontendResponse(FrontendSearchRequest frontendSearchRequest) {
+    private fe.model.SearchResponse createFrontendResponse(fe.model.SearchRequest frontendSearchRequest) {
         var searchClusterResponse = sendRequestToSearchCluster(frontendSearchRequest.getSearchQuery());
 
-        List<FrontendSearchResponse.SearchResultInfo> filteredResults =
+        List<SearchResponse.Result> filteredResults =
                 filterResults(searchClusterResponse,
                         frontendSearchRequest.getMaxNumberOfResults(),
                         frontendSearchRequest.getMinScore());
 
-        return new FrontendSearchResponse(filteredResults, DOCUMENTS_LOCATION);
+        return new fe.model.SearchResponse(filteredResults, DOCUMENTS_LOCATION);
     }
 
-    private List<FrontendSearchResponse.SearchResultInfo> filterResults(SearchResponse searchClusterResponse,
-                                                                        long maxResults,
-                                                                        double minScore) {
+    private List<SearchResponse.Result> filterResults(DocumentSearchResponse searchClusterResponse,
+                                                      long maxResults,
+                                                      double minScore) {
 
         double maxScore = getMaxScore(searchClusterResponse);
 
-        List<FrontendSearchResponse.SearchResultInfo> searchResultInfoList = new ArrayList<>();
+        List<SearchResponse.Result> searchResultInfoList = new ArrayList<>();
 
         for (int i = 0; i < searchClusterResponse.getRelevantDocumentsCount() && i < maxResults; i++) {
 
@@ -82,8 +88,7 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
             String title = getDocumentTitle(documentName);
             String extension = getDocumentExtension(documentName);
 
-            FrontendSearchResponse.SearchResultInfo resultInfo =
-                    new FrontendSearchResponse.SearchResultInfo(title, extension, normalizedDocumentScore);
+            SearchResponse.Result resultInfo = new SearchResponse.Result(title, extension, normalizedDocumentScore);
 
             searchResultInfoList.add(resultInfo);
         }
@@ -109,7 +114,7 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
         return (int) Math.ceil(inputScore * 100.0 / maxScore);
     }
 
-    private static double getMaxScore(SearchResponse searchClusterResponse) {
+    private static double getMaxScore(DocumentSearchResponse searchClusterResponse) {
         if (searchClusterResponse.getRelevantDocumentsCount() == 0) {
             return 0;
         }
@@ -120,21 +125,22 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
                 .get();
     }
 
-    private SearchResponse sendRequestToSearchCluster(String searchQuery) {
-        var searchRequest = SearchRequest.newBuilder()
+    private DocumentSearchResponse sendRequestToSearchCluster(String searchQuery) {
+        var searchRequest = DocumentSearchRequest.newBuilder()
                 .setQuery(searchQuery)
                 .build();
         try {
             String coordinatorAddress = searchCoordinatorRegistry.getRandomServiceAddress();
             if (coordinatorAddress == null) {
                 System.out.println("Search Cluster Coordinator is unavailable");
-                return SearchResponse.getDefaultInstance();
+                return DocumentSearchResponse.getDefaultInstance();
             }
             byte[] payloadBody = client.sendTask(coordinatorAddress, searchRequest.toByteArray()).join();
-            return SearchResponse.parseFrom(payloadBody);
+            return DocumentSearchResponse.parseFrom(payloadBody);
         } catch (InterruptedException | KeeperException | InvalidProtocolBufferException e) {
             e.printStackTrace();
-            return SearchResponse.getDefaultInstance();
+            return DocumentSearchResponse.getDefaultInstance();
         }
     }
+
 }

@@ -1,6 +1,6 @@
-package search.frontend.handler;
+package fe.handler;
 
-import cluster.network.http.AbstractHttpRequestHandler;
+import cluster.http.server.handler.AbstractHttpRequestHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -8,7 +8,8 @@ import java.io.InputStream;
 
 public class HomePageRequestHandler extends AbstractHttpRequestHandler {
 
-    private static final String HOME_PAGE_UI_ASSETS_BASE_DIR = "/assets/";
+    private static final String ASSETS_BASE_DIR = "/assets/";
+    private static final String HOME_PAGE_PATH = "/assets/index.html";
 
     @Override
     public String endpoint() {
@@ -16,14 +17,19 @@ public class HomePageRequestHandler extends AbstractHttpRequestHandler {
     }
 
     @Override
+    public String method() {
+        return "get";
+    }
+
+    @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if (isHttpMethodNotAllowed(exchange, "get")) {
+        if (isMethodNotAllowed(exchange)) {
             return;
         }
         byte[] response;
         String path = exchange.getRequestURI().getPath();
         if (path.equals(endpoint())) {
-            response = readUiAsset(HOME_PAGE_UI_ASSETS_BASE_DIR + "index.html");
+            response = readUiAsset(HOME_PAGE_PATH);
         } else {
             response = readUiAsset(path);
         }
@@ -48,5 +54,4 @@ public class HomePageRequestHandler extends AbstractHttpRequestHandler {
         }
         exchange.getResponseHeaders().add("Content-Type", contentType);
     }
-
 }
