@@ -40,6 +40,7 @@ include ':sandbox:distributed-search:frontend-server'
 include ':sandbox:distributed-search:cluster-server-api'
 include ':sandbox:distributed-search:cluster-server'
 include ':sandbox:load-balancing:haproxy'
+include ':sandbox:load-balancing:nginx'
 
 //include ':serialization'
 //include ':network'
