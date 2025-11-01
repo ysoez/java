@@ -71,9 +71,9 @@ class ZkWatchers implements Watcher, AutoCloseable {
     public void process(WatchedEvent event) {
         if (event.getType() == Event.EventType.None) {
             switch (event.getState()) {
-                case SyncConnected -> log.info("connected to Zookeeper server");
+                case SyncConnected -> log.info("connected to server");
                 case Disconnected -> {
-                    log.warn("disconnected from Zookeeper server");
+                    log.warn("disconnected from server");
                     synchronized (zoo) {
                         zoo.notifyAll();
                     }

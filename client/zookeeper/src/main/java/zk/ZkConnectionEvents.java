@@ -44,9 +44,9 @@ class ZkConnectionEvents implements Watcher, AutoCloseable {
             return;
         }
         if (event.getState() == Event.KeeperState.SyncConnected) {
-            log.info("connected to Zookeeper server");
+            log.info("connected to server");
         } else {
-            log.info("disconnected from Zookeeper server: timeout={}, maxTimeout={}", zoo.getSessionTimeout(), SESSION_TIMEOUT);
+            log.info("disconnected from server: timeout={}, maxTimeout={}", zoo.getSessionTimeout(), SESSION_TIMEOUT);
             synchronized (zoo) {
                 zoo.notifyAll();
             }
