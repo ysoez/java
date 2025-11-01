@@ -1,5 +1,11 @@
 # java
 
+### Build
+
+```shell
+./gradlew build
+```
+
 ### Upgrade Gradle Wrapper
 
 ```shell
