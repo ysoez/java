@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+dependencies {
+    implementation project(':sandbox:distributed-algorithms:cluster-core')
+}
+
+application {
+    mainClass = 'cluster.registry.ServiceRegistryRunner'
+}
+
+jar {
+    archiveBaseName = 'service-registry-app'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    dependsOn(':sandbox:distributed-algorithms:cluster-core:jar')
+}
