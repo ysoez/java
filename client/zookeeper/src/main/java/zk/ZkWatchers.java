@@ -64,7 +64,7 @@ class ZkWatchers implements Watcher, AutoCloseable {
         }
         byte[] data = zoo.getData(path, this, stat);
         List<String> children = zoo.getChildren(path, this);
-        log.info("Node: path=[{}], data =[{}], children=[{}]", path, new String(data), children);
+        log.info("path={}, data={}, children={}", path, new String(data), children);
     }
 
     @Override
