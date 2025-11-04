@@ -8,14 +8,15 @@ import java.io.IOException;
 
 public class ZkUtils {
 
+    static final String LOCAL_HOST = "localhost:2181";
     static final int SESSION_TIMEOUT = 3000;
 
     public static ZooKeeper newLocalClient(Watcher watcher) throws IOException {
-        return new ZooKeeper("localhost:2181", SESSION_TIMEOUT, watcher);
+        return new ZooKeeper(LOCAL_HOST, SESSION_TIMEOUT, watcher);
     }
 
     public static ZooKeeperAdmin newLocalAdminClient(Watcher watcher) throws IOException {
-        return new ZooKeeperAdmin("localhost:2181", SESSION_TIMEOUT, watcher);
+        return new ZooKeeperAdmin(LOCAL_HOST, SESSION_TIMEOUT, watcher);
     }
 
     public static void run(ToxicRunnable runnable) {
