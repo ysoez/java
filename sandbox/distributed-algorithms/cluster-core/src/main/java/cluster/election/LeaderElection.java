@@ -47,7 +47,7 @@ public class LeaderElection implements Watcher {
             }
             log.info("elected as worker: {}, leader: {}", currentNodeName, smallestChild);
             //
-            // ~ at least one node joined before (leader)
+            // ~ at least one node joined before
             //
             int predecessorIndex = Collections.binarySearch(children, currentNodeName) - 1;
             predecessorNodeName = children.get(predecessorIndex);
@@ -70,9 +70,11 @@ public class LeaderElection implements Watcher {
             // ~ cluster has changed
             //
             electLeader();
-        } catch (KeeperException | InterruptedException e) {
-            log.error("cannot elect a leader", e);
-            throw new RuntimeException(e);
+        } catch (KeeperException e) {
+            log.error("cannot elect a leader due to server error", e);
+        } catch (InterruptedException e) {
+            log.error("cannot elect a leader since server transaction was interrupted", e);
+            Thread.currentThread().interrupt();
         }
     }
 
