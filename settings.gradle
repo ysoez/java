@@ -33,6 +33,8 @@ include ':client:zookeeper'
 // ~ sandbox
 //
 //include ':sandbox'
+include ':sandbox:distributed-algorithms:cluster-auto-healer:watchdog'
+include ':sandbox:distributed-algorithms:cluster-auto-healer:worker'
 include ':sandbox:distributed-algorithms:cluster-core'
 include ':sandbox:distributed-algorithms:cluster-leader-election'
 include ':sandbox:distributed-algorithms:cluster-service-registry'
