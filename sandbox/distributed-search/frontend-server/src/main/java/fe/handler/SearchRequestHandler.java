@@ -5,15 +5,13 @@ import cluster.http.client.WebClient;
 import cluster.http.server.handler.AbstractHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
-import cluster.registry.ZooKeepeerServiceRegistry;
+import cluster.registry.ServiceRegistry;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.sun.net.httpserver.HttpExchange;
 import fe.model.SearchRequest;
 import fe.model.SearchResponse;
-import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,9 +22,9 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
     private static final String DOCUMENTS_LOCATION = "books";
     private final ObjectMapper objectMapper;
     private final WebClient client;
-    private final ZooKeepeerServiceRegistry searchCoordinatorRegistry;
+    private final ServiceRegistry searchCoordinatorRegistry;
 
-    public SearchRequestHandler(ZooKeepeerServiceRegistry searchCoordinatorRegistry) {
+    public SearchRequestHandler(ServiceRegistry searchCoordinatorRegistry) {
         this.searchCoordinatorRegistry = searchCoordinatorRegistry;
         this.client = new JdkWebClient();
         this.objectMapper = new ObjectMapper();
@@ -130,14 +128,14 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
                 .setQuery(searchQuery)
                 .build();
         try {
-            String coordinatorAddress = searchCoordinatorRegistry.getRandomServiceAddress();
-            if (coordinatorAddress == null) {
+            var coordinatorAddress = searchCoordinatorRegistry.getRandomService();
+            if (coordinatorAddress.isEmpty()) {
                 System.out.println("Search Cluster Coordinator is unavailable");
                 return DocumentSearchResponse.getDefaultInstance();
             }
-            byte[] payloadBody = client.sendTask(coordinatorAddress, searchRequest.toByteArray()).join();
+            byte[] payloadBody = client.sendTask(coordinatorAddress.get(), searchRequest.toByteArray()).join();
             return DocumentSearchResponse.parseFrom(payloadBody);
-        } catch (InterruptedException | KeeperException | InvalidProtocolBufferException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return DocumentSearchResponse.getDefaultInstance();
         }
