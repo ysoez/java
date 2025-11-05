@@ -22,23 +22,23 @@ public class ServiceRegistryRunner {
         int serverPort = args.length == 1 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
         try (var connector = new ClusterConnector()) {
             ZooKeeper zooKeeper = connector.connect();
-            var serviceRegistry = new ServiceRegistry(zooKeeper, REGISTRY_NAMESPACE);
+            var serviceRegistry = new ZooKeepeerServiceRegistry(zooKeeper, REGISTRY_NAMESPACE);
             var leaderElection = new LeaderElection(zooKeeper, new ElectionCallback() {
                 @Override
                 public void onLeader() {
                     //
                     // ~ do nothing if a node just has joined a cluster
-                    // ~ unregister from the registry if a node used to be worker but now promoted to be a leader
+                    // ~ worker promoted to a leader unregister itself from the registry
                     //
-                    serviceRegistry.unregisterFromCluster();
-                    serviceRegistry.registerForUpdates();
+                    serviceRegistry.unregister();
+                    serviceRegistry.subscribeForUpdates();
                 }
                 @Override
                 public void onWorker() {
                     try {
                         var host = InetAddress.getLocalHost().getCanonicalHostName();
                         var url = String.format("http://%s:%d", host, serverPort);
-                        serviceRegistry.registerToCluster(url);
+                        serviceRegistry.register(url);
                     } catch (Exception e) {
                         log.error("cannot register worker address in cluster", e);
                     }
