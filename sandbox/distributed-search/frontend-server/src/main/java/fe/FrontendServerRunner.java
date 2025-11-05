@@ -2,10 +2,10 @@ package fe;
 
 import cluster.ClusterConnector;
 import cluster.http.server.WebServer;
-import cluster.registry.ServiceRegistry;
-import org.apache.zookeeper.ZooKeeper;
+import cluster.registry.ZooKeepeerServiceRegistry;
 import fe.handler.HomePageRequestHandler;
 import fe.handler.SearchRequestHandler;
+import org.apache.zookeeper.ZooKeeper;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ public class FrontendServerRunner {
         }
         try (var clusterConnector = new ClusterConnector()) {
             ZooKeeper zoo = clusterConnector.connect();
-            var coordinatorsRegistry = new ServiceRegistry(zoo, ServiceRegistry.MASTER_ROOT);
+            var coordinatorsRegistry = new ZooKeepeerServiceRegistry(zoo, ZooKeepeerServiceRegistry.MASTER_ROOT);
             var webServer = new WebServer(port)
                     .addHandler(new SearchRequestHandler(coordinatorsRegistry))
                     .addHandler(new HomePageRequestHandler())

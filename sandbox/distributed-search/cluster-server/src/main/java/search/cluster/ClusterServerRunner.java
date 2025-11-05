@@ -2,7 +2,7 @@ package search.cluster;
 
 import cluster.ClusterConnector;
 import cluster.election.LeaderElection;
-import cluster.registry.ServiceRegistry;
+import cluster.registry.ZooKeepeerServiceRegistry;
 import org.apache.zookeeper.ZooKeeper;
 import search.cluster.election.ClusterElectionCallback;
 
@@ -15,8 +15,8 @@ public class ClusterServerRunner {
         }
         try (var clusterConnector = new ClusterConnector()) {
             ZooKeeper zooKeeper = clusterConnector.connect();
-            var workersRegistry = new ServiceRegistry(zooKeeper, ServiceRegistry.WORKER_ROOT);
-            var coordinatorsRegistry = new ServiceRegistry(zooKeeper, ServiceRegistry.MASTER_ROOT);
+            var workersRegistry = new ZooKeepeerServiceRegistry(zooKeeper, ZooKeepeerServiceRegistry.WORKER_ROOT);
+            var coordinatorsRegistry = new ZooKeepeerServiceRegistry(zooKeeper, ZooKeepeerServiceRegistry.MASTER_ROOT);
             var onElectionAction = new ClusterElectionCallback(workersRegistry, coordinatorsRegistry, currentServerPort);
             var leaderElection = new LeaderElection(zooKeeper, onElectionAction);
             leaderElection.electLeader();

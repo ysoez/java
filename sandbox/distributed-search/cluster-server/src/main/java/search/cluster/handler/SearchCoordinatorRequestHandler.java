@@ -5,7 +5,7 @@ import cluster.http.client.WebClient;
 import cluster.http.server.handler.AbstractHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
-import cluster.registry.ServiceRegistry;
+import cluster.registry.ZooKeepeerServiceRegistry;
 import search.cluster.util.TFIDF;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.zookeeper.KeeperException;
@@ -21,11 +21,11 @@ import java.util.stream.Collectors;
 public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler {
 
     private static final String BOOKS_DIRECTORY = "./sandbox/distributed-search/books";
-    private final ServiceRegistry workersRegistry;
+    private final ZooKeepeerServiceRegistry workersRegistry;
     private final WebClient client;
     private final List<String> documents;
 
-    public SearchCoordinatorRequestHandler(ServiceRegistry workersRegistry, WebClient client) {
+    public SearchCoordinatorRequestHandler(ZooKeepeerServiceRegistry workersRegistry, WebClient client) {
         this.workersRegistry = workersRegistry;
         this.client = client;
         this.documents = readDocumentsList();
@@ -52,7 +52,7 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
         var searchResponse = DocumentSearchResponse.newBuilder();
         System.out.println("Received search query: " + searchRequest.getQuery());
         List<String> searchTerms = TFIDF.getWordsFromLine(searchRequest.getQuery());
-        List<String> workers = workersRegistry.getAllServiceAddresses();
+        List<String> workers = workersRegistry.getServices();
 
         if (workers.isEmpty()) {
             System.out.println("No search workers currently available");

@@ -5,7 +5,7 @@ import cluster.http.client.WebClient;
 import cluster.http.server.handler.AbstractHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
-import cluster.registry.ServiceRegistry;
+import cluster.registry.ZooKeepeerServiceRegistry;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -24,9 +24,9 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
     private static final String DOCUMENTS_LOCATION = "books";
     private final ObjectMapper objectMapper;
     private final WebClient client;
-    private final ServiceRegistry searchCoordinatorRegistry;
+    private final ZooKeepeerServiceRegistry searchCoordinatorRegistry;
 
-    public SearchRequestHandler(ServiceRegistry searchCoordinatorRegistry) {
+    public SearchRequestHandler(ZooKeepeerServiceRegistry searchCoordinatorRegistry) {
         this.searchCoordinatorRegistry = searchCoordinatorRegistry;
         this.client = new JdkWebClient();
         this.objectMapper = new ObjectMapper();
