@@ -1,4 +1,4 @@
-package autohealer.worker;
+package worker;
 
 import org.apache.zookeeper.KeeperException;
 
