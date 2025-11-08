@@ -10,7 +10,7 @@ import static org.apache.zookeeper.CreateMode.EPHEMERAL_SEQUENTIAL;
 import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
 
 @Slf4j
-public class ZooKeepeerServiceRegistry implements ServiceRegistry, Watcher {
+public class ZooKeeperServiceRegistry implements ServiceRegistry, Watcher {
 
     public static final String MASTER_ROOT = "/master";
     public static final String WORKER_ROOT = "/worker";
@@ -20,9 +20,9 @@ public class ZooKeepeerServiceRegistry implements ServiceRegistry, Watcher {
     private final Random random;
 
     private String currentNode;
-    private List<String> allServiceAddresses;
+    private List<String> addressesCache;
 
-    public ZooKeepeerServiceRegistry(ZooKeeper zoo, String namespace) {
+    public ZooKeeperServiceRegistry(ZooKeeper zoo, String namespace) {
         this.zoo = zoo;
         this.namespace = namespace;
         this.random = new Random();
@@ -36,7 +36,7 @@ public class ZooKeepeerServiceRegistry implements ServiceRegistry, Watcher {
             return;
         }
         this.currentNode = zoo.create(namespace + "/n_", address.getBytes(), OPEN_ACL_UNSAFE, EPHEMERAL_SEQUENTIAL);
-        log.info("registered to service registry: {}", currentNode);
+        log.info("{} is registered to {}", currentNode, namespace);
     }
 
     @Override
@@ -44,6 +44,7 @@ public class ZooKeepeerServiceRegistry implements ServiceRegistry, Watcher {
         try {
             if (currentNode != null && zoo.exists(currentNode, false) != null) {
                 zoo.delete(currentNode, -1);
+                log.info("{} has unregistered from the cluster", currentNode);
             }
         } catch (KeeperException | InterruptedException e) {
             log.error("failed to unregister from cluster", e);
@@ -52,20 +53,20 @@ public class ZooKeepeerServiceRegistry implements ServiceRegistry, Watcher {
 
     @Override
     public synchronized List<String> getServices() throws KeeperException, InterruptedException {
-        if (allServiceAddresses == null) {
+        if (addressesCache == null) {
             updateAddresses();
         }
-        return allServiceAddresses;
+        return addressesCache;
     }
 
     @Override
     public synchronized Optional<String> getRandomService() throws KeeperException, InterruptedException {
-        if (allServiceAddresses == null) {
+        if (addressesCache == null) {
             updateAddresses();
         }
-        if (!allServiceAddresses.isEmpty()) {
-            int randomIndex = random.nextInt(allServiceAddresses.size());
-            return Optional.of(allServiceAddresses.get(randomIndex));
+        if (!addressesCache.isEmpty()) {
+            int randomIndex = random.nextInt(addressesCache.size());
+            return Optional.of(addressesCache.get(randomIndex));
         } else {
             return Optional.empty();
         }
@@ -76,7 +77,7 @@ public class ZooKeepeerServiceRegistry implements ServiceRegistry, Watcher {
         try {
             updateAddresses();
         } catch (KeeperException | InterruptedException e) {
-            log.error("Failed to update addresses", e);
+            log.error("failed to update addresses", e);
         }
     }
 
@@ -114,8 +115,8 @@ public class ZooKeepeerServiceRegistry implements ServiceRegistry, Watcher {
             String address = new String(addressBytes);
             addresses.add(address);
         }
-        this.allServiceAddresses = Collections.unmodifiableList(addresses);
-        log.info("current cluster addresses: {}", this.allServiceAddresses);
+        this.addressesCache = Collections.unmodifiableList(addresses);
+        log.info("current cluster addresses: {}", this.addressesCache);
     }
 
 }
