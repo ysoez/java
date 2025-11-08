@@ -1,28 +1,34 @@
 package search.cluster;
 
 import cluster.ClusterConnector;
+import cluster.election.ElectionCallback;
 import cluster.election.LeaderElection;
-import cluster.registry.ZooKeepeerServiceRegistry;
+import cluster.election.ZooKeeperLeaderElection;
+import cluster.registry.ServiceRegistry;
+import cluster.registry.ZooKeeperServiceRegistry;
 import org.apache.zookeeper.ZooKeeper;
 import search.cluster.election.ClusterElectionCallback;
+
+import static cluster.registry.ZooKeeperServiceRegistry.MASTER_ROOT;
+import static cluster.registry.ZooKeeperServiceRegistry.WORKER_ROOT;
 
 public class ClusterServerRunner {
 
     public static void main(String[] args) throws Exception {
-        int currentServerPort = 8081;
+        int serverPort = 8081;
         if (args.length == 1) {
-            currentServerPort = Integer.parseInt(args[0]);
+            serverPort = Integer.parseInt(args[0]);
         }
         try (var clusterConnector = new ClusterConnector()) {
-            ZooKeeper zooKeeper = clusterConnector.connect();
-            var workersRegistry = new ZooKeepeerServiceRegistry(zooKeeper, ZooKeepeerServiceRegistry.WORKER_ROOT);
-            var coordinatorsRegistry = new ZooKeepeerServiceRegistry(zooKeeper, ZooKeepeerServiceRegistry.MASTER_ROOT);
-            var onElectionAction = new ClusterElectionCallback(workersRegistry, coordinatorsRegistry, currentServerPort);
-            var leaderElection = new LeaderElection(zooKeeper, onElectionAction);
+            ZooKeeper zoo = clusterConnector.connect();
+            ServiceRegistry workersRegistry = new ZooKeeperServiceRegistry(zoo, WORKER_ROOT);
+            ServiceRegistry coordinatorsRegistry = new ZooKeeperServiceRegistry(zoo, MASTER_ROOT);
+            ElectionCallback electionCallback = new ClusterElectionCallback(workersRegistry, coordinatorsRegistry, serverPort);
+            LeaderElection leaderElection = new ZooKeeperLeaderElection(zoo, electionCallback);
             leaderElection.electLeader();
             clusterConnector.waitForDisconnect();
         }
-        System.out.println("Disconnected from Zookeeper, exiting application");
+        System.out.println("application exited");
     }
 
 }

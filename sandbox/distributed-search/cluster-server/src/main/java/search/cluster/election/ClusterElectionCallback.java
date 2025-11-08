@@ -3,23 +3,21 @@ package search.cluster.election;
 import cluster.election.ElectionCallback;
 import cluster.http.client.JdkWebClient;
 import cluster.http.server.WebServer;
-import cluster.registry.ZooKeepeerServiceRegistry;
-import org.apache.zookeeper.KeeperException;
+import cluster.registry.ServiceRegistry;
 import search.cluster.handler.SearchCoordinatorRequestHandler;
 import search.cluster.handler.SearchWorkerRequestHandler;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class ClusterElectionCallback implements ElectionCallback {
 
-    private final ZooKeepeerServiceRegistry workersServiceRegistry;
-    private final ZooKeepeerServiceRegistry coordinatorsServiceRegistry;
+    private final ServiceRegistry workersServiceRegistry;
+    private final ServiceRegistry coordinatorsServiceRegistry;
     private final int port;
     private WebServer webServer;
 
-    public ClusterElectionCallback(ZooKeepeerServiceRegistry workersServiceRegistry,
-                                   ZooKeepeerServiceRegistry coordinatorsServiceRegistry,
+    public ClusterElectionCallback(ServiceRegistry workersServiceRegistry,
+                                   ServiceRegistry coordinatorsServiceRegistry,
                                    int port) {
         this.workersServiceRegistry = workersServiceRegistry;
         this.coordinatorsServiceRegistry = coordinatorsServiceRegistry;
@@ -29,7 +27,7 @@ public class ClusterElectionCallback implements ElectionCallback {
     @Override
     public void onLeader() {
         workersServiceRegistry.unregister();
-        workersServiceRegistry.subscribe();
+        workersServiceRegistry.subscribeForUpdates();
 
         if (webServer != null) {
             webServer.stop();
@@ -44,9 +42,8 @@ public class ClusterElectionCallback implements ElectionCallback {
                     "http://%s:%d%s", InetAddress.getLocalHost().getCanonicalHostName(),
                     port, searchCoordinator.endpoint());
             coordinatorsServiceRegistry.register(currentServerAddress);
-        } catch (InterruptedException | UnknownHostException | KeeperException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
     }
 
@@ -63,7 +60,7 @@ public class ClusterElectionCallback implements ElectionCallback {
                     String.format("http://%s:%d%s", InetAddress.getLocalHost().getCanonicalHostName(), port, searchWorker.endpoint());
 
             workersServiceRegistry.register(currentServerAddress);
-        } catch (InterruptedException | UnknownHostException | KeeperException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

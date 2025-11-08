@@ -2,12 +2,15 @@ package fe;
 
 import cluster.ClusterConnector;
 import cluster.http.server.WebServer;
-import cluster.registry.ZooKeepeerServiceRegistry;
+import cluster.registry.ServiceRegistry;
+import cluster.registry.ZooKeeperServiceRegistry;
 import fe.handler.HomePageRequestHandler;
 import fe.handler.SearchRequestHandler;
 import org.apache.zookeeper.ZooKeeper;
 
 import java.io.IOException;
+
+import static cluster.registry.ZooKeeperServiceRegistry.MASTER_ROOT;
 
 public class FrontendServerRunner {
 
@@ -18,7 +21,7 @@ public class FrontendServerRunner {
         }
         try (var clusterConnector = new ClusterConnector()) {
             ZooKeeper zoo = clusterConnector.connect();
-            var coordinatorsRegistry = new ZooKeepeerServiceRegistry(zoo, ZooKeepeerServiceRegistry.MASTER_ROOT);
+            ServiceRegistry coordinatorsRegistry = new ZooKeeperServiceRegistry(zoo, MASTER_ROOT);
             var webServer = new WebServer(port)
                     .addHandler(new SearchRequestHandler(coordinatorsRegistry))
                     .addHandler(new HomePageRequestHandler())
@@ -28,7 +31,7 @@ public class FrontendServerRunner {
             System.out.println("server is listening on port: " + port);
             clusterConnector.waitForDisconnect();
         }
-        System.out.println("exiting application");
+        System.out.println("application exited");
     }
 
 }
