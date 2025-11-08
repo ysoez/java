@@ -17,7 +17,7 @@ include ':multithreading'
 //
 // ~ protocols
 //
-//include ':protocol:http'
+include ':protocol:http'
 
 //
 // ~ clients

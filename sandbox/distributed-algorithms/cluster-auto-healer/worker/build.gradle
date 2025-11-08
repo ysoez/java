@@ -2,11 +2,11 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 dependencies {
-    implementation group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.9.1'
+    implementation "org.apache.zookeeper:zookeeper:3.9.4"
 }
 
 application {
-    mainClass = 'autohealer.worker.WorkerRunner'
+    mainClass = 'worker.WorkerRunner'
 }
 
 jar {

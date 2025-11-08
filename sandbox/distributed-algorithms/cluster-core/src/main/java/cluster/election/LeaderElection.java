@@ -36,6 +36,9 @@ public class LeaderElection implements Watcher {
     public void electLeader() throws KeeperException, InterruptedException {
         Stat predecessorStat = null;
         String predecessorNodeName;
+        //
+        // ~ repeat until watcher is registered
+        //
         while (predecessorStat == null) {
             List<String> children = zoo.getChildren(ELECTION_NAMESPACE, false);
             Collections.sort(children);
@@ -52,7 +55,7 @@ public class LeaderElection implements Watcher {
             int predecessorIndex = Collections.binarySearch(children, currentNodeName) - 1;
             predecessorNodeName = children.get(predecessorIndex);
             //
-            // ~ subscribe for predecessor node notification
+            // ~ try to subscribe for predecessor node notification
             //
             predecessorStat = zoo.exists(ELECTION_NAMESPACE + "/" + predecessorNodeName, this);
             callback.onWorker();
