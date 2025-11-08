@@ -5,11 +5,13 @@ import cluster.http.client.WebClient;
 import cluster.http.server.handler.AbstractHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
-import cluster.registry.ZooKeepeerServiceRegistry;
-import search.cluster.util.TFIDF;
+import cluster.registry.ServiceRegistry;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.zookeeper.KeeperException;
-import search.cluster.model.*;
+import search.cluster.model.DocumentData;
+import search.cluster.model.Result;
+import search.cluster.model.Task;
+import search.cluster.util.TFIDF;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,11 +23,11 @@ import java.util.stream.Collectors;
 public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler {
 
     private static final String BOOKS_DIRECTORY = "./sandbox/distributed-search/books";
-    private final ZooKeepeerServiceRegistry workersRegistry;
+    private final ServiceRegistry workersRegistry;
     private final WebClient client;
     private final List<String> documents;
 
-    public SearchCoordinatorRequestHandler(ZooKeepeerServiceRegistry workersRegistry, WebClient client) {
+    public SearchCoordinatorRequestHandler(ServiceRegistry workersRegistry, WebClient client) {
         this.workersRegistry = workersRegistry;
         this.client = client;
         this.documents = readDocumentsList();
@@ -48,7 +50,7 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
         return "/search";
     }
 
-    private DocumentSearchResponse createResponse(DocumentSearchRequest searchRequest) throws KeeperException, InterruptedException {
+    private DocumentSearchResponse createResponse(DocumentSearchRequest searchRequest) throws Exception {
         var searchResponse = DocumentSearchResponse.newBuilder();
         System.out.println("Received search query: " + searchRequest.getQuery());
         List<String> searchTerms = TFIDF.getWordsFromLine(searchRequest.getQuery());
