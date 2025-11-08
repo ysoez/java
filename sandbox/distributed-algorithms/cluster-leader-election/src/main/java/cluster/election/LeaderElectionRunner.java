@@ -10,7 +10,7 @@ public class LeaderElectionRunner {
     public static void main(String[] args) throws Exception {
         try (var connector = new ClusterConnector()) {
             ZooKeeper zooKeeper = connector.connect();
-            var leaderElection = new LeaderElection(zooKeeper);
+            LeaderElection leaderElection = new ZooKeeperLeaderElection(zooKeeper);
             //
             // ~ initial leader election
             //

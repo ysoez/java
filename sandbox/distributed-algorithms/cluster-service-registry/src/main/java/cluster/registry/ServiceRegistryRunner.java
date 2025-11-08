@@ -3,6 +3,7 @@ package cluster.registry;
 import cluster.ClusterConnector;
 import cluster.election.ElectionCallback;
 import cluster.election.LeaderElection;
+import cluster.election.ZooKeeperLeaderElection;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.ZooKeeper;
 
@@ -22,8 +23,8 @@ public class ServiceRegistryRunner {
         int serverPort = args.length == 1 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
         try (var connector = new ClusterConnector()) {
             ZooKeeper zooKeeper = connector.connect();
-            var serviceRegistry = new ZooKeepeerServiceRegistry(zooKeeper, REGISTRY_NAMESPACE);
-            var leaderElection = new LeaderElection(zooKeeper, new ElectionCallback() {
+            ServiceRegistry serviceRegistry = new ZooKeeperServiceRegistry(zooKeeper, REGISTRY_NAMESPACE);
+            LeaderElection leaderElection = new ZooKeeperLeaderElection(zooKeeper, new ElectionCallback() {
                 @Override
                 public void onLeader() {
                     //
