@@ -16,8 +16,8 @@ public class ServiceRegistryRunner {
 
     public static void main(String[] args) throws Exception {
         //
-        // ~ use default port if instances are running on different host
-        // ~ use port from arguments if multiple instances are running on the same machine
+        // ~ use default port if running instances on different host
+        // ~ use port from arguments if running multiple instances on the host
         //
         int serverPort = args.length == 1 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
         try (var connector = new ClusterConnector()) {
