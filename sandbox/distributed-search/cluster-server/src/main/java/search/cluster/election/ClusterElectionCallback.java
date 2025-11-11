@@ -2,6 +2,7 @@ package search.cluster.election;
 
 import cluster.election.ElectionCallback;
 import cluster.http.client.JdkWebClient;
+import cluster.http.server.SunWebServer;
 import cluster.http.server.WebServer;
 import cluster.registry.ServiceRegistry;
 import search.cluster.handler.SearchCoordinatorRequestHandler;
@@ -34,8 +35,8 @@ public class ClusterElectionCallback implements ElectionCallback {
         }
 
         var searchCoordinator = new SearchCoordinatorRequestHandler(workersServiceRegistry, new JdkWebClient());
-        webServer = new WebServer(port).addHandler(searchCoordinator).withHealthCheck();
-        webServer.startServer();
+        webServer = new SunWebServer(port).addHandler(searchCoordinator).withHealthCheck();
+        webServer.start();
 
         try {
             String currentServerAddress = String.format(
@@ -51,8 +52,8 @@ public class ClusterElectionCallback implements ElectionCallback {
     public void onWorker() {
         SearchWorkerRequestHandler searchWorker = new SearchWorkerRequestHandler();
         if (webServer == null) {
-            webServer = new WebServer(port).addHandler(searchWorker).withHealthCheck();
-            webServer.startServer();
+            webServer = new SunWebServer(port).addHandler(searchWorker).withHealthCheck();
+            webServer.start();
         }
 
         try {

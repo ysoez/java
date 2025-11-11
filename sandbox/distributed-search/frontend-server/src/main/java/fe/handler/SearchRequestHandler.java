@@ -2,14 +2,14 @@ package fe.handler;
 
 import cluster.http.client.JdkWebClient;
 import cluster.http.client.WebClient;
-import cluster.http.server.handler.AbstractHttpRequestHandler;
+import cluster.http.server.HttpTransaction;
+import cluster.http.server.handler.AbstractSunHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
 import cluster.registry.ServiceRegistry;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.sun.net.httpserver.HttpExchange;
 import fe.model.SearchRequest;
 import fe.model.SearchResponse;
 
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchRequestHandler extends AbstractHttpRequestHandler {
+public class SearchRequestHandler extends AbstractSunHttpRequestHandler {
 
     private static final String DOCUMENTS_LOCATION = "books";
     private final ObjectMapper objectMapper;
@@ -43,15 +43,15 @@ public class SearchRequestHandler extends AbstractHttpRequestHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpTransaction exchange) throws IOException {
         try {
-            SearchRequest frontendSearchRequest = objectMapper.readValue(exchange.getRequestBody().readAllBytes(), fe.model.SearchRequest.class);
+            SearchRequest frontendSearchRequest = objectMapper.readValue(exchange.requestPayload(), fe.model.SearchRequest.class);
             SearchResponse frontendSearchResponse = createFrontendResponse(frontendSearchRequest);
             byte[] responseBody = objectMapper.writeValueAsBytes(frontendSearchResponse);
-            sendOk(responseBody, exchange);
+            exchange.sendOk(responseBody);
         } catch (IOException e) {
             e.printStackTrace();
-            sendOk(new byte[0], exchange);
+            exchange.sendOk(new byte[0]);
         }
     }
 

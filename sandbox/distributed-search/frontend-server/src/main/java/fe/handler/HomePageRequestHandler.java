@@ -1,12 +1,12 @@
 package fe.handler;
 
-import cluster.http.server.handler.AbstractHttpRequestHandler;
-import com.sun.net.httpserver.HttpExchange;
+import cluster.http.server.HttpTransaction;
+import cluster.http.server.handler.AbstractSunHttpRequestHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class HomePageRequestHandler extends AbstractHttpRequestHandler {
+public class HomePageRequestHandler extends AbstractSunHttpRequestHandler {
 
     private static final String ASSETS_BASE_DIR = "/assets/";
     private static final String HOME_PAGE_PATH = "/assets/index.html";
@@ -22,19 +22,16 @@ public class HomePageRequestHandler extends AbstractHttpRequestHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        if (isMethodNotAllowed(exchange)) {
-            return;
-        }
+    public void handle(HttpTransaction transaction) throws IOException {
         byte[] response;
-        String path = exchange.getRequestURI().getPath();
+        String path = transaction.requestUri().getPath();
         if (path.equals(endpoint())) {
             response = readUiAsset(HOME_PAGE_PATH);
         } else {
             response = readUiAsset(path);
         }
-        addContentType(path, exchange);
-        sendOk(response, exchange);
+        addContentType(path, transaction);
+        transaction.sendOk(response);
     }
 
     private byte[] readUiAsset(String asset) throws IOException {
@@ -45,13 +42,13 @@ public class HomePageRequestHandler extends AbstractHttpRequestHandler {
         return assetStream.readAllBytes();
     }
 
-    private static void addContentType(String asset, HttpExchange exchange) {
+    private static void addContentType(String asset, HttpTransaction transaction) {
         String contentType = "text/html";
         if (asset.endsWith("js")) {
             contentType = "text/javascript";
         } else if (asset.endsWith("css")) {
             contentType = "text/css";
         }
-        exchange.getResponseHeaders().add("Content-Type", contentType);
+        transaction.addResponseHeader("Content-Type", contentType);
     }
 }

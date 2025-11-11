@@ -2,12 +2,11 @@ package search.cluster.handler;
 
 import cluster.SerializationUtils;
 import cluster.http.client.WebClient;
-import cluster.http.server.handler.AbstractHttpRequestHandler;
+import cluster.http.server.HttpTransaction;
+import cluster.http.server.handler.AbstractSunHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
 import cluster.registry.ServiceRegistry;
-import com.sun.net.httpserver.HttpExchange;
-import org.apache.zookeeper.KeeperException;
 import search.cluster.model.DocumentData;
 import search.cluster.model.Result;
 import search.cluster.model.Task;
@@ -20,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler {
+public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandler {
 
     private static final String BOOKS_DIRECTORY = "./sandbox/distributed-search/books";
     private final ServiceRegistry workersRegistry;
@@ -34,14 +33,14 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
     }
 
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpTransaction httpExchange) throws IOException {
         try {
-            var request = DocumentSearchRequest.parseFrom(httpExchange.getRequestBody().readAllBytes());
+            var request = DocumentSearchRequest.parseFrom(httpExchange.requestPayload());
             var response = createResponse(request);
-            sendOk(response.toByteArray(), httpExchange);;
-        } catch (IOException | InterruptedException | KeeperException e) {
+            httpExchange.sendOk(response.toByteArray());;
+        } catch (Exception e) {
             e.printStackTrace();
-            sendOk(DocumentSearchResponse.getDefaultInstance().toByteArray(), httpExchange);;
+            httpExchange.sendOk(DocumentSearchResponse.getDefaultInstance().toByteArray());;
         }
     }
 
@@ -165,6 +164,6 @@ public class SearchCoordinatorRequestHandler extends AbstractHttpRequestHandler 
 
     @Override
     public String method() {
-        return "";
+        return "get";
     }
 }

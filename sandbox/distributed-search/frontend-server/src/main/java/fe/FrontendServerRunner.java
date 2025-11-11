@@ -1,7 +1,7 @@
 package fe;
 
 import cluster.ClusterConnector;
-import cluster.http.server.WebServer;
+import cluster.http.server.SunWebServer;
 import cluster.registry.ServiceRegistry;
 import cluster.registry.ZooKeeperServiceRegistry;
 import fe.handler.HomePageRequestHandler;
@@ -22,11 +22,11 @@ public class FrontendServerRunner {
         try (var clusterConnector = new ClusterConnector()) {
             ZooKeeper zoo = clusterConnector.connect();
             ServiceRegistry coordinatorsRegistry = new ZooKeeperServiceRegistry(zoo, MASTER_ROOT);
-            var webServer = new WebServer(port)
+            var webServer = new SunWebServer(port)
                     .addHandler(new SearchRequestHandler(coordinatorsRegistry))
                     .addHandler(new HomePageRequestHandler())
                     .withHealthCheck();
-            webServer.startServer();
+            webServer.start();
 
             System.out.println("server is listening on port: " + port);
             clusterConnector.waitForDisconnect();

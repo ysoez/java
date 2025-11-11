@@ -1,12 +1,12 @@
 package search.cluster.handler;
 
 import cluster.SerializationUtils;
-import cluster.http.server.handler.AbstractHttpRequestHandler;
+import cluster.http.server.HttpTransaction;
+import cluster.http.server.handler.AbstractSunHttpRequestHandler;
 import search.cluster.model.DocumentData;
 import search.cluster.model.Result;
 import search.cluster.model.Task;
 import search.cluster.util.TFIDF;
-import com.sun.net.httpserver.HttpExchange;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,14 +16,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SearchWorkerRequestHandler extends AbstractHttpRequestHandler {
+public class SearchWorkerRequestHandler extends AbstractSunHttpRequestHandler {
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        var task = (Task) SerializationUtils.deserialize(exchange.getRequestBody().readAllBytes());
+    public void handle(HttpTransaction transaction) throws IOException {
+        var task = (Task) SerializationUtils.deserialize(transaction.requestPayload());
         Result result = createResult(task);
         byte[] responseBody = SerializationUtils.serialize(result);
-        sendOk(responseBody, exchange);
+        transaction.sendOk(responseBody);
     }
 
     @Override
