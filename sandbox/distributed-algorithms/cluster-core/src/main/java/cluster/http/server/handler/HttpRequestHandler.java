@@ -1,10 +1,15 @@
 package cluster.http.server.handler;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import cluster.http.server.HttpTransaction;
 
-public interface HttpRequestHandler extends HttpHandler, RequestHandler<HttpExchange> {
+import java.io.IOException;
+
+public interface HttpRequestHandler {
+
+    String endpoint();
 
     String method();
+
+    void handle(HttpTransaction transaction) throws IOException;
 
 }

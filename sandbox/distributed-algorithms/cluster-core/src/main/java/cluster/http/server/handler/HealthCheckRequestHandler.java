@@ -1,19 +1,10 @@
 package cluster.http.server.handler;
 
-import com.sun.net.httpserver.HttpExchange;
+import cluster.http.server.HttpTransaction;
 
 import java.io.IOException;
 
-public class HealthCheckRequestHandler extends AbstractHttpRequestHandler {
-
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        if (isMethodNotAllowed(exchange)) {
-            return;
-        }
-        String responseMessage = "Server is alive\n";
-        sendOk(responseMessage.getBytes(), exchange);
-    }
+public class HealthCheckRequestHandler extends AbstractSunHttpRequestHandler {
 
     @Override
     public String endpoint() {
@@ -24,4 +15,11 @@ public class HealthCheckRequestHandler extends AbstractHttpRequestHandler {
     public String method() {
         return "get";
     }
+
+    @Override
+    public void handle(HttpTransaction transaction) throws IOException {
+        String responseMessage = "server is alive\n";
+        transaction.sendOk(responseMessage.getBytes());
+    }
+
 }
