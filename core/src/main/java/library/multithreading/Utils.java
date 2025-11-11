@@ -38,8 +38,12 @@ public class Utils {
         System.out.printf(ANSI_CYAN + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
     }
 
-    public static void logWorker(Object message) {
-        System.out.printf(ANSI_PURPLE + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), message);
+    public static void logMain(String message, Object...args) {
+        System.out.printf(ANSI_CYAN + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), String.format(message, args));
+    }
+
+    public static void logWorker(String message, Object... args) {
+        System.out.printf(ANSI_PURPLE + "[%s] %s: %s\n" + ANSI_RESET, FORMATTER.format(now()), currentThread().getName(), String.format(message, args));
     }
 
     public static void logError(Object message) {
@@ -48,6 +52,7 @@ public class Utils {
 
     public static void sleep(long timeout, TimeUnit timeUnit) {
         try {
+//            logWorker("simulating work for %s %s", timeout, timeUnit.toString());
             timeUnit.sleep(timeout);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
