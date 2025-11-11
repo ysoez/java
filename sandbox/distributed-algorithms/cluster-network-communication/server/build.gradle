@@ -2,11 +2,11 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 dependencies {
-    implementation project(':distributed-systems:distributed-algorithms:cluster-core')
+    implementation project(':sandbox:distributed-algorithms:cluster-core')
 }
 
 application {
-    mainClass = 'server.WebServer'
+    mainClass = 'server.WebServerRunner'
 }
 
 jar {
@@ -17,5 +17,5 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
-    dependsOn(':distributed-systems:distributed-algorithms:cluster-core:jar')
+    dependsOn(':sandbox:distributed-algorithms:cluster-core:jar')
 }

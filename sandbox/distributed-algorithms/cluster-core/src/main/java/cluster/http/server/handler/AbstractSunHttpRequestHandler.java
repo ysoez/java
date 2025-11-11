@@ -62,4 +62,8 @@ public abstract class AbstractSunHttpRequestHandler implements HttpRequestHandle
         return false;
     }
 
+    protected boolean isModeEnabled(Map<String, List<String>> headers, String xHeader) {
+        return headers.containsKey(xHeader) && headers.get(xHeader).getFirst().equalsIgnoreCase("true");
+    }
+
 }

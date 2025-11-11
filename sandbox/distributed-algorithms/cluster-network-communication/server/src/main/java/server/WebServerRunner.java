@@ -1,18 +1,17 @@
 package server;
 
-import cluster.network.http.AbstractHttpRequestHandler;
-import cluster.network.http.HealthCheckRequestHandler;
+import cluster.http.server.handler.AbstractSunHttpRequestHandler;
+import cluster.http.server.handler.HealthCheckRequestHandler;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 import lombok.extern.slf4j.Slf4j;
-import server.handler.NumbersMultiplierHttpRequestHandler;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
 @Slf4j
-public class WebServer {
+public class WebServerRunner {
 
     private final int port;
 
@@ -21,12 +20,12 @@ public class WebServer {
         if (args.length == 1) {
             serverPort = Integer.parseInt(args[0]);
         }
-        var webServer = new WebServer(serverPort);
+        var webServer = new WebServerRunner(serverPort);
         webServer.start();
         log.info("Server is listening on port {}", serverPort);
     }
 
-    public WebServer(int port) {
+    public WebServerRunner(int port) {
         this.port = port;
     }
 
@@ -44,7 +43,7 @@ public class WebServer {
         server.start();
     }
 
-    private void registerEndpoint(HttpServer server, AbstractHttpRequestHandler handler) {
+    private void registerEndpoint(HttpServer server, AbstractSunHttpRequestHandler handler) {
         HttpContext context = server.createContext(handler.endpoint());
         context.setHandler(handler);
         log.info("Registered handler: path={}, class={}", handler.endpoint(), handler.getClass().getSimpleName());

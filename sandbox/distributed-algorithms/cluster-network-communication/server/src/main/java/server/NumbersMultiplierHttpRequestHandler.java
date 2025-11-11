@@ -1,46 +1,43 @@
-package server.handler;
+package server;
 
-import cluster.network.http.AbstractHttpRequestHandler;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
+import cluster.http.server.HttpTransaction;
+import cluster.http.server.handler.AbstractSunHttpRequestHandler;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Collections;
 
-public class NumbersMultiplierHttpRequestHandler extends AbstractHttpRequestHandler {
-
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        if (isHttpMethodNotAllowed(exchange, "post")) {
-            return;
-        }
-        Headers headers = exchange.getRequestHeaders();
-        if (isModeEnabled(headers, X_TEST_HEADER)) {
-            String dummyResponse = "123\n";
-            sendOk(dummyResponse.getBytes(), exchange);
-            return;
-        }
-        boolean isDebugMode = false;
-        if (isModeEnabled(headers, X_DEBUG_HEADER)) {
-            isDebugMode = true;
-        }
-        byte[] responseBytes = processRequest(exchange, isDebugMode);
-        sendOk(responseBytes, exchange);
-    }
+public class NumbersMultiplierHttpRequestHandler extends AbstractSunHttpRequestHandler {
 
     @Override
     public String endpoint() {
         return "/task";
     }
 
-    private static boolean isModeEnabled(Headers headers, String xHeader) {
-        return headers.containsKey(xHeader) && headers.get(xHeader).getFirst().equalsIgnoreCase("true");
+    @Override
+    public String method() {
+        return "POST";
     }
 
-    private byte[] processRequest(HttpExchange exchange, boolean isDebugMode) throws IOException {
+    @Override
+    public void handle(HttpTransaction exchange) throws IOException {
+        var headers = exchange.requestHeaders();
+        if (isModeEnabled(headers, HEADER_X_TEST)) {
+            String dummyResponse = "123\n";
+            exchange.sendOk(dummyResponse.getBytes());
+            return;
+        }
+        boolean isDebugMode = false;
+        if (isModeEnabled(headers, HEADER_X_DEBUG)) {
+            isDebugMode = true;
+        }
+        byte[] responseBytes = processRequest(exchange, isDebugMode);
+        exchange.sendOk(responseBytes);
+    }
+
+    private byte[] processRequest(HttpTransaction exchange, boolean isDebugMode) throws IOException {
         long startTime = System.nanoTime();
-        byte[] requestBytes = exchange.getRequestBody().readAllBytes();
+        byte[] requestBytes = exchange.requestPayload();
         byte[] responseBytes = calculateResult(requestBytes);
         long finishTime = System.nanoTime();
         if (isDebugMode) {
