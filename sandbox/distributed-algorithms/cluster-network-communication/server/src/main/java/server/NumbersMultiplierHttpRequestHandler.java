@@ -20,29 +20,29 @@ public class NumbersMultiplierHttpRequestHandler extends AbstractSunHttpRequestH
     }
 
     @Override
-    public void handle(HttpTransaction exchange) throws IOException {
-        var headers = exchange.requestHeaders();
+    public void handle(HttpTransaction transaction) throws IOException {
+        var headers = transaction.requestHeaders();
         if (isModeEnabled(headers, HEADER_X_TEST)) {
             String dummyResponse = "123\n";
-            exchange.sendOk(dummyResponse.getBytes());
+            transaction.sendOk(dummyResponse.getBytes());
             return;
         }
         boolean isDebugMode = false;
         if (isModeEnabled(headers, HEADER_X_DEBUG)) {
             isDebugMode = true;
         }
-        byte[] responseBytes = processRequest(exchange, isDebugMode);
-        exchange.sendOk(responseBytes);
+        byte[] responseBytes = processRequest(transaction, isDebugMode);
+        transaction.sendOk(responseBytes);
     }
 
-    private byte[] processRequest(HttpTransaction exchange, boolean isDebugMode) throws IOException {
+    private byte[] processRequest(HttpTransaction transaction, boolean isDebugMode) throws IOException {
         long startTime = System.nanoTime();
-        byte[] requestBytes = exchange.requestPayload();
+        byte[] requestBytes = transaction.requestPayload();
         byte[] responseBytes = calculateResult(requestBytes);
         long finishTime = System.nanoTime();
         if (isDebugMode) {
             String debugMessage = String.format("Operation took %d ns", finishTime - startTime);
-            exchange.getResponseHeaders().put("X-Debug-Info", Collections.singletonList(debugMessage));
+            transaction.putResponseHeader("X-Debug-Info", Collections.singletonList(debugMessage));
         }
         return responseBytes;
     }

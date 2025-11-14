@@ -15,6 +15,8 @@ public interface HttpTransaction {
 
     void addResponseHeader(String key, String value);
 
+    void putResponseHeader(String key, List<String> value);
+
     void sendOk(byte[] responseBytes) throws IOException;
 
 }

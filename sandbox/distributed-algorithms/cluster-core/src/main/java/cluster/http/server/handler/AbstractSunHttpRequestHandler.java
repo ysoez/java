@@ -37,6 +37,10 @@ public abstract class AbstractSunHttpRequestHandler implements HttpRequestHandle
                 exchange.getResponseHeaders().add(key, value);
             }
             @Override
+            public void putResponseHeader(String key, List<String> value) {
+                exchange.getResponseHeaders().put(key, value);
+            }
+            @Override
             public void sendOk(byte[] responseBytes) throws IOException {
                 exchange.sendResponseHeaders(200, responseBytes.length);
                 OutputStream outputStream = exchange.getResponseBody();
