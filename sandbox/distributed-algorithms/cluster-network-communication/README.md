@@ -3,7 +3,7 @@
 ### Build Server
 
 ``` 
-./gradlew distributed-systems:http:http-server:build
+./gradlew sandbox:cluster-network-communication:server:build
 ```
 
 ### Build Client

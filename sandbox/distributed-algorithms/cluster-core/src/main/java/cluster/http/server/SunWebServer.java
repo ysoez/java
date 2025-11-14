@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class SunWebServer implements WebServer<AbstractSunHttpRequestHandler> {
@@ -33,6 +34,12 @@ public class SunWebServer implements WebServer<AbstractSunHttpRequestHandler> {
     @Override
     public SunWebServer withHealthCheck() {
         addHandler(new HealthCheckRequestHandler());
+        return this;
+    }
+
+    @Override
+    public WebServer<AbstractSunHttpRequestHandler> withExecutor(Executor executor) {
+        server.setExecutor(executor);
         return this;
     }
 
