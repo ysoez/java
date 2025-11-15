@@ -3,8 +3,6 @@ package server;
 import cluster.http.server.SunWebServer;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.Executors;
-
 @Slf4j
 public class WebServerRunner {
 
@@ -15,8 +13,7 @@ public class WebServerRunner {
         }
         new SunWebServer(serverPort)
                 .withHealthCheck()
-                .withExecutor(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()))
-                .addHandler(new NumbersMultiplierHttpRequestHandler())
+                .addHandler(new NumbersMultiplierRequestHandler())
                 .start();
         log.info("server is listening on port {}", serverPort);
     }

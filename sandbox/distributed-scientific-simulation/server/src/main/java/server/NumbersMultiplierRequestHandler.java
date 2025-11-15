@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Collections;
 
-public class NumbersMultiplierHttpRequestHandler extends AbstractSunHttpRequestHandler {
+public class NumbersMultiplierRequestHandler extends AbstractSunHttpRequestHandler {
 
     @Override
     public String endpoint() {
@@ -27,10 +27,7 @@ public class NumbersMultiplierHttpRequestHandler extends AbstractSunHttpRequestH
             transaction.sendOk(dummyResponse.getBytes());
             return;
         }
-        boolean isDebugMode = false;
-        if (isModeEnabled(headers, HEADER_X_DEBUG)) {
-            isDebugMode = true;
-        }
+        boolean isDebugMode = isModeEnabled(headers, HEADER_X_DEBUG);
         byte[] responseBytes = processRequest(transaction, isDebugMode);
         transaction.sendOk(responseBytes);
     }
@@ -41,23 +38,23 @@ public class NumbersMultiplierHttpRequestHandler extends AbstractSunHttpRequestH
         byte[] responseBytes = calculateResult(requestBytes);
         long finishTime = System.nanoTime();
         if (isDebugMode) {
-            String debugMessage = String.format("Operation took %d ns", finishTime - startTime);
+            String debugMessage = String.format("operation took %d ns", finishTime - startTime);
             transaction.putResponseHeader("X-Debug-Info", Collections.singletonList(debugMessage));
         }
         return responseBytes;
     }
 
     private byte[] calculateResult(byte[] requestBytes) {
-        String bodyString = new String(requestBytes);
+        var bodyString = new String(requestBytes);
         String[] stringNumbers = bodyString.split(",");
 
-        BigInteger result = BigInteger.ONE;
+        var result = BigInteger.ONE;
         for (String number : stringNumbers) {
-            BigInteger bigInteger = new BigInteger(number);
+            var bigInteger = new BigInteger(number);
             result = result.multiply(bigInteger);
         }
 
-        return String.format("Result of the multiplication is %s\n", result).getBytes();
+        return String.format("multiplication result: %s\n", result).getBytes();
     }
 
 }
