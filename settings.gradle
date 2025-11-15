@@ -27,7 +27,7 @@ include ':client:zookeeper'
 //
 // ~ serialization
 //
-include ':serialization:protobuf'
+//include ':serialization:protobuf'
 
 //
 // ~ reactive
