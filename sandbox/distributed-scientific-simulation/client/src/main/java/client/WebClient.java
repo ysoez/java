@@ -16,12 +16,16 @@ public class WebClient {
                 .build();
     }
 
-    public CompletableFuture<String> sendTask(String url, byte[] requestPayload) {
+    public CompletableFuture<String> sendTask(String url, byte[] requestPayload, boolean debugEnabled) {
         var request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofByteArray(requestPayload))
                 .uri(URI.create(url))
+                .header("X-Debug", String.valueOf(debugEnabled))
                 .build();
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body);
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(resp -> {
+            System.out.println(resp.headers().allValues("x-debug-info"));
+            return resp;
+        }).thenApply(HttpResponse::body);
     }
 
 }

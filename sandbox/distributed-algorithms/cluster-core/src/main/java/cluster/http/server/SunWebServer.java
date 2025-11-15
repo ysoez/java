@@ -15,20 +15,18 @@ import java.util.concurrent.Executors;
 public class SunWebServer implements WebServer<AbstractSunHttpRequestHandler> {
 
     private final int port;
-    private final int threadPoolSize;
     private final Set<AbstractSunHttpRequestHandler> requestHandlers;
+    private Executor executor;
     private HttpServer server;
 
     public SunWebServer(int port) {
-        this.port = port;
-        this.threadPoolSize = Runtime.getRuntime().availableProcessors();
-        this.requestHandlers = new HashSet<>();
+        this(port, Runtime.getRuntime().availableProcessors());
     }
 
     public SunWebServer(int port, int threadPoolSize) {
         this.port = port;
-        this.threadPoolSize = threadPoolSize;
         this.requestHandlers = new HashSet<>();
+        withExecutor(Executors.newFixedThreadPool(threadPoolSize));
     }
 
     @Override
@@ -39,7 +37,7 @@ public class SunWebServer implements WebServer<AbstractSunHttpRequestHandler> {
 
     @Override
     public WebServer<AbstractSunHttpRequestHandler> withExecutor(Executor executor) {
-        server.setExecutor(executor);
+        this.executor = executor;
         return this;
     }
 
@@ -58,8 +56,8 @@ public class SunWebServer implements WebServer<AbstractSunHttpRequestHandler> {
             return;
         }
         registerRequestHandlers();
-        server.setExecutor(Executors.newFixedThreadPool(threadPoolSize));
-        server.start();
+        this.server.setExecutor(executor);
+        this.server.start();
     }
 
     @Override
@@ -70,7 +68,7 @@ public class SunWebServer implements WebServer<AbstractSunHttpRequestHandler> {
     private void registerRequestHandlers() {
         for (var requestHandler : requestHandlers) {
             HttpContext context = server.createContext(requestHandler.endpoint());
-            context.setHandler(requestHandler::handle);
+            context.setHandler(requestHandler);
         }
     }
 }

@@ -17,7 +17,8 @@ public class Aggregator {
             String workerAddress = workersAddresses.get(i);
             String task = tasks.get(i);
             byte[] requestPayload = task.getBytes();
-            futures.add(webClient.sendTask(workerAddress, requestPayload));
+            System.out.printf("sending task %s to %s\n", task, workerAddress);
+            futures.add(webClient.sendTask(workerAddress, requestPayload, true));
         }
         return futures.stream().map(CompletableFuture::join).toList();
     }

@@ -5,6 +5,7 @@ import cluster.http.server.handler.AbstractSunHttpRequestHandler;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class NumbersMultiplierRequestHandler extends AbstractSunHttpRequestHandler {
@@ -47,6 +48,7 @@ public class NumbersMultiplierRequestHandler extends AbstractSunHttpRequestHandl
     private byte[] calculateResult(byte[] requestBytes) {
         var bodyString = new String(requestBytes);
         String[] stringNumbers = bodyString.split(",");
+        System.out.println("numbers to multiply: " + Arrays.toString(stringNumbers));
 
         var result = BigInteger.ONE;
         for (String number : stringNumbers) {
