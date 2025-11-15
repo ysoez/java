@@ -25,6 +25,11 @@ include ':protocol:http'
 include ':client:zookeeper'
 
 //
+// ~ serialization
+//
+include ':serialization:protobuf'
+
+//
 // ~ reactive
 //
 //include ':reactive'
@@ -46,7 +51,7 @@ include ':sandbox:distributed-search:cluster-server'
 include ':sandbox:load-balancing:haproxy'
 include ':sandbox:load-balancing:nginx'
 
-//include ':serialization'
+
 //include ':network'
 //include ':io'
 //include ':api'
