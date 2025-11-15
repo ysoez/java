@@ -1,7 +1,7 @@
 package fe;
 
 import cluster.ClusterConnector;
-import cluster.http.server.SunWebServer;
+import cluster.http.server.sun.SunWebServer;
 import cluster.registry.ServiceRegistry;
 import cluster.registry.ZooKeeperServiceRegistry;
 import fe.handler.HomePageRequestHandler;

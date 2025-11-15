@@ -1,6 +1,6 @@
-package cluster.http.server;
+package cluster.http.server.sun;
 
-import cluster.http.server.handler.AbstractSunHttpRequestHandler;
+import cluster.http.server.WebServer;
 import cluster.http.server.handler.HealthCheckRequestHandler;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;

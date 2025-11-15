@@ -1,6 +1,7 @@
 package cluster.http.server.handler;
 
 import cluster.http.server.HttpTransaction;
+import cluster.http.server.sun.AbstractSunHttpRequestHandler;
 
 import java.io.IOException;
 

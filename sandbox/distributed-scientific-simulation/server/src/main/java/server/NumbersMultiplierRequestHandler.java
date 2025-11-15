@@ -1,7 +1,7 @@
 package server;
 
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.handler.AbstractSunHttpRequestHandler;
+import cluster.http.server.sun.AbstractSunHttpRequestHandler;
 
 import java.io.IOException;
 import java.math.BigInteger;

@@ -3,7 +3,7 @@ package search.cluster.handler;
 import cluster.SerializationUtils;
 import cluster.http.client.WebClient;
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.handler.AbstractSunHttpRequestHandler;
+import cluster.http.server.sun.AbstractSunHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
 import cluster.registry.ServiceRegistry;

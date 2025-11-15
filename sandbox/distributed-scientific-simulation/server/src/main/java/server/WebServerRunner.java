@@ -1,6 +1,6 @@
 package server;
 
-import cluster.http.server.SunWebServer;
+import cluster.http.server.sun.SunWebServer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -1,7 +1,7 @@
 package fe.handler;
 
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.handler.AbstractSunHttpRequestHandler;
+import cluster.http.server.sun.AbstractSunHttpRequestHandler;
 
 import java.io.IOException;
 import java.io.InputStream;

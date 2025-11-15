@@ -2,7 +2,7 @@ package search.cluster.handler;
 
 import cluster.SerializationUtils;
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.handler.AbstractSunHttpRequestHandler;
+import cluster.http.server.sun.AbstractSunHttpRequestHandler;
 import search.cluster.model.DocumentData;
 import search.cluster.model.Result;
 import search.cluster.model.Task;

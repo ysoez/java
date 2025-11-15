@@ -2,7 +2,7 @@ package search.cluster.election;
 
 import cluster.election.ElectionCallback;
 import cluster.http.client.JdkWebClient;
-import cluster.http.server.SunWebServer;
+import cluster.http.server.sun.SunWebServer;
 import cluster.http.server.WebServer;
 import cluster.registry.ServiceRegistry;
 import search.cluster.handler.SearchCoordinatorRequestHandler;
