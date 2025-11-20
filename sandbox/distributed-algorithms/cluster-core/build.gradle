@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    api "org.apache.zookeeper:zookeeper:3.9.4"
+    api "org.apache.zookeeper:zookeeper:${zookeeperVersion}"
 }
