@@ -83,11 +83,7 @@ public class ZooKeeperServiceRegistry implements ServiceRegistry, Watcher {
 
     @Override
     public void process(WatchedEvent event) {
-        try {
-            updateAddresses();
-        } catch (KeeperException | InterruptedException e) {
-            log.error("failed to update addresses", e);
-        }
+        subscribeForUpdates();
     }
 
     private void createRegistry() {
