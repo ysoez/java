@@ -7,7 +7,7 @@ import cluster.http.server.sun.AbstractSunHttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
 import cluster.registry.ServiceRegistry;
-import search.cluster.model.DocumentData;
+import search.cluster.model.DocumentStats;
 import search.cluster.model.Result;
 import search.cluster.model.Task;
 import search.cluster.util.TFIDF;
@@ -70,14 +70,14 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
     }
 
     private List<DocumentSearchResponse.DocumentStats> aggregateResults(List<Result> results, List<String> terms) {
-        Map<String, DocumentData> allDocumentsResults = new HashMap<>();
+        Map<String, DocumentStats> allDocumentsResults = new HashMap<>();
 
         for (Result result : results) {
             allDocumentsResults.putAll(result.getDocumentToDocumentData());
         }
         System.out.println("allDocumentsResults: " + allDocumentsResults.values());
         System.out.println("Calculating score for all the documents");
-        Map<Double, List<String>> scoreToDocuments = TFIDF.getDocumentsScores(terms, allDocumentsResults);
+        Map<Double, List<String>> scoreToDocuments = TFIDF.documentScoreMap(terms, allDocumentsResults);
         System.out.println("scoreToDocuments: " + scoreToDocuments);
         return sortDocumentsByScore(scoreToDocuments);
     }

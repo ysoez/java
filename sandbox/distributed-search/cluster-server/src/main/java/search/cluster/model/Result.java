@@ -6,13 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Result implements Serializable {
-    private Map<String, DocumentData> documentToDocumentData = new HashMap<>();
 
-    public void addDocumentData(String document, DocumentData documentData) {
-        documentToDocumentData.put(document, documentData);
+    private Map<String, DocumentStats> documentToDocumentData = new HashMap<>();
+
+    public void addDocumentData(String document, DocumentStats documentStats) {
+        documentToDocumentData.put(document, documentStats);
     }
 
-    public Map<String, DocumentData> getDocumentToDocumentData() {
+    public Map<String, DocumentStats> getDocumentToDocumentData() {
         return Collections.unmodifiableMap(documentToDocumentData);
     }
+
 }

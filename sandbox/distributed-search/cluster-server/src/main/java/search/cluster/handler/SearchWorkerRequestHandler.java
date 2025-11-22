@@ -3,7 +3,7 @@ package search.cluster.handler;
 import cluster.SerializationUtils;
 import cluster.http.server.HttpTransaction;
 import cluster.http.server.sun.AbstractSunHttpRequestHandler;
-import search.cluster.model.DocumentData;
+import search.cluster.model.DocumentStats;
 import search.cluster.model.Result;
 import search.cluster.model.Task;
 import search.cluster.util.TFIDF;
@@ -38,9 +38,9 @@ public class SearchWorkerRequestHandler extends AbstractSunHttpRequestHandler {
 
         for (String document : documents) {
             List<String> words = parseWordsFromDocument(document);
-            DocumentData documentData = TFIDF.createDocumentData(words, task.getSearchTerms());
-            System.out.println(document + " : " + documentData);
-            result.addDocumentData(document, documentData);
+            DocumentStats documentStats = TFIDF.createDocumentStats(words, task.getSearchTerms());
+            System.out.println(document + " : " + documentStats);
+            result.addDocumentData(document, documentStats);
         }
         return result;
     }

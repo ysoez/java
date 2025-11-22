@@ -1,12 +1,12 @@
 package search.cluster.util;
 
-import search.cluster.model.DocumentData;
+import search.cluster.model.DocumentStats;
 
 import java.util.*;
 
 public class TFIDF {
 
-    public static double calculateTermFrequency(List<String> words, String term) {
+    public static double termFrequency(List<String> words, String term) {
         long count = 0;
         for (String word : words) {
             if (term.equalsIgnoreCase(word)) {
@@ -16,75 +16,62 @@ public class TFIDF {
         return (double) count / words.size();
     }
 
-    public static DocumentData createDocumentData(List<String> words, List<String> terms) {
-        DocumentData documentData = new DocumentData();
+    public static DocumentStats createDocumentStats(List<String> words, List<String> terms) {
+        var docStats = new DocumentStats();
         for (String term : terms) {
-            double termFreq = TFIDF.calculateTermFrequency(words, term.toLowerCase());
-            documentData.putTermFrequency(term, termFreq);
+            double termFreq = termFrequency(words, term.toLowerCase());
+            docStats.putTermFrequency(term, termFreq);
         }
-        return documentData;
+        return docStats;
     }
 
-    public static Map<Double, List<String>> getDocumentsScores(List<String> terms,
-                                                               Map<String, DocumentData> documentResults) {
-        TreeMap<Double, List<String>> scoreToDoc = new TreeMap<>();
-
-        Map<String, Double> termToInverseDocumentFrequency = getTermToInverseDocumentFrequencyMap(terms, documentResults);
-
-        for (String document : documentResults.keySet()) {
-            DocumentData documentData = documentResults.get(document);
-
-            double score = calculateDocumentScore(terms, documentData, termToInverseDocumentFrequency);
-
-            addDocumentScoreToTreeMap(scoreToDoc, score, document);
+    private static double inverseDocumentFrequency(String term, Map<String, DocumentStats> docStatsMap) {
+        double nt = 0;
+        for (String document : docStatsMap.keySet()) {
+            var docStats = docStatsMap.get(document);
+            double termFrequency = docStats.getFrequency(term);
+            if (termFrequency > 0.0) {
+                nt++;
+            }
         }
-        return scoreToDoc.descendingMap();
+        return nt == 0 ? 0 : Math.log10(docStatsMap.size() / nt);
     }
 
-    private static void addDocumentScoreToTreeMap(TreeMap<Double, List<String>> scoreToDoc, double score, String document) {
-        List<String> booksWithCurrentScore = scoreToDoc.get(score);
-        if (booksWithCurrentScore == null) {
-            booksWithCurrentScore = new ArrayList<>();
+    private static Map<String, Double> termToInverseDocumentFrequencyMap(List<String> terms,
+                                                                         Map<String, DocumentStats> docStats) {
+        Map<String, Double> termToIDF = new HashMap<>();
+        for (String term : terms) {
+            double idf = inverseDocumentFrequency(term, docStats);
+            termToIDF.put(term, idf);
         }
-        booksWithCurrentScore.add(document);
-        scoreToDoc.put(score, booksWithCurrentScore);
+        return termToIDF;
     }
 
-    private static double calculateDocumentScore(List<String> terms,
-                                                 DocumentData documentData,
-                                                 Map<String, Double> termToInverseDocumentFrequency) {
+    private static double documentScore(List<String> terms, DocumentStats docStats, Map<String, Double> termToIdf) {
         double score = 0;
         for (String term : terms) {
-            double termFrequency = documentData.getFrequency(term);
-            double inverseTermFrequency = termToInverseDocumentFrequency.get(term);
+            double termFrequency = docStats.getFrequency(term);
+            double inverseTermFrequency = termToIdf.get(term);
             score += termFrequency * inverseTermFrequency;
-            System.out.println("termFrequency =" + termFrequency);
-            System.out.println("inverseTermFrequency =" + inverseTermFrequency);
-            System.out.println("score =" + score);
         }
         return score;
     }
 
-    private static double getInverseDocumentFrequency(String term, Map<String, DocumentData> documentResults) {
-        double n = 0;
-        for (String document : documentResults.keySet()) {
-            DocumentData documentData = documentResults.get(document);
-            double termFrequency = documentData.getFrequency(term);
-            if (termFrequency > 0.0) {
-                n++;
-            }
+    public static Map<Double, List<String>> documentScoreMap(List<String> terms, Map<String, DocumentStats> docStatsMap) {
+        TreeMap<Double, List<String>> scoreToDocs = new TreeMap<>();
+        Map<String, Double> termToIdf = termToInverseDocumentFrequencyMap(terms, docStatsMap);
+        for (String doc : docStatsMap.keySet()) {
+            var docStats = docStatsMap.get(doc);
+            double score = documentScore(terms, docStats, termToIdf);
+            addDocumentScoreToTreeMap(scoreToDocs, score, doc);
         }
-        return n == 0 ? 0 : Math.log10(documentResults.size() / n);
+        return scoreToDocs.descendingMap();
     }
 
-    private static Map<String, Double> getTermToInverseDocumentFrequencyMap(List<String> terms,
-                                                                            Map<String, DocumentData> documentResults) {
-        Map<String, Double> termToIDF = new HashMap<>();
-        for (String term : terms) {
-            double idf = getInverseDocumentFrequency(term, documentResults);
-            termToIDF.put(term, idf);
-        }
-        return termToIDF;
+    private static void addDocumentScoreToTreeMap(TreeMap<Double, List<String>> scoreToDoc, double score, String document) {
+        List<String> docsWithCurrentScore = scoreToDoc.getOrDefault(score, new ArrayList<>());
+        docsWithCurrentScore.add(document);
+        scoreToDoc.put(score, docsWithCurrentScore);
     }
 
     public static List<String> getWordsFromDocument(List<String> lines) {
@@ -98,4 +85,5 @@ public class TFIDF {
     public static List<String> getWordsFromLine(String line) {
         return Arrays.asList(line.split("(\\.)+|(,)+|( )+|(-)+|(\\?)+|(!)+|(;)+|(:)+|(/d)+|(/n)+"));
     }
+
 }
