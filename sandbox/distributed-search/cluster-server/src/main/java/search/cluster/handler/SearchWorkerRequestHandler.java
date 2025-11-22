@@ -19,6 +19,16 @@ import java.util.stream.Collectors;
 public class SearchWorkerRequestHandler extends AbstractSunHttpRequestHandler {
 
     @Override
+    public String endpoint() {
+        return "/task";
+    }
+
+    @Override
+    public String method() {
+        return "post";
+    }
+
+    @Override
     public void handle(HttpTransaction transaction) throws IOException {
         var task = (Task) SerializationUtils.deserialize(transaction.requestPayload());
         Result result = createResult(task);
@@ -26,16 +36,10 @@ public class SearchWorkerRequestHandler extends AbstractSunHttpRequestHandler {
         transaction.sendOk(responseBody);
     }
 
-    @Override
-    public String endpoint() {
-        return "/task";
-    }
-
     private Result createResult(Task task) {
         List<String> documents = task.getDocuments();
-        System.out.println(String.format("Received %d documents to process", documents.size()));
+        System.out.printf("received %d documents\n", documents.size());
         Result result = new Result();
-
         for (String document : documents) {
             List<String> words = parseWordsFromDocument(document);
             DocumentStats documentStats = TFIDF.createDocumentStats(words, task.getSearchTerms());
@@ -59,8 +63,4 @@ public class SearchWorkerRequestHandler extends AbstractSunHttpRequestHandler {
         return words;
     }
 
-    @Override
-    public String method() {
-        return "post";
-    }
 }

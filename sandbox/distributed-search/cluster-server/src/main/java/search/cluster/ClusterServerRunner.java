@@ -15,7 +15,7 @@ import static cluster.registry.ZooKeeperServiceRegistry.WORKER_ROOT;
 public class ClusterServerRunner {
 
     public static void main(String[] args) throws Exception {
-        int serverPort = 8081;
+        int serverPort = 8080;
         if (args.length == 1) {
             serverPort = Integer.parseInt(args[0]);
         }

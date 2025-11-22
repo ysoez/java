@@ -1,9 +1,11 @@
 package search.cluster.model;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 public class Task implements Serializable {
+
     private final List<String> searchTerms;
     private final List<String> documents;
 
@@ -13,10 +15,11 @@ public class Task implements Serializable {
     }
 
     public List<String> getSearchTerms() {
-        return searchTerms;
+        return Collections.unmodifiableList(searchTerms);
     }
 
     public List<String> getDocuments() {
-        return documents;
+        return Collections.unmodifiableList(documents);
     }
+
 }
