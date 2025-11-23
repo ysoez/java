@@ -27,7 +27,6 @@ public class FrontendServerRunner {
                     .addHandler(new HomePageRequestHandler())
                     .withHealthCheck();
             webServer.start();
-
             System.out.println("server is listening on port: " + port);
             clusterConnector.waitForDisconnect();
         }

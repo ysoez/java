@@ -9,7 +9,7 @@ import java.io.InputStream;
 public class HomePageRequestHandler extends AbstractSunHttpRequestHandler {
 
     private static final String ASSETS_BASE_DIR = "/assets/";
-    private static final String HOME_PAGE_PATH = "/assets/index.html";
+    private static final String HOME_PAGE_PATH = ASSETS_BASE_DIR + "index.html";
 
     @Override
     public String endpoint() {

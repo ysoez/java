@@ -24,8 +24,8 @@ public class SearchRequestHandler extends AbstractSunHttpRequestHandler {
     private final WebClient client;
     private final ServiceRegistry searchCoordinatorRegistry;
 
-    public SearchRequestHandler(ServiceRegistry searchCoordinatorRegistry) {
-        this.searchCoordinatorRegistry = searchCoordinatorRegistry;
+    public SearchRequestHandler(ServiceRegistry coordinatorRegistry) {
+        this.searchCoordinatorRegistry = coordinatorRegistry;
         this.client = new JdkWebClient();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -57,44 +57,31 @@ public class SearchRequestHandler extends AbstractSunHttpRequestHandler {
 
     private fe.model.SearchResponse createFrontendResponse(fe.model.SearchRequest frontendSearchRequest) {
         var searchClusterResponse = sendRequestToSearchCluster(frontendSearchRequest.getSearchQuery());
-
-        List<SearchResponse.Result> filteredResults =
-                filterResults(searchClusterResponse,
-                        frontendSearchRequest.getMaxNumberOfResults(),
-                        frontendSearchRequest.getMinScore());
-
+        List<SearchResponse.Result> filteredResults = filterResults(searchClusterResponse, frontendSearchRequest.getMaxNumberOfResults(), frontendSearchRequest.getMinScore());
         return new fe.model.SearchResponse(filteredResults, DOCUMENTS_LOCATION);
     }
 
     private List<SearchResponse.Result> filterResults(DocumentSearchResponse searchClusterResponse,
                                                       long maxResults,
                                                       double minScore) {
-
         double maxScore = getMaxScore(searchClusterResponse);
-
         List<SearchResponse.Result> searchResultInfoList = new ArrayList<>();
-
         for (int i = 0; i < searchClusterResponse.getRelevantDocumentsCount() && i < maxResults; i++) {
-
             int normalizedDocumentScore = normalizeScore(searchClusterResponse.getRelevantDocuments(i).getScore(), maxScore);
             if (normalizedDocumentScore < minScore) {
                 break;
             }
 
             String documentName = searchClusterResponse.getRelevantDocuments(i).getName();
-
             String title = getDocumentTitle(documentName);
             String extension = getDocumentExtension(documentName);
 
-            SearchResponse.Result resultInfo = new SearchResponse.Result(title, extension, normalizedDocumentScore);
-
+            var resultInfo = new SearchResponse.Result(title, extension, normalizedDocumentScore);
             searchResultInfoList.add(resultInfo);
         }
 
         return searchResultInfoList;
     }
-
-
 
     private static String getDocumentExtension(String document) {
         String[] parts = document.split("\\.");
