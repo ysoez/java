@@ -4,21 +4,15 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class Task implements Serializable {
+public record Task(List<String> searchTerms, List<String> documents) implements Serializable {
 
-    private final List<String> searchTerms;
-    private final List<String> documents;
-
-    public Task(List<String> searchTerms, List<String> documents) {
-        this.searchTerms = searchTerms;
-        this.documents = documents;
-    }
-
-    public List<String> getSearchTerms() {
+    @Override
+    public List<String> searchTerms() {
         return Collections.unmodifiableList(searchTerms);
     }
 
-    public List<String> getDocuments() {
+    @Override
+    public List<String> documents() {
         return Collections.unmodifiableList(documents);
     }
 

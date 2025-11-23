@@ -31,36 +31,37 @@ public class SearchWorkerRequestHandler extends AbstractSunHttpRequestHandler {
     @Override
     public void handle(HttpTransaction transaction) throws IOException {
         var task = (Task) SerializationUtils.deserialize(transaction.requestPayload());
-        Result result = createResult(task);
+        Result result = createResultFor(task);
         byte[] responseBody = SerializationUtils.serialize(result);
         transaction.sendOk(responseBody);
     }
 
-    private Result createResult(Task task) {
-        List<String> documents = task.getDocuments();
+    private Result createResultFor(Task task) {
+        List<String> documents = task.documents();
         System.out.printf("received %d documents\n", documents.size());
-        Result result = new Result();
+        var result = new Result();
         for (String document : documents) {
-            List<String> words = parseWordsFromDocument(document);
-            DocumentStats documentStats = TFIDF.createDocumentStats(words, task.getSearchTerms());
-            System.out.println(document + " : " + documentStats);
-            result.addDocumentData(document, documentStats);
+            var documentStats = computeTermFrequency(task, document);
+            result.addDocumentStats(document, documentStats);
         }
         return result;
     }
 
-    private List<String> parseWordsFromDocument(String document) {
+    private DocumentStats computeTermFrequency(Task task, String document) {
+        List<String> words = parseDocumentWords(document);
+        return TFIDF.createDocumentStats(words, task.searchTerms());
+    }
+
+    private List<String> parseDocumentWords(String document) {
         FileReader fileReader;
         try {
             fileReader = new FileReader(document);
         } catch (FileNotFoundException e) {
             return Collections.emptyList();
         }
-
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        List<String> lines = bufferedReader.lines().collect(Collectors.toList());
-        List<String> words = TFIDF.getWordsFromDocument(lines);
-        return words;
+        var bufferedReader = new BufferedReader(fileReader);
+        var lines = bufferedReader.lines().collect(Collectors.toList());
+        return TFIDF.getWordsFromDocument(lines);
     }
 
 }

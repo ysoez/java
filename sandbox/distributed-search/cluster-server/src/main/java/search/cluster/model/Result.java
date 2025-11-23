@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class Result implements Serializable {
 
-    private Map<String, DocumentStats> documentToDocumentData = new HashMap<>();
+    private final Map<String, DocumentStats> docStatsMap = new HashMap<>();
 
-    public void addDocumentData(String document, DocumentStats documentStats) {
-        documentToDocumentData.put(document, documentStats);
+    public void addDocumentStats(String document, DocumentStats documentStats) {
+        docStatsMap.put(document, documentStats);
     }
 
-    public Map<String, DocumentStats> getDocumentToDocumentData() {
-        return Collections.unmodifiableMap(documentToDocumentData);
+    public Map<String, DocumentStats> documentStatsMap() {
+        return Collections.unmodifiableMap(docStatsMap);
     }
 
 }

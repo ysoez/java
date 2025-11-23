@@ -33,61 +33,56 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
     }
 
     @Override
-    public void handle(HttpTransaction httpExchange) throws IOException {
-        try {
-            var request = DocumentSearchRequest.parseFrom(httpExchange.requestPayload());
-            var response = createResponse(request);
-            httpExchange.sendOk(response.toByteArray());;
-        } catch (Exception e) {
-            e.printStackTrace();
-            httpExchange.sendOk(DocumentSearchResponse.getDefaultInstance().toByteArray());;
-        }
-    }
-
-    @Override
     public String endpoint() {
         return "/search";
     }
 
+    @Override
+    public String method() {
+        return "get";
+    }
+
+    @Override
+    public void handle(HttpTransaction http) throws IOException {
+        try {
+            var request = DocumentSearchRequest.parseFrom(http.requestPayload());
+            var response = createResponse(request);
+            http.sendOk(response.toByteArray());;
+        } catch (Exception e) {
+            e.printStackTrace();
+            http.sendOk(DocumentSearchResponse.getDefaultInstance().toByteArray());;
+        }
+    }
+
     private DocumentSearchResponse createResponse(DocumentSearchRequest searchRequest) throws Exception {
         var searchResponse = DocumentSearchResponse.newBuilder();
-        System.out.println("Received search query: " + searchRequest.getQuery());
-        List<String> searchTerms = TFIDF.getWordsFromLine(searchRequest.getQuery());
-        List<String> workers = workersRegistry.getServices();
+        var searchTerms = TFIDF.getWordsFromLine(searchRequest.getQuery());
+        var workers = workersRegistry.getServices();
 
         if (workers.isEmpty()) {
-            System.out.println("No search workers currently available");
             return searchResponse.build();
         }
 
-        List<Task> tasks = createTasks(workers.size(), searchTerms);
-        List<Result> results = sendTasksToWorkers(workers, tasks);
+        var tasks = createTasks(workers.size(), searchTerms);
+        var results = sendTasksToWorkers(workers, tasks);
+        var sortedDocuments = aggregateResults(results, searchTerms);;
 
-        List<DocumentSearchResponse.DocumentStats> sortedDocuments = aggregateResults(results, searchTerms);
-        searchResponse.addAllRelevantDocuments(sortedDocuments);
-
-        return searchResponse.build();
+        return searchResponse.addAllRelevantDocuments(sortedDocuments).build();
     }
 
     private List<DocumentSearchResponse.DocumentStats> aggregateResults(List<Result> results, List<String> terms) {
         Map<String, DocumentStats> allDocumentsResults = new HashMap<>();
-
         for (Result result : results) {
-            allDocumentsResults.putAll(result.getDocumentToDocumentData());
+            allDocumentsResults.putAll(result.documentStatsMap());
         }
-        System.out.println("allDocumentsResults: " + allDocumentsResults.values());
-        System.out.println("Calculating score for all the documents");
         Map<Double, List<String>> scoreToDocuments = TFIDF.documentScoreMap(terms, allDocumentsResults);
-        System.out.println("scoreToDocuments: " + scoreToDocuments);
         return sortDocumentsByScore(scoreToDocuments);
     }
 
     private List<DocumentSearchResponse.DocumentStats> sortDocumentsByScore(Map<Double, List<String>> scoreToDocuments) {
         List<DocumentSearchResponse.DocumentStats> sortedDocumentsStatsList = new ArrayList<>();
-
         for (Map.Entry<Double, List<String>> docScorePair : scoreToDocuments.entrySet()) {
             double score = docScorePair.getKey();
-
             for (String document : docScorePair.getValue()) {
                 File documentPath = new File(document);
                 var documentStats = DocumentSearchResponse.DocumentStats.newBuilder()
@@ -95,11 +90,9 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
                         .setName(documentPath.getName())
                         .setSize(documentPath.length())
                         .build();
-
                 sortedDocumentsStatsList.add(documentStats);
             }
         }
-
         return sortedDocumentsStatsList;
     }
 
@@ -109,7 +102,6 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
             String worker = workers.get(i);
             Task task = tasks.get(i);
             byte[] payload = SerializationUtils.serialize(task);
-
             futures[i] = client.sendRequest(worker, payload);
         }
 
@@ -121,6 +113,7 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
             } catch (InterruptedException | ExecutionException e) {
             }
         }
+
         System.out.println(String.format("Received %d/%d results", results.size(), tasks.size()));
         return results;
     }
@@ -136,19 +129,15 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
     }
 
     private static List<List<String>> splitDocumentList(int numberOfWorkers, List<String> documents) {
-        int numberOfDocumentsPerWorker = (documents.size() + numberOfWorkers - 1) / numberOfWorkers;
-
+        int docsPerWorker = (documents.size() + numberOfWorkers - 1) / numberOfWorkers;
         List<List<String>> workersDocuments = new ArrayList<>();
-
         for (int i = 0; i < numberOfWorkers; i++) {
-            int firstDocumentIndex = i * numberOfDocumentsPerWorker;
-            int lastDocumentIndexExclusive = Math.min(firstDocumentIndex + numberOfDocumentsPerWorker, documents.size());
-
+            int firstDocumentIndex = i * docsPerWorker;
+            int lastDocumentIndexExclusive = Math.min(firstDocumentIndex + docsPerWorker, documents.size());
             if (firstDocumentIndex >= lastDocumentIndexExclusive) {
                 break;
             }
             List<String> currentWorkerDocuments = new ArrayList<>(documents.subList(firstDocumentIndex, lastDocumentIndexExclusive));
-
             workersDocuments.add(currentWorkerDocuments);
         }
         return workersDocuments;
@@ -162,8 +151,4 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String method() {
-        return "get";
-    }
 }

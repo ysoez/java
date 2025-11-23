@@ -15,7 +15,7 @@ public class ClusterElectionCallback implements ElectionCallback {
     private final ServiceRegistry workersServiceRegistry;
     private final ServiceRegistry coordinatorsServiceRegistry;
     private final int port;
-    private WebServer webServer;
+    private WebServer<?> webServer;
 
     public ClusterElectionCallback(ServiceRegistry workersServiceRegistry,
                                    ServiceRegistry coordinatorsServiceRegistry,
@@ -29,40 +29,37 @@ public class ClusterElectionCallback implements ElectionCallback {
     public void onLeader() {
         workersServiceRegistry.unregister();
         workersServiceRegistry.subscribeForUpdates();
-
         if (webServer != null) {
             webServer.stop();
         }
-
-        var searchCoordinator = new SearchCoordinatorRequestHandler(workersServiceRegistry, new JdkWebClient());
-        webServer = new SunWebServer(port).addHandler(searchCoordinator).withHealthCheck();
+        var coordinator = new SearchCoordinatorRequestHandler(workersServiceRegistry, new JdkWebClient());
+        webServer = new SunWebServer(port)
+                .addHandler(coordinator)
+                .withHealthCheck();
         webServer.start();
-
-        try {
-            String currentServerAddress = String.format(
-                    "http://%s:%d%s", InetAddress.getLocalHost().getCanonicalHostName(),
-                    port, searchCoordinator.endpoint());
-            coordinatorsServiceRegistry.register(currentServerAddress);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        registerIn(coordinatorsServiceRegistry, coordinator.endpoint());
     }
 
     @Override
     public void onWorker() {
-        SearchWorkerRequestHandler searchWorker = new SearchWorkerRequestHandler();
+        var searchWorker = new SearchWorkerRequestHandler();
         if (webServer == null) {
-            webServer = new SunWebServer(port).addHandler(searchWorker).withHealthCheck();
+            webServer = new SunWebServer(port)
+                    .addHandler(searchWorker)
+                    .withHealthCheck();
             webServer.start();
         }
+        registerIn(workersServiceRegistry, searchWorker.endpoint());
+    }
 
+    private void registerIn(ServiceRegistry registry, String endpoint) {
         try {
-            String currentServerAddress =
-                    String.format("http://%s:%d%s", InetAddress.getLocalHost().getCanonicalHostName(), port, searchWorker.endpoint());
-
-            workersServiceRegistry.register(currentServerAddress);
+            var host = InetAddress.getLocalHost().getCanonicalHostName();
+            var currentServerAddress = String.format("http://%s:%d%s", host, port, endpoint);
+            registry.register(currentServerAddress);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }
