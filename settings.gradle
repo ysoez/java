@@ -23,6 +23,7 @@ include ':protocol:http'
 // ~ clients
 //
 include ':client:zookeeper'
+include ':client:kafka'
 
 //
 // ~ serialization
