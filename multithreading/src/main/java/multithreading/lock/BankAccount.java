@@ -12,7 +12,7 @@ public class BankAccount {
 
         void withdraw(double amount);
 
-        double currentBalance();
+        double balance();
 
     }
 
@@ -44,7 +44,7 @@ public class BankAccount {
         }
 
         @Override
-        public double currentBalance() {
+        public double balance() {
             //
             // ~ read optimistically
             //
@@ -99,7 +99,7 @@ public class BankAccount {
         }
 
         @Override
-        public double currentBalance() {
+        public double balance() {
             return (double) BALANCE_HANDLE.getVolatile(this);
         }
     }
