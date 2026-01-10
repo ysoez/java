@@ -4,6 +4,8 @@ rootProject.name = 'java'
 //include ':dsa'
 include ':multithreading'
 
+include ':api'
+
 //
 // ~ utils
 //
@@ -38,7 +40,7 @@ include ':serialization:protobuf'
 //
 // ~ sandbox
 //
-//include ':sandbox'
+include ':sandbox:dsa'
 include ':sandbox:distributed-algorithms:cluster-auto-healer:watchdog'
 include ':sandbox:distributed-algorithms:cluster-auto-healer:worker'
 include ':sandbox:distributed-algorithms:cluster-core'
@@ -51,7 +53,6 @@ include ':sandbox:distributed-search:cluster-server-api'
 include ':sandbox:distributed-search:cluster-server'
 include ':sandbox:load-balancing:haproxy'
 include ':sandbox:load-balancing:nginx'
-
 
 //include ':network'
 //include ':io'
