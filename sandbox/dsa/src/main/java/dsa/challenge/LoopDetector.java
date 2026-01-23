@@ -1,6 +1,11 @@
 package dsa.challenge;
 
+import dsa.Algorithm;
+import dsa.Algorithm.Complexity;
 import dsa.Node;
+
+import static dsa.Algorithm.Complexity.CONSTANT;
+import static dsa.Algorithm.Complexity.LINEAR;
 
 interface LoopDetector<T> {
 
@@ -10,6 +15,7 @@ interface LoopDetector<T> {
 
     class LinkedListLoopDetector implements LoopDetector<Integer> {
         @Override
+        @Algorithm(complexity = @Complexity(runtime = LINEAR, space = CONSTANT))
         public boolean hasCycle(Node<Integer> node) {
             var slow = node;
             var fast = node;
