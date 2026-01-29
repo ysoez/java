@@ -4,7 +4,7 @@ import dsa.Algorithm.Complexity;
 
 import static dsa.Algorithm.Complexity.CONSTANT;
 
-public class Utils {
+public class Comparables {
 
     @Algorithm(complexity = @Complexity(runtime = CONSTANT, space = CONSTANT))
     public static <E extends Comparable<E>> E min(E e1, E e2) {
