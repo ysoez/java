@@ -1,4 +1,4 @@
-package dsa.graph.tree;
+package dsa.tree;
 
 import java.util.Collection;
 

@@ -1,4 +1,4 @@
-package dsa.graph.tree.heap;
+package dsa.heap;
 
 interface Heap<E extends Comparable<E>> {
 

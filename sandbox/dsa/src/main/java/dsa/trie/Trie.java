@@ -1,4 +1,4 @@
-package dsa.graph.tree.trie;
+package dsa.trie;
 
 import java.util.List;
 
