@@ -9,7 +9,7 @@ include ':api'
 //
 // ~ utils
 //
-//include ':utils:guava'
+include ':utils:guava'
 
 //
 // ~ persistence

@@ -1,6 +1,4 @@
 dependencies {
-    implementation 'com.google.guava:guava:33.3.0-jre'
-
 //    implementation "io.github.resilience4j:resilience4j-circuitbreaker:${resilience4jVersion}"
 //    implementation "io.github.resilience4j:resilience4j-ratelimiter:${resilience4jVersion}"
 //    implementation "io.github.resilience4j:resilience4j-cache:${resilience4jVersion}"

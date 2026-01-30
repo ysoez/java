@@ -6,7 +6,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.concurrent.Executors;
 
-class GuavaListenableFuture {
+class ListenableFutureListener {
 
     public static void main(String[] args) throws InterruptedException {
         ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
