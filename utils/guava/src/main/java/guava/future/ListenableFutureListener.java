@@ -8,15 +8,14 @@ import java.util.concurrent.Executors;
 
 class ListenableFutureListener {
 
-    public static void main(String[] args) throws InterruptedException {
-        ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
-        ListenableFuture<Integer> asyncTask = executor.submit(() -> {
-            System.out.println("running task");
-            return Integer.MAX_VALUE;
-        });
-        asyncTask.addListener(() -> System.out.println("addListener()"), executor);
-        Thread.sleep(500);
-        executor.shutdown();
+    public static void main(String[] args) {
+        try (ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor())) {
+            ListenableFuture<Integer> asyncTask = executor.submit(() -> {
+                System.out.println("running task");
+                return Integer.MAX_VALUE;
+            });
+            asyncTask.addListener(() -> System.out.println("addListener()"), MoreExecutors.directExecutor());
+        }
     }
 
 }
