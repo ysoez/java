@@ -10,7 +10,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.concurrent.Executors;
 
-public class LoadingCacheFailure {
+class LoadingCacheFailure {
 
     public static void main(String[] args) {
         try (var loaderPool = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor())) {
@@ -30,7 +30,7 @@ public class LoadingCacheFailure {
                         public void onSuccess(String v) {
                         }
                         public void onFailure(Throwable t) {
-                            System.out.println("Load failed, invalidating cache");
+                            System.out.println("load failed, invalidating cache");
                             cache.invalidate("bad");
                         }
                     },
