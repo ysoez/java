@@ -1,4 +1,4 @@
-package guava.base;
+package guava.util;
 
 import com.google.common.base.Splitter;
 

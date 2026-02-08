@@ -1,4 +1,4 @@
-package guava.base;
+package guava.collection;
 
 import com.google.common.collect.ImmutableMultiset;
 

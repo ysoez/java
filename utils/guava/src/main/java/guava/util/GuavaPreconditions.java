@@ -1,4 +1,4 @@
-package guava.base;
+package guava.util;
 
 import static com.google.common.base.Preconditions.*;
 
