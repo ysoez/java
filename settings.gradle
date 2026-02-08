@@ -1,5 +1,7 @@
 rootProject.name = 'java'
 
+include ':library'
+
 //include ':core'
 //include ':dsa'
 include ':multithreading'
