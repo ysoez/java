@@ -3,7 +3,7 @@ package library.concurrency.producer_consumer;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import static library.concurrency.ConcurrencyUtils.waitOn;
+//import static library.concurrency.ConcurrencyUtils.waitOn;
 
 
 class FixedThreadSafeQueue {
@@ -19,7 +19,7 @@ class FixedThreadSafeQueue {
             //
             // ~ apply backpressure (wait for consumer)
             //
-            waitOn(this);
+//            waitOn(this);
         }
         queue.add(matricesPair);
         isEmpty = false;
@@ -35,7 +35,7 @@ class FixedThreadSafeQueue {
         // ~ release a lock & wait for a producer
         //
         while (isEmpty && !isTerminate) {
-            waitOn(this);
+//            waitOn(this);
         }
 
         //

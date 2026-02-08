@@ -1,7 +1,7 @@
 package library.concurrency.thread;
 
 import static java.lang.Thread.interrupted;
-import static library.concurrency.ConcurrencyUtils.log;
+//import static library.concurrency.ConcurrencyUtils.log;
 
 class ThreadGroup {
 
@@ -10,9 +10,9 @@ class ThreadGroup {
         for (int i = 0; i < 5; i++) {
             var thread = new Thread(group, () -> {
                 while (!interrupted()) {
-                    log("running");
+//                    log("running");
                 }
-                log("interrupted");
+//                log("interrupted");
             }, "thread-" + i);
             thread.start();
         }

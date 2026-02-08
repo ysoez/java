@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
-import static library.concurrency.ConcurrencyUtils.*;
+//import static library.concurrency.ConcurrencyUtils.*;
 
 class SemaphoreResourcePool {
 
@@ -18,12 +18,12 @@ class SemaphoreResourcePool {
                 latch.countDown();
                 try {
                     latch.await();
-                    logRed("try acquire resource");
+//                    logRed("try acquire resource");
                     var resource = pool.getItem();
-                    logGreen("acquired resource: " + resource);
+//                    logGreen("acquired resource: " + resource);
                     LockSupport.parkNanos(TimeUnit.SECONDS.toNanos(3));
                     pool.putItem(resource);
-                    logYellow("release resource: " + resource);
+//                    logYellow("release resource: " + resource);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

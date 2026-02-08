@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import static library.concurrency.ConcurrencyUtils.*;
+//import static library.concurrency.ConcurrencyUtils.*;
 
 class EventLoopTaskRunner {
 
@@ -14,9 +14,9 @@ class EventLoopTaskRunner {
             eventLoop.submit(() -> System.out.println("task 1"));
             eventLoop.submit(() -> System.out.println("task 2"));
             eventLoop.submit(() -> System.out.println("task 3"));
-            sleep(1, TimeUnit.SECONDS);
+//            sleep(1, TimeUnit.SECONDS);
         }
-        logMain("event loop stopped");
+//        logMain("event loop stopped");
     }
 
     private static class SingleThreadEventLoop implements AutoCloseable {
@@ -38,7 +38,7 @@ class EventLoopTaskRunner {
                         task.run();
                     }
                 }
-                logWorker("terminated");
+//                logWorker("terminated");
             }, "event-loop");
             eventLoopThread.start();
         }

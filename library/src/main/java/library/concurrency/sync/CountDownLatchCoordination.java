@@ -2,7 +2,7 @@ package library.concurrency.sync;
 
 import java.util.concurrent.CountDownLatch;
 
-import static library.concurrency.ConcurrencyUtils.*;
+//import static library.concurrency.ConcurrencyUtils.*;
 
 class CountDownLatchCoordination {
 
@@ -17,7 +17,7 @@ class CountDownLatchCoordination {
                     // ~ wait to increase the likelihood of contention and simulate race condition
                     //
                     startLatch.await();
-                    logWorker("Processing completed");
+//                    logWorker("Processing completed");
                     //
                     // ~ notify the main thread
                     //
@@ -27,7 +27,7 @@ class CountDownLatchCoordination {
                 }
             }).start();
         }
-        logMain("Starting threads");
+//        logMain("Starting threads");
         //
         // ~ start the worker threads at once
         //
@@ -36,7 +36,7 @@ class CountDownLatchCoordination {
         // ~ wait until all the worker threads complete execution
         //
         endLatch.await();
-        logMain("Program completed");
+//        logMain("Program completed");
     }
 
 }
