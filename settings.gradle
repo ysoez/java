@@ -38,6 +38,8 @@ include ':client:kafka'
 // ~ serialization
 //
 include ':serialization:protobuf'
+include ':serialization:avro'
+include ':serialization:thrift'
 
 //
 // ~ reactive
