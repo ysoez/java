@@ -6,13 +6,18 @@ include ':library'
 //include ':dsa'
 include ':multithreading'
 
-include ':api'
+//
+// ~ api
+//
+include ':api:grpc'
 
 //
 // ~ utils
 //
 include ':utils:guava'
 include ':utils:apache'
+include ':utils:awaitility'
+include ':utils:resilience4j'
 
 //
 // ~ persistence
