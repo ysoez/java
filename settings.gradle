@@ -4,7 +4,6 @@ include ':library'
 
 //include ':core'
 //include ':dsa'
-include ':multithreading'
 
 //
 // ~ api
@@ -20,14 +19,14 @@ include ':utils:awaitility'
 include ':utils:resilience4j'
 
 //
-// ~ persistence
-//
-//include ':persistence'
-
-//
 // ~ protocols
 //
 include ':protocol:http'
+
+//
+// ~ io
+//
+include ':io:netty'
 
 //
 // ~ clients
@@ -47,6 +46,20 @@ include ':reactive:mutiny'
 include ':reactive:reactor'
 
 //
+// ~ frameworks
+//
+include ':frameworks:spring'
+include ':frameworks:quarkus'
+include ':frameworks:vertx'
+
+//
+// ~ persistence
+//
+include ':persistence:jdbc'
+include ':persistence:jooq'
+include ':persistence:hikaricp'
+
+//
 // ~ sandbox
 //
 include ':sandbox:dsa'
@@ -62,15 +75,9 @@ include ':sandbox:distributed-search:cluster-server-api'
 include ':sandbox:distributed-search:cluster-server'
 include ':sandbox:load-balancing:haproxy'
 include ':sandbox:load-balancing:nginx'
+include ':sandbox:multithreading'
 
 //
 // ~ observability
 //
 include ':observability:micrometer'
-
-//include ':network'
-//include ':io'
-//include ':api'
-// ~ JDK 24 problem
-//include ':clients'
-//include ':utils'
