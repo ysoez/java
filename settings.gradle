@@ -58,6 +58,11 @@ include ':sandbox:distributed-search:cluster-server'
 include ':sandbox:load-balancing:haproxy'
 include ':sandbox:load-balancing:nginx'
 
+//
+// ~ observability
+//
+include ':observability:micrometer'
+
 //include ':network'
 //include ':io'
 //include ':api'
