@@ -6,7 +6,7 @@ import com.google.common.eventbus.Subscribe;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-class AsyncEventBusDecoupling {
+class GuavaAsyncEventBus {
 
     public static void main(String[] args) {
         try (var executor = Executors.newFixedThreadPool(2)) {

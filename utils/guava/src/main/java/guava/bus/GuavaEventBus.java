@@ -5,7 +5,7 @@ import com.google.common.eventbus.Subscribe;
 
 import java.util.function.Consumer;
 
-class EventBusDecoupling {
+class GuavaEventBus {
 
     public static void main(String[] args) {
         var eventBus = new EventBus();
