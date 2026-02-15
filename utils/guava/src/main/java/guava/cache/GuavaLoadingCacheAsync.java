@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.*;
 
 import java.util.concurrent.Executors;
 
-class LoadingCacheAsync {
+class GuavaLoadingCacheAsync {
 
     public static void main(String[] args) {
         try (var poolLoader = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(2))) {

@@ -7,7 +7,7 @@ import com.google.common.cache.RemovalListener;
 
 import java.util.concurrent.TimeUnit;
 
-class LoadingCacheRemovalListener {
+class GuavaCacheRemovalListener {
 
     public static void main(String[] args) throws Exception {
         LoadingCache<String, String> cache = CacheBuilder.newBuilder()

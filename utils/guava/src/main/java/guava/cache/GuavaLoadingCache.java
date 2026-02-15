@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-class LoadingCacheSync {
+class GuavaLoadingCache {
 
     public static void main(String[] args) {
         LoadingCache<String, String> cache = CacheBuilder.newBuilder()

@@ -10,7 +10,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.concurrent.Executors;
 
-class LoadingCacheFailure {
+class GuavaLoadingCacheOnFailure {
 
     public static void main(String[] args) {
         try (var loaderPool = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor())) {
