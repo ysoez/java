@@ -6,7 +6,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.concurrent.Executors;
 
-class ListenableFutureListener {
+class GuavaListenableFutureListener {
 
     public static void main(String[] args) {
         try (ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor())) {

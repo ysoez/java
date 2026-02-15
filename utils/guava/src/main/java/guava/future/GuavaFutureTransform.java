@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.*;
 
 import java.util.concurrent.Executors;
 
-class ListenableFutureTransform {
+class GuavaFutureTransform {
 
     public static void main(String[] args) throws InterruptedException {
         try (ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(2))) {

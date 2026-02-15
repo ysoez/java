@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-class ListenableFutureCombine {
+class GuavaFutureAllAsList {
 
     public static void main(String[] args) throws InterruptedException {
         try (ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(3))){

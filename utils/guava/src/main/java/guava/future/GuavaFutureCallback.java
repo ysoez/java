@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.*;
 
 import java.util.concurrent.Executors;
 
-class ListenableFutureCallback {
+class GuavaFutureCallback {
 
     public static void main(String[] args) throws InterruptedException {
         try (ListeningExecutorService executor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(2))) {
