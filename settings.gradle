@@ -2,9 +2,6 @@ rootProject.name = 'java'
 
 include ':library'
 
-//include ':core'
-//include ':dsa'
-
 //
 // ~ api
 //
