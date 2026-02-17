@@ -67,6 +67,13 @@ include ':persistence:hikaricp'
 include ":logging:logback"
 
 //
+// ~ testing
+//
+include ":testing:junit"
+include ":testing:assertj"
+include ":testing:mockito"
+
+//
 // ~ sandbox
 //
 include ':sandbox:dsa'
