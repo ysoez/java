@@ -14,16 +14,16 @@ class EchoClient {
     }
 
     void send(String message) {
-        log.info("Sending message: {}", message);
+        log.info("sending message: {}", message);
         var request = EchoRequest.newBuilder().setMessage(message).build();
         EchoReply reply;
         try {
             reply = blockingStub.echo(request);
         } catch (StatusRuntimeException e) {
-            log.warn("RPC failed: {}", e.getStatus());
+            log.warn("rpc failed: {}", e.getStatus());
             return;
         }
-        log.info("Received: {}", reply.getMessage());
+        log.info("received: {}", reply.getMessage());
     }
 
 }

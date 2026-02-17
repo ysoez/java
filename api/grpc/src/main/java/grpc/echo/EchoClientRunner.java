@@ -15,7 +15,7 @@ class EchoClientRunner {
         ManagedChannel channel = Grpc.newChannelBuilder(target, InsecureChannelCredentials.create()).build();
         try {
             var client = new EchoClient(channel);
-            client.send("ping");
+            client.send("hello");
         } finally {
             channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
         }

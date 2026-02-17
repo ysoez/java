@@ -1,6 +1,5 @@
 package grpc.echo;
 
-import grpc.service.DefaultEchoService;
 import io.grpc.Grpc;
 import io.grpc.InsecureServerCredentials;
 import io.grpc.Server;
@@ -19,10 +18,10 @@ class EchoServer {
     void start() throws IOException {
         int port = 50051;
         server = Grpc.newServerBuilderForPort(port, InsecureServerCredentials.create())
-                .addService(new DefaultEchoService())
+                .addService(new EchoService())
                 .build()
                 .start();
-        log.info("Server started, listening on: {}", port);
+        log.info("server started, listening on: {}", port);
         registerShutdownHook(EchoServer.this::stop);
     }
 
