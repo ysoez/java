@@ -87,7 +87,7 @@ include ':sandbox:distributed-search:cluster-server'
 include ':sandbox:load-balancing:haproxy'
 include ':sandbox:load-balancing:nginx'
 include ':sandbox:multithreading'
-include ':sandbox:caching-eviction'
+include ':sandbox:cache-eviction'
 
 //
 // ~ observability
