@@ -1,4 +1,4 @@
-package library.stream;
+package library.stream.gatherer;
 
 import java.util.*;
 import java.util.function.Supplier;

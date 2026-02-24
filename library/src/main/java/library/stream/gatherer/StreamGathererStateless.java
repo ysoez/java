@@ -1,4 +1,4 @@
-package library.stream;
+package library.stream.gatherer;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
