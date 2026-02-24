@@ -14,6 +14,7 @@ include ':utils:guava'
 include ':utils:apache'
 include ':utils:awaitility'
 include ':utils:resilience4j'
+include ':utils:lombok'
 
 //
 // ~ protocols
