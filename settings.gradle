@@ -48,7 +48,7 @@ include ':reactive:reactor'
 //
 // ~ frameworks
 //
-include ':frameworks:spring'
+include ':frameworks:spring:core'
 include ':frameworks:quarkus'
 include ':frameworks:vertx'
 
