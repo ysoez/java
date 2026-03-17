@@ -6,12 +6,16 @@ include ':library'
 // ~ api
 //
 include ':api:grpc'
+include ':api:graph-ql'
 
 //
 // ~ utils
 //
 include ':utils:guava'
 include ':utils:apache'
+include ':utils:caffeine'
+include ':utils:jctools'
+include ':utils:eclipse-collections'
 include ':utils:awaitility'
 include ':utils:resilience4j'
 include ':utils:lombok'
@@ -31,6 +35,8 @@ include ':io:netty'
 //
 include ':client:zookeeper'
 include ':client:kafka'
+include ':client:redis'
+include ':client:memcached'
 
 //
 // ~ serialization
@@ -51,6 +57,7 @@ include ':reactive:reactor'
 include ':frameworks:spring:core'
 include ':frameworks:quarkus'
 include ':frameworks:vertx'
+include ':frameworks:hibernate'
 
 //
 // ~ persistence
