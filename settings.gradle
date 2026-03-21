@@ -69,6 +69,7 @@ include ':persistence:hikaricp'
 //
 // ~ logging
 //
+include ":logging:slf4j"
 include ":logging:logback"
 
 //
