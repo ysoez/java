@@ -19,6 +19,7 @@ include ':utils:eclipse-collections'
 include ':utils:awaitility'
 include ':utils:resilience4j'
 include ':utils:lombok'
+include ':utils:archaius'
 
 //
 // ~ protocols
