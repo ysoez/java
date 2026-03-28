@@ -20,6 +20,7 @@ include ':utils:awaitility'
 include ':utils:resilience4j'
 include ':utils:lombok'
 include ':utils:archaius'
+include ':utils:vavr'
 
 //
 // ~ protocols
