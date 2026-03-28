@@ -14,7 +14,6 @@ class VavrTry {
         // ~ failure path
         //
         var failure = Try.of(() -> 10 / 0).onFailure(System.err::println);
-        ;
         //
         // ~ safe fallback
         //
