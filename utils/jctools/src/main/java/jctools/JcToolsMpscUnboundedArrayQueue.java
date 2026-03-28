@@ -2,7 +2,7 @@ package jctools;
 
 import org.jctools.queues.MpscUnboundedXaddArrayQueue;
 
-class JcToolsMpscUnboundedXaddArrayQueue {
+class JcToolsMpscUnboundedArrayQueue {
 
     public static void main(String[] args) throws InterruptedException {
         //
