@@ -47,6 +47,9 @@ class ZkConnectionEvents implements Watcher, AutoCloseable {
             log.info("connected to server");
         } else {
             log.info("disconnected from server: timeout={}, maxTimeout={}", zoo.getSessionTimeout(), SESSION_TIMEOUT);
+            //
+            // ~ resume the main thread
+            //
             synchronized (zoo) {
                 zoo.notifyAll();
             }

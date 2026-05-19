@@ -6,7 +6,7 @@ import org.apache.zookeeper.admin.ZooKeeperAdmin;
 
 import java.io.IOException;
 
-public class ZkUtils {
+class ZkUtils {
 
     static final String LOCAL_HOST = "localhost:2181";
     static final int SESSION_TIMEOUT = 3000;
@@ -30,6 +30,5 @@ public class ZkUtils {
     public interface ToxicRunnable {
         void run() throws Exception;
     }
-
 
 }
