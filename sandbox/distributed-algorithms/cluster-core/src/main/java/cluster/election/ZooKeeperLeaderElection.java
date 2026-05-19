@@ -56,7 +56,7 @@ public class ZooKeeperLeaderElection implements LeaderElection, Watcher {
             int predecessorIndex = Collections.binarySearch(children, currentNodeName) - 1;
             predecessorNodeName = children.get(predecessorIndex);
             //
-            // ~ try to subscribe for predecessor node notification
+            // ~ subscribe for predecessor node notification
             //
             predecessorStat = zoo.exists(ELECTION_NAMESPACE + "/" + predecessorNodeName, this);
             callback.onWorker();
