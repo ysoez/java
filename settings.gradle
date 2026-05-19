@@ -99,6 +99,7 @@ include ':sandbox:load-balancing:haproxy'
 include ':sandbox:load-balancing:nginx'
 include ':sandbox:multithreading'
 include ':sandbox:cache-eviction'
+include ':sandbox:cache-l2'
 
 //
 // ~ observability
