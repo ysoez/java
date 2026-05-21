@@ -15,7 +15,7 @@ application {
 }
 
 jar {
-    archiveBaseName = 'frontend-server-app'
+    archiveBaseName = 'frontend-server'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes 'Main-Class': application.mainClass

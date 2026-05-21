@@ -10,7 +10,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'search.cluster.SearchServerRunner'
+    mainClass = 'search.SearchServerRunner'
 }
 
 jar {
