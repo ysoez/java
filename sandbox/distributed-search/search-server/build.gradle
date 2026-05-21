@@ -6,15 +6,15 @@ plugins {
 
 dependencies {
     implementation project(':sandbox:distributed-algorithms:cluster-core')
-    implementation project(':sandbox:distributed-search:cluster-server-api')
+    implementation project(':sandbox:distributed-search:search-server-api')
 }
 
 application {
-    mainClass = 'search.cluster.ClusterServerRunner'
+    mainClass = 'search.cluster.SearchServerRunner'
 }
 
 jar {
-    archiveBaseName = 'cluster-server-app'
+    archiveBaseName = 'search-server'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes 'Main-Class': application.mainClass
@@ -23,5 +23,5 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     dependsOn(':sandbox:distributed-algorithms:cluster-core:jar')
-    dependsOn(':sandbox:distributed-search:cluster-server-api:jar')
+    dependsOn(':sandbox:distributed-search:search-server-api:jar')
 }

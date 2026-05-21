@@ -1,4 +1,4 @@
-package search.cluster;
+package server;
 
 import cluster.ClusterConnector;
 import cluster.election.ElectionCallback;
@@ -7,12 +7,12 @@ import cluster.election.ZooKeeperLeaderElection;
 import cluster.registry.ServiceRegistry;
 import cluster.registry.ZooKeeperServiceRegistry;
 import org.apache.zookeeper.ZooKeeper;
-import search.cluster.election.ClusterElectionCallback;
+import server.election.ClusterElectionCallback;
 
 import static cluster.registry.ZooKeeperServiceRegistry.MASTER_ROOT;
 import static cluster.registry.ZooKeeperServiceRegistry.WORKER_ROOT;
 
-public class ClusterServerRunner {
+public class SearchServerRunner {
 
     public static void main(String[] args) throws Exception {
         int serverPort = 8080;

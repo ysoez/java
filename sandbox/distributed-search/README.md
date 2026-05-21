@@ -18,20 +18,20 @@ brew services start zookeeper
 java -jar distributed-systems/distributed-search/frontend-server/build/libs/frontend-server-app-1.0.jar
 ```
 
-### Build Search Cluster
+### Build Search Server
 
 ```
-./gradlew distributed-systems:distributed-search:search-cluster:build
+./gradlew distributed-systems:distributed-search:search-server:build
 ```
 
 ### Run Leader
 
 ```
-java -jar distributed-systems/distributed-search/search-cluster/build/libs/search-cluster-app-1.0.jar
+java -jar distributed-systems/distributed-search/search-server/build/libs/search-server-1.0.jar
 ```
 
 ### Run Workers
 
 ```
-java -jar distributed-systems/distributed-search/search-cluster/build/libs/search-cluster-app-1.0.jar
+java -jar distributed-systems/distributed-search/search-server/build/libs/search-server-1.0.jar
 ```

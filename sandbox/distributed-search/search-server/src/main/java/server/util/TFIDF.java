@@ -1,6 +1,6 @@
-package search.cluster.util;
+package server.util;
 
-import search.cluster.model.DocumentStats;
+import server.model.DocumentStats;
 
 import java.util.*;
 

@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
     implementation project(':sandbox:distributed-algorithms:cluster-core')
-    implementation project(':sandbox:distributed-search:cluster-server-api')
+    implementation project(':sandbox:distributed-search:search-server-api')
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
 }
 
@@ -24,5 +24,5 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     dependsOn(':sandbox:distributed-algorithms:cluster-core:jar')
-    dependsOn(':sandbox:distributed-search:cluster-server-api:jar')
+    dependsOn(':sandbox:distributed-search:search-server-api:jar')
 }

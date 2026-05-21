@@ -1,4 +1,4 @@
-package search.cluster.model;
+package server.model;
 
 import java.io.Serializable;
 import java.util.Collections;

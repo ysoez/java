@@ -1,12 +1,12 @@
-package search.cluster.handler;
+package server.handler;
 
 import cluster.SerializationUtils;
 import cluster.http.server.HttpTransaction;
 import cluster.http.server.sun.AbstractSunHttpRequestHandler;
-import search.cluster.model.DocumentStats;
-import search.cluster.model.Result;
-import search.cluster.model.Task;
-import search.cluster.util.TFIDF;
+import server.model.DocumentStats;
+import server.model.Result;
+import server.model.Task;
+import server.util.TFIDF;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

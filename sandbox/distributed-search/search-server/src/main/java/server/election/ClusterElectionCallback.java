@@ -1,12 +1,12 @@
-package search.cluster.election;
+package server.election;
 
 import cluster.election.ElectionCallback;
 import cluster.http.client.JdkWebClient;
 import cluster.http.server.sun.SunWebServer;
 import cluster.http.server.WebServer;
 import cluster.registry.ServiceRegistry;
-import search.cluster.handler.SearchCoordinatorRequestHandler;
-import search.cluster.handler.SearchWorkerRequestHandler;
+import server.handler.SearchCoordinatorRequestHandler;
+import server.handler.SearchWorkerRequestHandler;
 
 import java.net.InetAddress;
 
