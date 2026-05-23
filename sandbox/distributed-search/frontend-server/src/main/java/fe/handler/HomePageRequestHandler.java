@@ -1,12 +1,15 @@
 package fe.handler;
 
+import cluster.http.server.HttpHeader;
+import cluster.http.server.HttpMethod;
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.sun.AbstractSunHttpRequestHandler;
+import cluster.http.server.handler.HttpRequestHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.EnumSet;
 
-public class HomePageRequestHandler extends AbstractSunHttpRequestHandler {
+public class HomePageRequestHandler implements HttpRequestHandler {
 
     private static final String ASSETS_BASE_DIR = "/assets/";
     private static final String HOME_PAGE_PATH = ASSETS_BASE_DIR + "index.html";
@@ -17,14 +20,14 @@ public class HomePageRequestHandler extends AbstractSunHttpRequestHandler {
     }
 
     @Override
-    public String method() {
-        return "get";
+    public EnumSet<HttpMethod> allowedMethods() {
+        return EnumSet.of(HttpMethod.GET);
     }
 
     @Override
     public void handle(HttpTransaction transaction) throws IOException {
-        byte[] response;
         String path = transaction.requestUri().getPath();
+        byte[] response;
         if (path.equals(endpoint())) {
             response = readUiAsset(HOME_PAGE_PATH);
         } else {
@@ -35,11 +38,12 @@ public class HomePageRequestHandler extends AbstractSunHttpRequestHandler {
     }
 
     private byte[] readUiAsset(String asset) throws IOException {
-        InputStream assetStream = getClass().getResourceAsStream(asset);
-        if (assetStream == null) {
-            return new byte[]{};
+        try (InputStream assetStream = getClass().getResourceAsStream(asset)) {
+            if (assetStream == null) {
+                return new byte[]{};
+            }
+            return assetStream.readAllBytes();
         }
-        return assetStream.readAllBytes();
     }
 
     private static void addContentType(String asset, HttpTransaction transaction) {
@@ -49,6 +53,6 @@ public class HomePageRequestHandler extends AbstractSunHttpRequestHandler {
         } else if (asset.endsWith("css")) {
             contentType = "text/css";
         }
-        transaction.addResponseHeader("Content-Type", contentType);
+        transaction.addResponseHeader(HttpHeader.CONTENT_TYPE, contentType);
     }
 }
