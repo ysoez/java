@@ -1,36 +1,43 @@
 package fe;
 
 import cluster.ClusterConnector;
-import cluster.http.server.sun.SunWebServer;
-import cluster.registry.ServiceRegistry;
-import cluster.registry.ZooKeeperServiceRegistry;
+import cluster.http.client.JdkHttpClient;
+import cluster.http.server.sun.SunHttpServer;
+import cluster.registry.MasterZooKeeperServiceRegistry;
+import cluster.util.ClusterUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fe.handler.HomePageRequestHandler;
 import fe.handler.SearchRequestHandler;
-import org.apache.zookeeper.ZooKeeper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import static cluster.registry.ZooKeeperServiceRegistry.MASTER_ROOT;
+import static cluster.util.ClusterUtils.DEFAULT_FRONTEND_SERVER_PORT;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE;
 
+@Slf4j
 public class FrontendServerRunner {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        int port = 9000;
-        if (args.length == 1) {
-            port = Integer.parseInt(args[0]);
-        }
+        int port = ClusterUtils.parsePortOrDefault(args, DEFAULT_FRONTEND_SERVER_PORT);
+        var httpClient = new JdkHttpClient();
+        var jsonMapper = new ObjectMapper()
+                .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .setPropertyNamingStrategy(SNAKE_CASE);
         try (var clusterConnector = new ClusterConnector()) {
-            ZooKeeper zoo = clusterConnector.connect();
-            ServiceRegistry coordinatorsRegistry = new ZooKeeperServiceRegistry(zoo, MASTER_ROOT);
-            var webServer = new SunWebServer(port)
-                    .addHandler(new SearchRequestHandler(coordinatorsRegistry))
+            var zoo = clusterConnector.connect();
+            var coordinatorsRegistry = new MasterZooKeeperServiceRegistry(zoo);
+            var httpServer = new SunHttpServer(port)
                     .addHandler(new HomePageRequestHandler())
+                    .addHandler(new SearchRequestHandler(coordinatorsRegistry, httpClient, jsonMapper))
                     .withHealthCheck();
-            webServer.start();
-            System.out.println("server is listening on port: " + port);
+            httpServer.start();
+            log.debug("server is listening on port: {}", port);
             clusterConnector.waitForDisconnect();
+        } finally {
+            log.debug("application exited");
         }
-        System.out.println("application exited");
     }
 
 }
