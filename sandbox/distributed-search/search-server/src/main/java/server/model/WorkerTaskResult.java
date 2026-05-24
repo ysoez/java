@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Result implements Serializable {
+public class WorkerTaskResult implements Serializable {
 
     private final Map<String, DocumentStats> docStatsMap = new HashMap<>();
 
@@ -17,4 +17,10 @@ public class Result implements Serializable {
         return Collections.unmodifiableMap(docStatsMap);
     }
 
+    @Override
+    public String toString() {
+        return "WorkerTaskResult{" +
+                "docStatsMap=" + docStatsMap +
+                '}';
+    }
 }

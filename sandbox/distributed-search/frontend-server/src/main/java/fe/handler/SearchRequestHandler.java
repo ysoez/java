@@ -1,82 +1,81 @@
 package fe.handler;
 
-import cluster.http.client.JdkWebClient;
-import cluster.http.client.WebClient;
+import api.search.DistributedSearchRequest;
+import api.search.DistributedSearchResponse;
+import api.search.DocumentStats;
+import cluster.http.client.HttpClient;
+import cluster.http.server.HttpMethod;
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.sun.AbstractSunHttpRequestHandler;
-import cluster.model.DocumentSearchRequest;
-import cluster.model.DocumentSearchResponse;
+import cluster.http.server.handler.HttpRequestHandler;
 import cluster.registry.ServiceRegistry;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import fe.model.SearchRequest;
 import fe.model.SearchResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 
-public class SearchRequestHandler extends AbstractSunHttpRequestHandler {
+@Slf4j
+public class SearchRequestHandler implements HttpRequestHandler {
 
     private static final String DOCUMENTS_LOCATION = "books";
+    private final HttpClient client;
     private final ObjectMapper objectMapper;
-    private final WebClient client;
     private final ServiceRegistry searchCoordinatorRegistry;
 
-    public SearchRequestHandler(ServiceRegistry coordinatorRegistry) {
-        this.searchCoordinatorRegistry = coordinatorRegistry;
-        this.client = new JdkWebClient();
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        this.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+    public SearchRequestHandler(ServiceRegistry coordinatorRegistry, HttpClient client, ObjectMapper objectMapper) {
+        this.searchCoordinatorRegistry = Objects.requireNonNull(coordinatorRegistry);
+        this.client = Objects.requireNonNull(client);
+        this.objectMapper = Objects.requireNonNull(objectMapper);
     }
 
     @Override
     public String endpoint() {
-        return "/documents_search";
+        return "/search";
     }
 
     @Override
-    public String method() {
-        return "post";
+    public EnumSet<HttpMethod> allowedMethods() {
+        return EnumSet.of(HttpMethod.POST);
     }
 
     @Override
-    public void handle(HttpTransaction exchange) throws IOException {
+    public void handle(HttpTransaction http) throws IOException {
         try {
-            SearchRequest frontendSearchRequest = objectMapper.readValue(exchange.requestPayload(), fe.model.SearchRequest.class);
-            SearchResponse frontendSearchResponse = createFrontendResponse(frontendSearchRequest);
-            byte[] responseBody = objectMapper.writeValueAsBytes(frontendSearchResponse);
-            exchange.sendOk(responseBody);
-        } catch (IOException e) {
-            e.printStackTrace();
-            exchange.sendOk(new byte[0]);
+            SearchRequest request = objectMapper.readValue(http.payload(), SearchRequest.class);
+            DistributedSearchResponse clusterResponse = sendClusterRequest(request.getSearchQuery());
+            long maxResults = request.getMaxNumberOfResults();
+            List<SearchResponse.Result> filteredResults = filterResults(clusterResponse, maxResults, request.getMinScore());
+            SearchResponse response = new SearchResponse(filteredResults, DOCUMENTS_LOCATION);
+            byte[] responseBody = objectMapper.writeValueAsBytes(response);
+            http.sendOk(responseBody);
+        } catch (Exception e) {
+            http.sendError(500, "search failed".getBytes(StandardCharsets.UTF_8));
         }
     }
 
-    private fe.model.SearchResponse createFrontendResponse(fe.model.SearchRequest frontendSearchRequest) {
-        var searchClusterResponse = sendRequestToSearchCluster(frontendSearchRequest.getSearchQuery());
-        List<SearchResponse.Result> filteredResults = filterResults(searchClusterResponse, frontendSearchRequest.getMaxNumberOfResults(), frontendSearchRequest.getMinScore());
-        return new fe.model.SearchResponse(filteredResults, DOCUMENTS_LOCATION);
-    }
-
-    private List<SearchResponse.Result> filterResults(DocumentSearchResponse searchClusterResponse,
-                                                      long maxResults,
-                                                      double minScore) {
-        double maxScore = getMaxScore(searchClusterResponse);
+    private List<SearchResponse.Result> filterResults(
+            DistributedSearchResponse response,
+            long maxResults,
+            double minScore) {
+        double maxScore = getMaxScore(response);
         List<SearchResponse.Result> searchResultInfoList = new ArrayList<>();
-        for (int i = 0; i < searchClusterResponse.getRelevantDocumentsCount() && i < maxResults; i++) {
-            int normalizedDocumentScore = normalizeScore(searchClusterResponse.getRelevantDocuments(i).getScore(), maxScore);
-            if (normalizedDocumentScore < minScore) {
+        for (int i = 0; i < response.getRelevantDocumentsCount() && i < maxResults; i++) {
+            int normalizedScore = normalizeScore(response.getRelevantDocuments(i).getScore(), maxScore);
+            if (normalizedScore < minScore) {
                 break;
             }
 
-            String documentName = searchClusterResponse.getRelevantDocuments(i).getName();
+            String documentName = response.getRelevantDocuments(i).getName();
             String title = getDocumentTitle(documentName);
             String extension = getDocumentExtension(documentName);
 
-            var resultInfo = new SearchResponse.Result(title, extension, normalizedDocumentScore);
+            var resultInfo = new SearchResponse.Result(title, extension, normalizedScore);
             searchResultInfoList.add(resultInfo);
         }
 
@@ -99,32 +98,34 @@ public class SearchRequestHandler extends AbstractSunHttpRequestHandler {
         return (int) Math.ceil(inputScore * 100.0 / maxScore);
     }
 
-    private static double getMaxScore(DocumentSearchResponse searchClusterResponse) {
-        if (searchClusterResponse.getRelevantDocumentsCount() == 0) {
+    private static double getMaxScore(DistributedSearchResponse response) {
+        if (response.getRelevantDocumentsCount() == 0) {
             return 0;
         }
-        return searchClusterResponse.getRelevantDocumentsList()
+        return response.getRelevantDocumentsList()
                 .stream()
-                .map(document -> document.getScore())
+                .map(DocumentStats::getScore)
                 .max(Double::compareTo)
                 .get();
     }
 
-    private DocumentSearchResponse sendRequestToSearchCluster(String searchQuery) {
-        var searchRequest = DocumentSearchRequest.newBuilder()
+    private DistributedSearchResponse sendClusterRequest(String searchQuery) {
+        var request = DistributedSearchRequest.newBuilder()
                 .setQuery(searchQuery)
                 .build();
         try {
             var coordinatorAddress = searchCoordinatorRegistry.getRandomService();
             if (coordinatorAddress.isEmpty()) {
+                //todo: fail or empty response?
                 System.out.println("Search Cluster Coordinator is unavailable");
-                return DocumentSearchResponse.getDefaultInstance();
+                return DistributedSearchResponse.getDefaultInstance();
             }
-            byte[] payloadBody = client.sendTask(coordinatorAddress.get(), searchRequest.toByteArray()).join();
-            return DocumentSearchResponse.parseFrom(payloadBody);
+            byte[] payload = client.sendRequest(coordinatorAddress.get(), request.toByteArray()).join();
+            return DistributedSearchResponse.parseFrom(payload);
         } catch (Exception e) {
             e.printStackTrace();
-            return DocumentSearchResponse.getDefaultInstance();
+            //todo: fail or empty response?
+            return DistributedSearchResponse.getDefaultInstance();
         }
     }
 

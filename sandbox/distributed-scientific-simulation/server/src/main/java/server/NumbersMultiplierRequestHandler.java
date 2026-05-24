@@ -1,14 +1,17 @@
 package server;
 
+import cluster.http.server.HttpHeader;
+import cluster.http.server.HttpMethod;
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.sun.AbstractSunHttpRequestHandler;
+import cluster.http.server.handler.HttpRequestHandler;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 
-public class NumbersMultiplierRequestHandler extends AbstractSunHttpRequestHandler {
+public class NumbersMultiplierRequestHandler implements HttpRequestHandler {
 
     @Override
     public String endpoint() {
@@ -16,26 +19,25 @@ public class NumbersMultiplierRequestHandler extends AbstractSunHttpRequestHandl
     }
 
     @Override
-    public String method() {
-        return "POST";
+    public EnumSet<HttpMethod> allowedMethods() {
+        return EnumSet.of(HttpMethod.POST);
     }
 
     @Override
-    public void handle(HttpTransaction transaction) throws IOException {
-        var headers = transaction.requestHeaders();
-        if (isModeEnabled(headers, HEADER_X_TEST)) {
+    public void handle(HttpTransaction http) throws IOException {
+        if (http.isModeEnabled(HttpHeader.X_TEST)) {
             String dummyResponse = "123\n";
-            transaction.sendOk(dummyResponse.getBytes());
+            http.sendOk(dummyResponse.getBytes());
             return;
         }
-        boolean isDebugMode = isModeEnabled(headers, HEADER_X_DEBUG);
-        byte[] responseBytes = processRequest(transaction, isDebugMode);
-        transaction.sendOk(responseBytes);
+        boolean isDebugMode = http.isModeEnabled(HttpHeader.X_DEBUG);
+        byte[] responseBytes = processRequest(http, isDebugMode);
+        http.sendOk(responseBytes);
     }
 
     private byte[] processRequest(HttpTransaction transaction, boolean isDebugMode) throws IOException {
         long startTime = System.nanoTime();
-        byte[] requestBytes = transaction.requestPayload();
+        byte[] requestBytes = transaction.payload();
         byte[] responseBytes = calculateResult(requestBytes);
         long finishTime = System.nanoTime();
         if (isDebugMode) {

@@ -1,21 +1,21 @@
 package server;
 
-import cluster.http.server.sun.SunWebServer;
+import cluster.http.server.engine.SunHttpServer;
+import cluster.util.ClusterUtils;
 import lombok.extern.slf4j.Slf4j;
+
+import static cluster.util.ClusterUtils.DEFAULT_SERVER_PORT;
 
 @Slf4j
 public class WebServerRunner {
 
-    public static void main(String[] args) {
-        int serverPort = 8080;
-        if (args.length == 1) {
-            serverPort = Integer.parseInt(args[0]);
-        }
-        new SunWebServer(serverPort)
+    public static void main(String[] args) throws Exception {
+        int port = ClusterUtils.parsePortOrDefault(args, DEFAULT_SERVER_PORT);
+        new SunHttpServer(port)
                 .withHealthCheck()
                 .addHandler(new NumbersMultiplierRequestHandler())
                 .start();
-        log.info("server is listening on port {}", serverPort);
+        log.info("server is listening on port {}", port);
     }
 
 }

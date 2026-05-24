@@ -1,35 +1,45 @@
-package server.handler;
+package server.cluster;
 
 import cluster.SerializationUtils;
-import cluster.http.client.WebClient;
+import cluster.http.client.HttpClient;
+import cluster.http.server.HttpMethod;
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.sun.AbstractSunHttpRequestHandler;
+import cluster.http.server.handler.HttpRequestHandler;
 import cluster.model.DocumentSearchRequest;
 import cluster.model.DocumentSearchResponse;
 import cluster.registry.ServiceRegistry;
+import cluster.serialization.Serializer;
+import lombok.extern.slf4j.Slf4j;
 import server.model.DocumentStats;
-import server.model.Result;
-import server.model.Task;
+import server.model.WorkerTask;
+import server.model.WorkerTaskResult;
 import server.util.TFIDF;
+import server.util.TextParser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
-public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandler {
+import static server.util.FileUtils.BOOKS_DIRECTORY;
 
-    private static final String BOOKS_DIRECTORY = "./sandbox/distributed-search/books";
+@Slf4j
+public class SearchCoordinator implements HttpRequestHandler {
+
     private final ServiceRegistry workersRegistry;
-    private final WebClient client;
+    private final HttpClient client;
+    private final Serializer serializer;
     private final List<String> documents;
 
-    public SearchCoordinatorRequestHandler(ServiceRegistry workersRegistry, WebClient client) {
-        this.workersRegistry = workersRegistry;
-        this.client = client;
-        this.documents = readDocumentsList();
+    public SearchCoordinator(
+            ServiceRegistry workersRegistry,
+            HttpClient client,
+            Serializer serializer) {
+        this.workersRegistry = Objects.requireNonNull(workersRegistry);
+        this.client = Objects.requireNonNull(client);
+        this.serializer = Objects.requireNonNull(serializer);
+        this.documents = TextParser.readDocumentPaths(BOOKS_DIRECTORY);
     }
 
     @Override
@@ -38,15 +48,33 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
     }
 
     @Override
-    public String method() {
-        return "get";
+    public EnumSet<HttpMethod> allowedMethods() {
+        return EnumSet.of(HttpMethod.POST);
     }
 
     @Override
     public void handle(HttpTransaction http) throws IOException {
+        List<String> workers;
         try {
-            var request = DocumentSearchRequest.parseFrom(http.requestPayload());
-            var response = createResponse(request);
+            workers = workersRegistry.getServices();
+        } catch (Exception e) {
+            log.error("failed to resolve available workers", e);
+            throw new RuntimeException(e); // todo: error handling
+        }
+        if (workers.isEmpty()) {
+            //todo: throw error or empty response?
+            http.sendOk(DocumentSearchRequest.getDefaultInstance().toByteArray());
+            return;
+        }
+        try {
+            var request = DocumentSearchRequest.parseFrom(http.payload());
+            var searchTerms = TextParser.parseWordsFromLine(request.getQuery());
+            var workerTasks = getWorkerTasks(workers.size(), searchTerms);
+            var workerResults = sendTasksToWorkers(workers, workerTasks);
+            var sortedDocuments = aggregateResults(searchTerms, workerResults);;
+            var response = DocumentSearchResponse.newBuilder()
+                    .addAllRelevantDocuments(sortedDocuments)
+                    .build();
             http.sendOk(response.toByteArray());;
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,25 +82,9 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
         }
     }
 
-    private DocumentSearchResponse createResponse(DocumentSearchRequest searchRequest) throws Exception {
-        var searchResponse = DocumentSearchResponse.newBuilder();
-        var searchTerms = TFIDF.getWordsFromLine(searchRequest.getQuery());
-        var workers = workersRegistry.getServices();
-
-        if (workers.isEmpty()) {
-            return searchResponse.build();
-        }
-
-        var tasks = createTasks(workers.size(), searchTerms);
-        var results = sendTasksToWorkers(workers, tasks);
-        var sortedDocuments = aggregateResults(results, searchTerms);;
-
-        return searchResponse.addAllRelevantDocuments(sortedDocuments).build();
-    }
-
-    private List<DocumentSearchResponse.DocumentStats> aggregateResults(List<Result> results, List<String> terms) {
+    private List<DocumentSearchResponse.DocumentStats> aggregateResults(List<String> terms, List<WorkerTaskResult> results) {
         Map<String, DocumentStats> allDocumentsResults = new HashMap<>();
-        for (Result result : results) {
+        for (WorkerTaskResult result : results) {
             allDocumentsResults.putAll(result.documentStatsMap());
         }
         Map<Double, List<String>> scoreToDocuments = TFIDF.documentScoreMap(terms, allDocumentsResults);
@@ -96,39 +108,38 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
         return sortedDocumentsStatsList;
     }
 
-    private List<Result> sendTasksToWorkers(List<String> workers, List<Task> tasks) {
-        CompletableFuture<Result>[] futures = new CompletableFuture[workers.size()];
+    private List<WorkerTaskResult> sendTasksToWorkers(List<String> workers, List<WorkerTask> tasks) {
+        CompletableFuture<WorkerTaskResult>[] futures = new CompletableFuture[workers.size()];
         for (int i = 0; i < workers.size(); i++) {
             String worker = workers.get(i);
-            Task task = tasks.get(i);
+            WorkerTask task = tasks.get(i);
             byte[] payload = SerializationUtils.serialize(task);
-            futures[i] = client.sendRequest(worker, payload);
+            futures[i] = client.sendRequest(worker, payload).thenApply(serializer::deserialize);
         }
 
-        List<Result> results = new ArrayList<>();
-        for (CompletableFuture<Result> future : futures) {
+        List<WorkerTaskResult> results = new ArrayList<>();
+        for (CompletableFuture<WorkerTaskResult> future : futures) {
             try {
-                Result result = future.get();
+                WorkerTaskResult result = future.get();
                 results.add(result);
             } catch (InterruptedException | ExecutionException e) {
             }
         }
 
-        System.out.println(String.format("Received %d/%d results", results.size(), tasks.size()));
+//        System.out.println(String.format("Received %d/%d results", results.size(), tasks.size()));
         return results;
     }
 
-    public List<Task> createTasks(int numberOfWorkers, List<String> searchTerms) {
-        List<List<String>> workersDocuments = splitDocumentList(numberOfWorkers, documents);
-        List<Task> tasks = new ArrayList<>();
-        for (List<String> documentsForWorker : workersDocuments) {
-            Task task = new Task(searchTerms, documentsForWorker);
+    public List<WorkerTask> getWorkerTasks(int numberOfWorkers, List<String> searchTerms) {
+        List<WorkerTask> tasks = new ArrayList<>();
+        for (List<String> documentsPerWorker : partitionedDocuments(numberOfWorkers, documents)) {
+            var task = new WorkerTask(searchTerms, documentsPerWorker);
             tasks.add(task);
         }
         return tasks;
     }
 
-    private static List<List<String>> splitDocumentList(int numberOfWorkers, List<String> documents) {
+    private static List<List<String>> partitionedDocuments(int numberOfWorkers, List<String> documents) {
         int docsPerWorker = (documents.size() + numberOfWorkers - 1) / numberOfWorkers;
         List<List<String>> workersDocuments = new ArrayList<>();
         for (int i = 0; i < numberOfWorkers; i++) {
@@ -143,12 +154,6 @@ public class SearchCoordinatorRequestHandler extends AbstractSunHttpRequestHandl
         return workersDocuments;
     }
 
-    private static List<String> readDocumentsList() {
-        File documentsDirectory = new File(BOOKS_DIRECTORY);
-        return Arrays.asList(documentsDirectory.list())
-                .stream()
-                .map(documentName -> BOOKS_DIRECTORY + "/" + documentName)
-                .collect(Collectors.toList());
-    }
+
 
 }

@@ -16,13 +16,18 @@ public class TFIDF {
         return (double) count / words.size();
     }
 
-    public static DocumentStats createDocumentStats(List<String> words, List<String> terms) {
+    public static DocumentStats createDocumentStats(List<String> searchTerms, String document) {
+        List<String> words = TextParser.parseWords(document);
         var docStats = new DocumentStats();
-        for (String term : terms) {
-            double termFreq = termFrequency(words, term.toLowerCase());
+        computeTermFrequency(searchTerms, words, docStats);
+        return docStats;
+    }
+
+    private static void computeTermFrequency(List<String> searchTerms, List<String> words, DocumentStats docStats) {
+        for (String term : searchTerms) {
+            double termFreq = TFIDF.termFrequency(words, term.toLowerCase());
             docStats.putTermFrequency(term, termFreq);
         }
-        return docStats;
     }
 
     private static double inverseDocumentFrequency(String term, Map<String, DocumentStats> docStatsMap) {
@@ -72,18 +77,6 @@ public class TFIDF {
         List<String> docsWithCurrentScore = scoreToDoc.getOrDefault(score, new ArrayList<>());
         docsWithCurrentScore.add(document);
         scoreToDoc.put(score, docsWithCurrentScore);
-    }
-
-    public static List<String> getWordsFromDocument(List<String> lines) {
-        List<String> words = new ArrayList<>();
-        for (String line : lines) {
-            words.addAll(getWordsFromLine(line));
-        }
-        return words;
-    }
-
-    public static List<String> getWordsFromLine(String line) {
-        return Arrays.asList(line.split("(\\.)+|(,)+|( )+|(-)+|(\\?)+|(!)+|(;)+|(:)+|(/d)+|(/n)+"));
     }
 
 }

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public record Task(List<String> searchTerms, List<String> documents) implements Serializable {
+public record WorkerTask(List<String> searchTerms, List<String> documents) implements Serializable {
 
     @Override
     public List<String> searchTerms() {

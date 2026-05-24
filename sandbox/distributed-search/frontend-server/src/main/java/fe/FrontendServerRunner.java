@@ -2,15 +2,13 @@ package fe;
 
 import cluster.ClusterConnector;
 import cluster.http.client.JdkHttpClient;
-import cluster.http.server.sun.SunHttpServer;
+import cluster.http.server.engine.SunHttpServer;
 import cluster.registry.MasterZooKeeperServiceRegistry;
 import cluster.util.ClusterUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fe.handler.HomePageRequestHandler;
 import fe.handler.SearchRequestHandler;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
 
 import static cluster.util.ClusterUtils.DEFAULT_FRONTEND_SERVER_PORT;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
@@ -19,7 +17,7 @@ import static com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE;
 @Slf4j
 public class FrontendServerRunner {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws Exception {
         int port = ClusterUtils.parsePortOrDefault(args, DEFAULT_FRONTEND_SERVER_PORT);
         var httpClient = new JdkHttpClient();
         var jsonMapper = new ObjectMapper()

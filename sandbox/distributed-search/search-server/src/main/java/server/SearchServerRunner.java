@@ -1,34 +1,31 @@
 package server;
 
 import cluster.ClusterConnector;
-import cluster.election.ElectionCallback;
-import cluster.election.LeaderElection;
 import cluster.election.ZooKeeperLeaderElection;
-import cluster.registry.ServiceRegistry;
-import cluster.registry.ZooKeeperServiceRegistry;
-import org.apache.zookeeper.ZooKeeper;
-import server.election.ClusterElectionCallback;
+import cluster.registry.MasterZooKeeperServiceRegistry;
+import cluster.registry.WorkerZooKeeperServiceRegistry;
+import cluster.serialization.JavaSerializer;
+import cluster.util.ClusterUtils;
+import lombok.extern.slf4j.Slf4j;
+import server.cluster.ClusterElectionCallback;
 
-import static cluster.registry.ZooKeeperServiceRegistry.MASTER_ROOT;
-import static cluster.registry.ZooKeeperServiceRegistry.WORKER_ROOT;
-
+@Slf4j
 public class SearchServerRunner {
 
     public static void main(String[] args) throws Exception {
-        int serverPort = 8080;
-        if (args.length == 1) {
-            serverPort = Integer.parseInt(args[0]);
-        }
+        int port = ClusterUtils.parsePortOrDefault(args, ClusterUtils.DEFAULT_SERVER_PORT);
+        var serializer = new JavaSerializer();
         try (var clusterConnector = new ClusterConnector()) {
-            ZooKeeper zoo = clusterConnector.connect();
-            ServiceRegistry workersRegistry = new ZooKeeperServiceRegistry(zoo, WORKER_ROOT);
-            ServiceRegistry coordinatorsRegistry = new ZooKeeperServiceRegistry(zoo, MASTER_ROOT);
-            ElectionCallback electionCallback = new ClusterElectionCallback(workersRegistry, coordinatorsRegistry, serverPort);
-            LeaderElection leaderElection = new ZooKeeperLeaderElection(zoo, electionCallback);
+            var zoo = clusterConnector.connect();
+            var workersRegistry = new WorkerZooKeeperServiceRegistry(zoo);
+            var coordinatorsRegistry = new MasterZooKeeperServiceRegistry(zoo);
+            var electionCallback = new ClusterElectionCallback(workersRegistry, coordinatorsRegistry, serializer, port);
+            var leaderElection = new ZooKeeperLeaderElection(zoo, electionCallback);
             leaderElection.electLeader();
             clusterConnector.waitForDisconnect();
+        } finally {
+            log.debug("application exited");
         }
-        System.out.println("application exited");
     }
 
 }
