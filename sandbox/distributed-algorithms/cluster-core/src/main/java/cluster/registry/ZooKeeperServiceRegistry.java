@@ -12,9 +12,6 @@ import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
 @Slf4j
 public class ZooKeeperServiceRegistry implements ServiceRegistry, Watcher {
 
-    public static final String MASTER_ROOT = "/master";
-    public static final String WORKER_ROOT = "/worker";
-
     private final ZooKeeper zoo;
     private final String namespace;
     private final Random random;
@@ -23,10 +20,15 @@ public class ZooKeeperServiceRegistry implements ServiceRegistry, Watcher {
     private List<String> addressesCache;
 
     public ZooKeeperServiceRegistry(ZooKeeper zoo, String namespace) {
-        this.zoo = zoo;
-        this.namespace = namespace;
+        this.zoo = Objects.requireNonNull(zoo);
+        this.namespace = Objects.requireNonNull(namespace);
         this.random = new Random();
         createRegistry();
+    }
+
+    @Override
+    public String namespace() {
+        return namespace;
     }
 
     @Override

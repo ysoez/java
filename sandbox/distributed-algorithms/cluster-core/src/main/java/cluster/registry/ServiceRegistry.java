@@ -5,6 +5,8 @@ import java.util.Optional;
 
 public interface ServiceRegistry {
 
+    String namespace();
+
     void register(String address) throws Exception;
 
     void unregister();
