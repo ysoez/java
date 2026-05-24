@@ -1,11 +1,12 @@
 package cluster.http.server.handler;
 
+import cluster.http.server.HttpMethod;
 import cluster.http.server.HttpTransaction;
-import cluster.http.server.sun.AbstractSunHttpRequestHandler;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
-public class HealthCheckRequestHandler extends AbstractSunHttpRequestHandler {
+public class HealthCheckRequestHandler implements HttpRequestHandler {
 
     @Override
     public String endpoint() {
@@ -13,8 +14,8 @@ public class HealthCheckRequestHandler extends AbstractSunHttpRequestHandler {
     }
 
     @Override
-    public String method() {
-        return "get";
+    public EnumSet<HttpMethod> allowedMethods() {
+        return EnumSet.of(HttpMethod.GET);
     }
 
     @Override
