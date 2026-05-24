@@ -1,76 +1,79 @@
 $(document).ready(function() {
-    console.log("ready");
-
-    var banner = $("#banner-message");
-    var button = $("#submit_button");
-    var searchBox = $("#search_text");
-    var numResultsBox = $("#num_results");
-    var minScoreBox = $("#min_score");
-    var resultsTable = $("#results table tbody");
+    var button         = $("#submit_button");
+    var searchBox      = $("#search_text");
+    var numResultsBox  = $("#num_results");
+    var minScoreBox    = $("#min_score");
+    var resultsTable   = $("#results table tbody");
     var resultsWrapper = $("#results");
     var noResultsError = $("#no_results_error");
+    var resultsCount   = $("#results_count");
 
-    button.on("click", function(){
-        banner.addClass("alt");
+    searchBox.on("keydown", function(e) {
+        if (e.key === "Enter") button.trigger("click");
+    });
+
+    button.on("click", function() {
+        button.addClass("loading").prop("disabled", true);
         $.ajax({
-          method : "POST",
-          contentType: "application/json",
-          data: createRequest(),
-          url: "documents_search",
-          dataType: "json",
-          success: onHttpResponse
-          });
-      });
+            method: "POST",
+            contentType: "application/json",
+            data: createRequest(),
+            url: "search",
+            dataType: "json",
+            success: onHttpResponse,
+            error: function(xhr, status) {
+                alert("Error connecting to the server: " + status);
+            },
+            complete: function() {
+                button.removeClass("loading").prop("disabled", false);
+            }
+        });
+    });
 
     function createRequest() {
-        var searchQuery = searchBox.val();
-        var minScore = parseFloat(minScoreBox.val(), 10);
-        if (isNaN(minScore)) {
-            minScore = 0;
-        }
+        var minScore = parseFloat(minScoreBox.val());
+        if (isNaN(minScore)) minScore = 0;
 
         var maxNumberOfResults = parseInt(numResultsBox.val());
-        if (isNaN(maxNumberOfResults)) {
-            maxNumberOfResults = Number.MAX_SAFE_INTEGER;
-        }
+        if (isNaN(maxNumberOfResults)) maxNumberOfResults = Number.MAX_SAFE_INTEGER;
 
-        var frontEndRequest = {
-            search_query: searchQuery,
+        return JSON.stringify({
+            search_query: searchBox.val(),
             min_score: minScore,
             max_number_of_results: maxNumberOfResults
-        };
-
-        return JSON.stringify(frontEndRequest);
+        });
     }
 
     function onHttpResponse(data, status) {
-        if (status === "success" ) {
-            console.log(data);
+        if (status === "success") {
             addResults(data);
         } else {
-            alert("Error connecting to the server " + status);
+            alert("Error connecting to the server: " + status);
         }
     }
 
     function addResults(data) {
         var baseDir = data.documents_location;
-
         resultsTable.empty();
 
-        if (data.search_results.length == 0) {
-            resultsWrapper.hide();
-            noResultsError.show();
+        if (data.search_results.length === 0) {
+            resultsWrapper.removeClass("visible");
+            noResultsError.addClass("visible");
         } else {
-            noResultsError.hide();
-            resultsWrapper.show();
+            noResultsError.removeClass("visible");
+            resultsCount.text(data.search_results.length + " found");
+            resultsWrapper.addClass("visible");
         }
 
-        for (var i = 0 ; i < data.search_results.length; i++) {
-            var title = data.search_results[i].title;
-            var extension = data.search_results[i].extension;
-            var score = data.search_results[i].score;
-            var fullPath = baseDir + "/" + title + "." + extension;
-            resultsTable.append("<tr><td><a href=\""+ fullPath + "\">" + title +"</a></td><td>" + score + "</td></tr>");
-        }
+        data.search_results.forEach(function(item, i) {
+            var fullPath = baseDir + "/" + item.title + "." + item.extension;
+            var row = $("<tr>").css("animation-delay", (i * 0.05) + "s").append(
+                $("<td>").append($("<a>").attr("href", fullPath).text(item.title)),
+                $("<td>").append($("<span>").addClass("score-badge").text(
+                    item.score.toFixed ? item.score.toFixed(3) : item.score
+                ))
+            );
+            resultsTable.append(row);
+        });
     }
 });

@@ -1,146 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Distributed Search</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        #layout {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-            color: #333;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus {
-            border-color: #007bff;
-            outline: none;
-            background-color: #fff;
-        }
-
-        .num_input {
-            width: calc(50% - 10px);
-            display: inline-block;
-        }
-
-        button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        #no_results_error {
-            color: #dc3545;
-            font-size: 1rem;
-            margin-top: 15px;
-            display: none;
-        }
-
-        #results {
-            margin-top: 20px;
-            display: none;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f4f4f4;
-            font-weight: 500;
-        }
-
-        tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        @media (max-width: 480px) {
-            .num_input {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
-
 <body>
 <div id="layout">
-    <h1>Search</h1>
-    <div>
-        <input type="text" id="search_text" placeholder="Enter your search query...">
+    <div class="header">
+        <div class="header-label">Distributed Search</div>
+        <h1>Find your <span>documents</span></h1>
     </div>
-    <div>
-        <input type="text" id="num_results" class="num_input" placeholder="Maximum Results">
-        <input type="text" id="min_score" class="num_input" placeholder="Minimum Score">
+
+    <div class="search-card">
+        <div class="input-group">
+            <input type="text" id="search_text" placeholder="Enter your search query…">
+            <i class="fas fa-search input-icon"></i>
+        </div>
+        <div class="input-row">
+            <div class="input-group">
+                <input type="text" id="num_results" placeholder="Max results">
+                <i class="fas fa-list-ol input-icon"></i>
+            </div>
+            <div class="input-group">
+                <input type="text" id="min_score" placeholder="Min score">
+                <i class="fas fa-sliders-h input-icon"></i>
+            </div>
+        </div>
+        <button id="submit_button">
+            <i class="fas fa-search"></i>
+            <span class="spinner"></span>
+            Search
+        </button>
     </div>
-    <div>
-        <button id="submit_button"><i class="fas fa-search"></i> Search</button>
+
+    <div id="no_results_error">
+        <i class="fas fa-circle-exclamation"></i>
+        No documents matched your query.
     </div>
-    <div id="no_results_error">There were no results.</div>
+
     <div id="results">
+        <div class="results-header">
+            <span class="results-label">Results</span>
+            <span class="results-count" id="results_count">0 found</span>
+        </div>
         <table>
             <thead>
             <tr>
                 <th>Document</th>
-                <th>Score</th>
+                <th style="text-align:right">Score</th>
             </tr>
             </thead>
-            <tbody>
-            <!-- Results will be inserted here -->
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </div>
